@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'feedhoos.finder',
     'feedhoos.reader',
+    'feedhoos.worker',
 )
 
 MIDDLEWARE_CLASSES = (
