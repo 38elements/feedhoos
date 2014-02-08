@@ -9,13 +9,15 @@ class EntryModel(models.Model):
     title = models.CharField(max_length=64)
     updated = models.DateTimeField()
     content = models.TextField()
-    
+
     @staticmethod
     def get_content(entry):
         if entry.summary:
-return entry.summary if len(entry.summary): 
-
-    
+            return entry.summary if len(entry.summary) < MAX_CONTENT_LENGTH else ""
+        elif entry.content:
+            return entry.content if len(entry.content) < MAX_CONTENT_LENGTH else ""
+        else:
+            return ""
 
     class Meta:
         app_label = 'worker'

@@ -3,6 +3,7 @@ from django.conf import settings
 import feedhoos.reader.views.index
 import feedhoos.reader.urls
 import feedhoos.finder.urls
+import feedhoos.worker.urls
 #from django.contrib import admin
 #admin.autodiscover()
 urlpatterns = patterns(
@@ -14,6 +15,7 @@ urlpatterns = patterns(
     url(r'^$', feedhoos.reader.views.index.execute, name="top"),
     url(r'^reader/', include(feedhoos.reader.urls, namespace="reader")),
     url(r'^finder/', include(feedhoos.finder.urls, namespace="finder")),
+    url(r'^worker/', include(feedhoos.worker.urls, namespace="worker")),
 )
 
 if settings.DEBUG:
