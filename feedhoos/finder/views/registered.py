@@ -27,4 +27,4 @@ def execute(request):
             feed["msg"] = "exist"
     else:
         feed["msg"] = "validation_error"
-    return render(request, "registered.html", {"feed": feed})
+    return render(request, "finder/registered.html", {"feed": feed})

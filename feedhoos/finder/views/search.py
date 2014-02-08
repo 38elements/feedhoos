@@ -5,4 +5,4 @@ from feedhoos.finder.forms.feed import FeedForm
 
 def execute(request):
     feedform = FeedForm()
-    return render(request, "search.html", {"feedform": feedform})
+    return render(request, "finder/search.html", {"feedform": feedform})
