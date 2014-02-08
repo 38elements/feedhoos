@@ -1,0 +1,12 @@
+{% extends "bases/_main.html" %}
+
+{% block content %}
+    {% for url in feed_urls %}
+    <form method="POST" action="{% url "finder:registered" %}">
+        {% csrf_token %}
+        {{ url }}
+        <input type="hidden" name="url" value="{{ url }}" >
+        <input type="SUBMIT" value="add" /><br/>
+    </form>
+    {% endfor %}
+{% endblock %}

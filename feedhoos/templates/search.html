@@ -1,0 +1,10 @@
+{% extends "bases/_main.html" %}
+{% block content %}
+    {{ feeds }}
+    <form method="POST" action="{% url "finder:get" %}" >
+    {% csrf_token %}
+    {{ feedform.url.label }}
+    {{ feedform.url }}
+    <input type="SUBMIT" value="find" />
+    </form>
+{% endblock %}
