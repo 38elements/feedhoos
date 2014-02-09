@@ -4,14 +4,14 @@ import feedhoos.reader.views.index
 import feedhoos.reader.urls
 import feedhoos.finder.urls
 import feedhoos.worker.urls
-#from django.contrib import admin
-#admin.autodiscover()
+from django.contrib import admin
+admin.autodiscover()
 urlpatterns = patterns(
     '',
     # Examples:
     # url(r'^$', 'feedhoos.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^$', feedhoos.reader.views.index.execute, name="top"),
     url(r'^reader/', include(feedhoos.reader.urls, namespace="reader")),
     url(r'^finder/', include(feedhoos.finder.urls, namespace="finder")),

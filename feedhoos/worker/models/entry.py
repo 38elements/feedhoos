@@ -13,8 +13,8 @@ class EntryModel(models.Model):
 
     @staticmethod
     def get_content(entry):
-        if entry.content and len(entry.content) < MAX_CONTENT_LENGTH:
-            return entry.content
+        if entry.content and len(entry.content) > 1 and len(entry.content[0]["value"]) < MAX_CONTENT_LENGTH:
+            return entry.content[0]["value"]
         elif entry.summary:
             return entry.summary if len(entry.summary) < MAX_CONTENT_LENGTH else ""
         else:

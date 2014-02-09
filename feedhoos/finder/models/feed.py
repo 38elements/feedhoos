@@ -18,7 +18,7 @@ class FeedModel(models.Model):
     @property
     def feed(self):
         if not hasattr(self, "_feed"):
-            self._feed = feedparser.parse(self.url, etag=self.etag)  # , modified=self.modified)
+            self._feed = feedparser.parse(self.url, etag=self.etag, modified=self.modified)
             self.last_access = int(time.mktime(datetime.datetime.now().timetuple()))
             self.etag = self._feed.etag if "etag" in self._feed else ""
             self.modified = self._feed.modified if "modified" in self._feed else ""
