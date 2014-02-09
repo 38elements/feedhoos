@@ -5,6 +5,7 @@ from feedhoos.finder.forms.feed import FeedForm
 from feedhoos.finder.models.feed import FeedModel
 #from wsgiref.handlers import format_date_time
 import datetime
+import time
 
 
 def execute(request):
@@ -18,10 +19,11 @@ def execute(request):
             feed = feedparser.parse(feed_url, etag=None, modified=None)
             feed_model = FeedModel(
                 url=feed_url,
-                last_access=datetime.datetime.now(),
+                last_access=int(time.mktime(datetime.datetime.now().timetuple())),
                 etag=feed.etag if "etag" in feed else "",
                 modified=feed.modified if "modified" in feed else ""
             )
+            feed_model.feed = feed
             feed_model.save()
         else:
             feed["msg"] = "exist"
