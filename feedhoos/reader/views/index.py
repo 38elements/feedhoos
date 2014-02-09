@@ -1,6 +1,8 @@
 # coding: utf-8
 from django.shortcuts import render
+from feedhoos.finder.models.feed import FeedModel
 
 
 def execute(request):
-    return render(request, "index.html", {})
+    feeds = FeedModel.objects.all()
+    return render(request, "index.html", {"feeds": feeds})

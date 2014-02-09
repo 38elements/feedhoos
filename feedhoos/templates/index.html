@@ -2,4 +2,8 @@
 {% block content %}
 <a href="{% url "finder:search" %}">search</a><br/>
 <a href="{% url "worker:index" %}">worker</a><br/>
+<br/>
+{% for f in feeds %}
+{{ f.title }}<br/>
+{% endfor %}
 {% endblock %}
