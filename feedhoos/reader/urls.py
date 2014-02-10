@@ -6,7 +6,7 @@ import feedhoos.reader.views.feed
 urlpatterns = patterns(
     '',
     url(r'^index/$', feedhoos.reader.views.index.execute, name="index"),
-    url(r'^feed/(?P<feed_id>\d+)/page/$', feedhoos.reader.views.feed.execute),
-    url(r'^feed/(?P<feed_id>\d+)/page(?P<page>\d+)/$',
-        feedhoos.reader.views.feed.execute, name="feed"),
+    url(r'^feed/(?P<feed_id>\d+)/page/$', feedhoos.reader.views.feed.execute, name="feed"),
+    url(r'^feed/(?P<feed_id>\d+)/page/(?P<page>\d+)/$',
+        feedhoos.reader.views.feed.execute, name="feed_var"),
 )

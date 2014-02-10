@@ -2,6 +2,7 @@
 from django.db import models
 import time
 MAX_CONTENT_LENGTH = 8192
+PER_PAGE = 200
 
 
 class EntryModel(models.Model):
@@ -12,8 +13,20 @@ class EntryModel(models.Model):
     content = models.TextField()
 
     @staticmethod
+    def get_entries(feed_id, page):
+        feed_id = int(feed_id)
+        page = int(page)
+        start_index = (page - 1) * PER_PAGE
+        end_index = (page) * PER_PAGE
+        entries = EntryModel.objects.all().filter(
+            feed_id=feed_id
+        ).order_by("-updated")[start_index:end_index]
+        return entries
+
+    @staticmethod
     def get_content(entry):
-        if entry.content and len(entry.content) > 1 and len(entry.content[0]["value"]) < MAX_CONTENT_LENGTH:
+        if (entry.content and
+                len(entry.content) > 1 and len(entry.content[0]["value"]) < MAX_CONTENT_LENGTH):
             return entry.content[0]["value"]
         elif entry.summary:
             return entry.summary if len(entry.summary) < MAX_CONTENT_LENGTH else ""
@@ -34,6 +47,9 @@ class EntryModel(models.Model):
 
     class Meta:
         app_label = 'worker'
-        unique_together = (
+        index_together = (
             ("feed_id", "updated"),
+        )
+        unique_together = (
+            ("url", "updated"),
         )
