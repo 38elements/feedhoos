@@ -33,9 +33,10 @@ class FeedModel(models.Model):
     #FIXME DBを引く回数を減らす
     @property
     def last_updated(self):
+        #feed_modelのidが必要
         if not hasattr(self, "_last_updated"):
             entry = EntryModel.objects.filter(
-                feed_url__exact=self.url
+                feed_id__exact=self.id
             ).order_by("-updated").first()
             if entry:
                 self._last_updated = entry.updated
@@ -61,4 +62,4 @@ class FeedModel(models.Model):
 
     def add_entries(self):
         for entry in self.new_entries:
-            EntryModel.add(self.url, entry)
+            EntryModel.add(self.id, entry)

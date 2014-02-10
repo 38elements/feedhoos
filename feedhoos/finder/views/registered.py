@@ -26,6 +26,7 @@ def execute(request):
             )
             feed_model.feed = feed
             feed_model.save()
+            #feed_modelのidが必要
             feed_model.add_entries()
         else:
             feed["msg"] = "exist"

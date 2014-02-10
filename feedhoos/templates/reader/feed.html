@@ -3,7 +3,7 @@
 <a href="{% url "finder:search" %}">search</a><br/>
 <a href="{% url "worker:index" %}">worker</a><br/>
 <br/>
-{% for f in feeds %}
-<a href="{% url "reader:feed" f.id %}">{{ f.title }}</a><br/>
+{% for e in entries %}
+{{ e.title }}<br/>
 {% endfor %}
 {% endblock %}

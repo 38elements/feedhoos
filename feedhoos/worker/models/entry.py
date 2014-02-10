@@ -5,7 +5,7 @@ MAX_CONTENT_LENGTH = 8192
 
 
 class EntryModel(models.Model):
-    feed_url = models.URLField(max_length=256)
+    feed_id = models.IntegerField()
     url = models.URLField(max_length=256)
     title = models.CharField(max_length=64)
     updated = models.IntegerField()
@@ -21,9 +21,9 @@ class EntryModel(models.Model):
             return ""
 
     @staticmethod
-    def add(url, entry):
+    def add(feed_id, entry):
         entry_model = EntryModel(
-            feed_url=url,
+            feed_id=feed_id,
             url=entry.link,
             title=entry.title,
             updated=int(time.mktime(entry.updated_parsed)),
@@ -35,5 +35,5 @@ class EntryModel(models.Model):
     class Meta:
         app_label = 'worker'
         unique_together = (
-            ("feed_url", "updated"),
+            ("feed_id", "updated"),
         )
