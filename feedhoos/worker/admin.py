@@ -4,6 +4,16 @@ from feedhoos.finder.models.feed import FeedModel
 from feedhoos.reader.models.bookmark import BookmarkModel
 
 
-admin.site.register(EntryModel)
-admin.site.register(FeedModel)
-admin.site.register(BookmarkModel)
+class EntryModelAdmin(admin.ModelAdmin):
+    list_display = ('id', "feed_id", "updated", 'url', 'title')
+admin.site.register(EntryModel, EntryModelAdmin)
+
+
+class FeedModelAdmin(admin.ModelAdmin):
+    list_display = ('id', "title", "etag", "modified", "url", "last_access")
+admin.site.register(FeedModel, FeedModelAdmin)
+
+
+class BookmarkModelAdmin(admin.ModelAdmin):
+    list_display = ('id', "last_updated")
+admin.site.register(BookmarkModel, BookmarkModelAdmin)
