@@ -1,6 +1,7 @@
 {% extends "bases/_main.html" %}
+{% load reader_extras %}
 {% block content %}
 {% for f in feeds %}
-<a href="{% url "reader:feed" f.id %}">{{ f.title }}</a>({{f.unread_count}})<br/>
+{{ f.title }}&nbsp;<a href="{% url "reader:delete" f.id %}">delete</a><br/>
 {% endfor %}
 {% endblock %}

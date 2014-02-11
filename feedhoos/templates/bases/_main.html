@@ -6,6 +6,10 @@
     {% block css %}{% endblock %}
 </head>
 <body>
+    <a href="{% url "finder:search" %}">search</a><br/>
+    <a href="{% url "worker:index" %}">worker</a><br/>
+    <a href="{% url "reader:list" %}">list</a><br/>
+    <br/>
     {% block content %}{% endblock %}
     {% block js %}{% endblock %}
     <br/>

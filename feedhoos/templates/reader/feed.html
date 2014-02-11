@@ -1,9 +1,6 @@
 {% extends "bases/_main.html" %}
 {% load reader_extras %}
 {% block content %}
-<a href="{% url "finder:search" %}">search</a><br/>
-<a href="{% url "worker:index" %}">worker</a><br/>
-<br/>
 {% for e in entries %}
 <a href="{{ e.url }}">{{ e.title }}</a>({{ e.updated|datetime_string}})<br/>
 {{ e.content|safe }}
