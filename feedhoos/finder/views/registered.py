@@ -17,7 +17,7 @@ def execute(request):
             feed_model = FeedModel.objects.get(url=feed_url)
         except FeedModel.DoesNotExist:
             feed = feedparser.parse(feed_url, etag=None, modified=None)
-            if feed.status == 200:
+            if feed.status in [200, 302]:
                 feed_model = FeedModel(
                     url=feed_url,
                     title=feed.feed.title,
