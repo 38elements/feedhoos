@@ -18,9 +18,12 @@ class EntryModel(models.Model):
         page = int(page)
         start_index = (page - 1) * PER_PAGE
         end_index = (page) * PER_PAGE
-        entries = EntryModel.objects.all().filter(
-            feed_id=feed_id
-        ).order_by("-updated")[start_index:end_index]
+        try:
+            entries = EntryModel.objects.all().filter(
+                feed_id=feed_id
+            ).order_by("-updated")[start_index:end_index]
+        except EntryModel.DoesNotExist:
+            entries = []
         return entries
 
     @staticmethod

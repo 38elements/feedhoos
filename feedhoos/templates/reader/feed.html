@@ -6,7 +6,7 @@
 <br/>
 {% for e in entries %}
 <a href="{{ e.url }}">{{ e.title }}</a>({{ e.updated|datetime_string}})<br/>
-{{ e.content }}
+{{ e.content|safe }}
 <br/>
 <br/>
 {% endfor %}

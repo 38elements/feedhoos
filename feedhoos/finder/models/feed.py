@@ -34,6 +34,7 @@ class FeedModel(models.Model):
     @property
     def last_updated(self):
         #feed_modelのidが必要
+        #Entryがない場合は0を返す
         if not hasattr(self, "_last_updated"):
             entry = EntryModel.objects.filter(
                 feed_id__exact=self.id
@@ -41,11 +42,12 @@ class FeedModel(models.Model):
             if entry:
                 self._last_updated = entry.updated
             else:
-                self._last_updated = None
+                self._last_updated = 0
         return self._last_updated
 
     @property
     def entries(self):
+        #ウェブからとってきたエントリー
         return self.feed.entries
 
     @property
