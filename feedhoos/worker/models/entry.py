@@ -13,7 +13,18 @@ class EntryModel(models.Model):
     content = models.TextField()
 
     @staticmethod
-    def get_entries(feed_id, page, min_update=None):
+    def count(feed_id, min_updated=0):
+        feed_id = int(feed_id)
+        count = EntryModel.objects.all().filter(
+            feed_id=feed_id
+        ).filter(
+            updated__gt=min_updated
+        ).order_by("-updated").count()
+        count = count if count <= MAX_CONTENT_LENGTH else MAX_CONTENT_LENGTH
+        return count
+
+    @staticmethod
+    def get_entries(feed_id, page, min_updated=None):
         feed_id = int(feed_id)
         page = int(page)
         start_index = (page - 1) * PER_PAGE
@@ -22,9 +33,9 @@ class EntryModel(models.Model):
             query = EntryModel.objects.all().filter(
                 feed_id=feed_id
             )
-            if min_update:
+            if min_updated:
                 query = query.filter(
-                    updated__gt=min_update
+                    updated__gt=min_updated
                 )
             entries = query.order_by("-updated")[start_index:end_index]
         except EntryModel.DoesNotExist:
@@ -33,10 +44,10 @@ class EntryModel(models.Model):
 
     @staticmethod
     def get_content(entry):
-        if (entry.content and
+        if ("content" in entry and entry.content and
                 len(entry.content) > 1 and len(entry.content[0]["value"]) < MAX_CONTENT_LENGTH):
             return entry.content[0]["value"]
-        elif entry.summary:
+        elif "summary" in entry and entry.summary:
             return entry.summary if len(entry.summary) < MAX_CONTENT_LENGTH else ""
         else:
             return ""
@@ -59,5 +70,5 @@ class EntryModel(models.Model):
             ("feed_id", "updated"),
         )
         unique_together = (
-            ("url", "updated"),
+            ("url", "updated", "feed_id"),
         )

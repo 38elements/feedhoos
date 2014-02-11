@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.db import models
 from feedhoos.worker.models.entry import EntryModel
+from feedhoos.reader.models.bookmark import BookmarkModel
 import feedparser
 import datetime
 import time
@@ -15,6 +16,13 @@ class FeedModel(models.Model):
 
     class Meta:
         app_label = 'finder'
+
+    @property
+    def unread_count(self):
+        if not hasattr(self, "_unread_count"):
+            bookmark_model = BookmarkModel.objects.get(feed_id__exact=self.id)
+            self._unread_count = EntryModel.count(self.id, min_updated=bookmark_model.last_updated)
+        return self._unread_count
 
     @property
     def feed(self):

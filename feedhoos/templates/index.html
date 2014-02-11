@@ -4,6 +4,6 @@
 <a href="{% url "worker:index" %}">worker</a><br/>
 <br/>
 {% for f in feeds %}
-<a href="{% url "reader:feed" f.id %}">{{ f.title }}</a><br/>
+<a href="{% url "reader:feed" f.id %}">{{ f.title }}</a>({{f.unread_count}})<br/>
 {% endfor %}
 {% endblock %}
