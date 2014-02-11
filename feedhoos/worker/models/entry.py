@@ -13,15 +13,20 @@ class EntryModel(models.Model):
     content = models.TextField()
 
     @staticmethod
-    def get_entries(feed_id, page):
+    def get_entries(feed_id, page, min_update=None):
         feed_id = int(feed_id)
         page = int(page)
         start_index = (page - 1) * PER_PAGE
         end_index = (page) * PER_PAGE
         try:
-            entries = EntryModel.objects.all().filter(
+            query = EntryModel.objects.all().filter(
                 feed_id=feed_id
-            ).order_by("-updated")[start_index:end_index]
+            )
+            if min_update:
+                query = query.filter(
+                    updated__gt=min_update
+                )
+            entries = query.order_by("-updated")[start_index:end_index]
         except EntryModel.DoesNotExist:
             entries = []
         return entries
