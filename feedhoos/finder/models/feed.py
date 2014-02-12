@@ -13,6 +13,7 @@ class FeedModel(models.Model):
     modified = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
     last_access = models.IntegerField()
+    stars = models.PositiveSmallIntegerField(default=0, db_index=True)
 
     class Meta:
         app_label = 'finder'

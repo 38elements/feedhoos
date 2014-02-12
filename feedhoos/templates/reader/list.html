@@ -1,7 +1,8 @@
 {% extends "bases/_main.html" %}
 {% load reader_extras %}
 {% block content %}
+<a href="{% url "reader:timeline_all" %}">all</a><br/>
 {% for f in feeds %}
-{{ f.title }}&nbsp;<a href="{% url "reader:delete" f.id %}">delete</a><br/>
+<a href="{% url "reader:timeline" feed_id=f.id page=1 %}" >{{ f.title }}</a>&nbsp;<a href="{% url "reader:delete" f.id %}">delete</a><br/>
 {% endfor %}
 {% endblock %}

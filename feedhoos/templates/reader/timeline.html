@@ -2,7 +2,6 @@
 {% load reader_extras %}
 {% block content %}
 <h4>{{feed.title}}</h4>
-<a href="{% url "reader:timeline" feed_id=feed.id page=1 %}">timeline</a><br/>
 {% for e in entries %}
 <a href="{{ e.url }}">{{ e.title }}</a>({{ e.updated|datetime_string}})<br/>
 {{ e.content|safe }}

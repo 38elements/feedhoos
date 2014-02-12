@@ -43,6 +43,23 @@ class EntryModel(models.Model):
         return entries
 
     @staticmethod
+    def get_timeline(feed_id, page):
+        feed_id = int(feed_id)
+        page = int(page)
+        start_index = (page - 1) * PER_PAGE
+        end_index = (page) * PER_PAGE
+        try:
+            query = EntryModel.objects.all()
+            if feed_id:
+                query = query.filter(
+                    feed_id=feed_id
+                )
+            entries = query.order_by("-updated")[start_index:end_index]
+        except EntryModel.DoesNotExist:
+            entries = []
+        return entries
+
+    @staticmethod
     def get_content(entry):
         if ("content" in entry and entry.content and
                 len(entry.content) > 1 and len(entry.content[0]["value"]) < MAX_CONTENT_LENGTH):

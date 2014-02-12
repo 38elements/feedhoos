@@ -4,6 +4,7 @@ import feedhoos.reader.views.index
 import feedhoos.reader.views.feed
 import feedhoos.reader.views.list
 import feedhoos.reader.views.delete
+import feedhoos.reader.views.timeline
 
 urlpatterns = patterns(
     '',
@@ -14,4 +15,8 @@ urlpatterns = patterns(
     url(r'^feed/list/$', feedhoos.reader.views.list.execute, name="list"),
     url(r'^feed/list/delete/(?P<feed_id>\d+)/$',
         feedhoos.reader.views.delete.execute, name="delete"),
+    url(r'^feed/timeline/$',
+        feedhoos.reader.views.timeline.execute, name="timeline_all"),
+    url(r'^feed/timeline/(?P<feed_id>\d+)/page/(?P<page>\d+)/$',
+        feedhoos.reader.views.timeline.execute, name="timeline"),
 )
