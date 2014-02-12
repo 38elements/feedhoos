@@ -2,17 +2,39 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     {% block css %}{% endblock %}
 </head>
 <body>
-    <a href="{% url "finder:search" %}">search</a> &nbsp;&nbsp;
-    <a href="/">TOP</a><br/>
-    <a href="{% url "worker:index" %}">worker</a><br/>
-    <a href="{% url "reader:list" %}">list</a><br/>
-    <br/>
-    {% block content %}{% endblock %}
+    <header class="navbar navbar-static-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/" class="navbar-brand">Feedhoos</a>
+        </div>
+        <nav class="collapse navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="{% url "finder:search" %}">Search</a>
+                </li>
+                <li>
+                    <a href="{% url "reader:list" %}">List</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{% url "worker:index" %}">Worker</a>
+                </li>
+            </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
     {% block js %}{% endblock %}
-    <br/>
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>   
 </body>
 </html>

@@ -1,7 +1,7 @@
 {% extends "bases/_main.html" %}
 {% load reader_extras %}
 {% block content %}
-<h4>{{feed.title}}</h4>
+<h3>{{feed.title}}</h3>
 {% for e in entries %}
 <a href="{{ e.url }}">{{ e.title }}</a>({{ e.updated|datetime_string}})<br/>
 {{ e.content|safe }}
