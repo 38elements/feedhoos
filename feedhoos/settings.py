@@ -87,6 +87,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIR = ([os.path.join(BASE_DIR, 'feedhoos/finder/static')])
+
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'feedhoos/templates')
 
 #django-debug-toolbarの設定

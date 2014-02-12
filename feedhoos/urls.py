@@ -5,7 +5,6 @@ import feedhoos.reader.urls
 import feedhoos.finder.urls
 import feedhoos.worker.urls
 from django.contrib import admin
-admin.autodiscover()
 urlpatterns = patterns(
     '',
     # Examples:
@@ -17,7 +16,6 @@ urlpatterns = patterns(
     url(r'^finder/', include(feedhoos.finder.urls, namespace="finder")),
     url(r'^worker/', include(feedhoos.worker.urls, namespace="worker")),
 )
-
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += patterns(

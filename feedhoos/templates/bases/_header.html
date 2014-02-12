@@ -1,0 +1,22 @@
+<header class="navbar navbar-static-top navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">Feedhoos</a>
+    </div>
+    <nav class="collapse navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="{% url "finder:search" %}">Search</a>
+            </li>
+            <li>
+                <a href="{% url "reader:list" %}">List</a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="{% url "worker:index" %}">Worker</a>
+            </li>
+        </ul>
+    </nav>
+  </div>
+</header>
