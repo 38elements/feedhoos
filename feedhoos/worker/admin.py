@@ -10,7 +10,7 @@ admin.site.register(EntryModel, EntryModelAdmin)
 
 
 class FeedModelAdmin(admin.ModelAdmin):
-    list_display = ('id', "title", "etag", "modified", "url", "last_access")
+    list_display = ('id', "title", "etag", "modified", "url", "link", "last_access")
 admin.site.register(FeedModel, FeedModelAdmin)
 
 

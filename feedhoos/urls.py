@@ -5,6 +5,7 @@ import feedhoos.reader.urls
 import feedhoos.finder.urls
 import feedhoos.worker.urls
 from django.contrib import admin
+admin.autodiscover()
 urlpatterns = patterns(
     '',
     # Examples:

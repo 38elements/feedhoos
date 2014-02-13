@@ -1,13 +1,20 @@
 {% extends "bases/_main.html" %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/reader/common.css">
+{% endblock %}
 {% block content %}
 <div class="row" >
     <!-- padding-left: 0px  padding-right: 0px -->
-    <div class="col-lg-3" style="font-size: 12px;">
+    <div class="col-lg-3 feed_bar">
+        <ul class="list-group">
         {% for f in feeds %}
-        <a href="{% url "reader:feed" f.id %}">{{ f.title }}</a>({{f.unread_count}})<br/>
+            <li class="list-group-item feed">
+                <a href="{% url "reader:feed" f.id %}">{{ f.title }}</a>({{f.unread_count}})
+            </li>
         {% endfor %}
+        </ul>
     </div>
-    <div class="col-lg-9" style="font-size: 12px;">
+    <div class="col-lg-9 content_bar" style="font-size: 12px;">
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,16 @@
+.feed {
+    font-size: 12px;
+    border-radius: 0px !important;
+}
+
+.feed_bar {
+    width: 20%;
+    padding-right: 0px;
+}
+
+.content_bar {
+    width: 80%;
+    padding-left: 0px;
+    border: 1px solid #ddd;
+    height: 300px
+}

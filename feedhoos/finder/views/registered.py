@@ -20,6 +20,7 @@ def execute(request):
             if feed.status in [200, 301, 302]:
                 feed_model = FeedModel(
                     url=feed_url,
+                    link=feed.feed.link,
                     title=feed.feed.title,
                     last_access=int(time.mktime(datetime.datetime.now().timetuple())),
                     etag=feed.etag if "etag" in feed else "",

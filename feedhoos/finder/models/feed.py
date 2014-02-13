@@ -9,14 +9,12 @@ import time
 
 class FeedModel(models.Model):
     url = models.URLField(max_length=256, unique=True)
+    link = models.URLField(max_length=256)
     etag = models.CharField(max_length=64)
     modified = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
     last_access = models.IntegerField()
     stars = models.PositiveSmallIntegerField(default=0, db_index=True)
-
-    class Meta:
-        app_label = 'finder'
 
     @property
     def unread_count(self):
@@ -74,3 +72,6 @@ class FeedModel(models.Model):
     def add_entries(self):
         for entry in self.new_entries:
             EntryModel.add(self.id, entry)
+
+    class Meta:
+        app_label = 'finder'
