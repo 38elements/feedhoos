@@ -1,11 +1,36 @@
 {% extends "bases/_main.html" %}
 {% load reader_extras %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/reader/common.css">
+{% endblock %}
 {% block content %}
-<h3>{{feed.title}}</h3>
-{% for e in entries %}
-<a href="{{ e.url }}">{{ e.title }}</a>({{ e.updated|datetime_string}})<br/>
-{{ e.content|safe }}
-<br/>
-<br/>
-{% endfor %}
+<div class="row" >
+    <!-- padding-left: 0px  padding-right: 0px -->
+    <div class="col-lg-3 feed_bar">
+        <ul class="list-group">
+        {% for f in feeds %}
+            <li class="list-group-item feed">
+                <a href="{% url "reader:timeline" f.id 1 %}">{{ f.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="col-lg-9 content_bar">
+        <div class="panel panel-info entry">
+            <div class="panel-heading">
+                <h3>{{ feed.title }}</h3>
+            </div>
+        </div>
+        {% for e in entries %}
+        <div class="panel panel-default entry">
+            <div class="panel-heading">
+                <h5>{{ e.title }} <small>{{ e.updated|datetime_string}}</small></h5>
+                <a href="{{ e.url }}">URL</a>
+            </div>
+            <div class="panel-body">
+                {{ e.content|safe }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

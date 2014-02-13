@@ -1,4 +1,5 @@
 {% extends "bases/_main.html" %}
+{% load reader_extras %}
 {% block css %}
 <link rel="stylesheet" href="/static/css/reader/common.css">
 {% endblock %}
@@ -14,7 +15,18 @@
         {% endfor %}
         </ul>
     </div>
-    <div class="col-lg-9 content_bar" style="font-size: 12px;">
+    <div class="col-lg-9 content_bar">
+        {% for e in entries %}
+        <div class="panel panel-default entry">
+            <div class="panel-heading">
+                <h5>{{ e.title }} <small>{{ e.updated|datetime_string}}</small></h5>
+                <a href="{{ e.url }}">URL</a>
+            </div>
+            <div class="panel-body">
+                {{ e.content|safe }}
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

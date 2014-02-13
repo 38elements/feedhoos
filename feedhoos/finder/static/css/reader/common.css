@@ -10,7 +10,18 @@
 
 .content_bar {
     width: 80%;
-    padding-left: 0px;
-    border: 1px solid #ddd;
-    height: 300px
+}
+
+.entry {
+    margin-bottom: 0px !important;
+    border-radius: 0px !important;
+}
+
+.content_bar > .panel-info > .panel-heading {
+    background-color: #D1E3F1 !important;
+    border-color: #A6D8E2 !important;
+}
+
+blockquote {
+    font-size: 12px;
 }
