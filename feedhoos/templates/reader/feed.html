@@ -1,12 +1,8 @@
-{% extends "bases/_main.html" %}
-{% load reader_extras %}
-{% block content %}
-<h4>{{feed.title}}</h4>
-<a href="{% url "reader:timeline" feed_id=feed.id page=1 %}">timeline</a><br/>
-{% for e in entries %}
-<a href="{{ e.url }}">{{ e.title }}</a>({{ e.updated|datetime_string}})<br/>
-{{ e.content|safe }}
-<br/>
-<br/>
+{% extends "bases/_reader.html" %}
+{% block feeds %}
+{% for f in feeds %}
+    <li class="list-group-item feed">
+        <a href="{% url "reader:feed" f.id %}">{{ f.title }}</a>({{f.unread_count}})
+    </li>
 {% endfor %}
 {% endblock %}

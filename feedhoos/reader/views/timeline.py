@@ -10,6 +10,7 @@ def execute(request, feed_id="0", page="1"):
     if feed_id:
         feed_model = FeedModel.objects.get(pk=feed_id)
     entries = EntryModel.get_timeline(feed_id, page)
-    feeds = FeedModel.objects.all()
+    feeds = list(FeedModel.objects.all())
+    feeds.insert(0, FeedModel.ALL)
     return render(request, "reader/timeline.html",
                   {"entries": entries, "feed": feed_model, "feeds": feeds})

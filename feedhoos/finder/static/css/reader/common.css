@@ -3,13 +3,15 @@
     border-radius: 0px !important;
 }
 
-.feed_bar {
+#feed_bar {
     width: 20%;
     padding-right: 0px;
 }
 
-.content_bar {
+#content_bar {
     width: 80%;
+    overflow-y: scroll;
+    padding-right: 0px;
 }
 
 .entry {
@@ -17,11 +19,11 @@
     border-radius: 0px !important;
 }
 
-.content_bar > .panel-info > .panel-heading {
+#content_bar > .panel-info > .panel-heading {
     background-color: #D1E3F1 !important;
     border-color: #A6D8E2 !important;
 }
 
 blockquote {
-    font-size: 12px;
+    font-size: 14px;
 }

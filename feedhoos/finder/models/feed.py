@@ -15,6 +15,11 @@ class FeedModel(models.Model):
     title = models.CharField(max_length=64)
     last_access = models.IntegerField()
     stars = models.PositiveSmallIntegerField(default=0, db_index=True)
+    ALL = {
+        "url": "",
+        "id": 0,
+        "title": "すべてのFeed",
+    }
 
     @property
     def unread_count(self):
