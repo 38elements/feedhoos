@@ -15,6 +15,7 @@
 #content_bar {
     width: 80%;
     overflow-y: scroll;
+    padding-left: 0px;
     padding-right: 0px;
 }
 
@@ -41,3 +42,16 @@ blockquote {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+.entry .panel-body {
+    padding-bottom: 30px;
+}
+
+#feed_bar .list-group {
+    -webkit-padding-start: 0px;
+}
+
+
+
+
+
