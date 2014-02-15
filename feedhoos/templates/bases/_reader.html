@@ -19,8 +19,8 @@
         </div>
         {% for e in entries %}
         <div class="panel panel-default entry">
-            <div class="panel-heading">
-                <h5>{{ e.title }} <small>{{ e.updated|datetime_string}}</small></h5>
+            <div class="panel-heading entry_heading">
+                <h5 class="entry_title">{{ e.title }} <small>{{ e.updated|datetime_string}}</small></h5>
                 <a href="{{ e.url }}">URL</a>
             </div>
             <div class="panel-body">

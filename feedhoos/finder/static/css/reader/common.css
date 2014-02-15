@@ -1,11 +1,15 @@
 .feed {
     font-size: 12px;
     border-radius: 0px !important;
+    direction: ltr;
 }
 
 #feed_bar {
     width: 20%;
     padding-right: 0px;
+    overflow-y: scroll;
+    direction: rtl;
+    padding-left: 0px;
 }
 
 #content_bar {
@@ -26,4 +30,14 @@
 
 blockquote {
     font-size: 14px;
+}
+
+.entry_heading {
+    padding-top: 11px;
+    padding-bottom: 5px;
+}
+
+.entry_title {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
