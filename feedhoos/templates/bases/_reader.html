@@ -21,7 +21,7 @@
         <div class="panel panel-default entry">
             <div class="panel-heading entry_heading">
                 <h5 class="entry_title">{{ e.title }} <small>{{ e.updated|datetime_string}}</small></h5>
-                <a href="{{ e.url }}">URL</a>
+                <a href="{{ e.url }}" target="_blank">URL</a>
             </div>
             <div class="panel-body">
                 {{ e.content|safe }}
