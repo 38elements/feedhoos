@@ -1,3 +1,29 @@
 <div class="row" ng-controller="ReaderCtrl">
-{{ test }}
+    <div id="feed_bar" class="col-lg-3">
+        <ul class="list-group">
+                <li class="list-group-item feed text-left" data-ng-repeat="f in feeds">
+                <a href="{{ f.id | timeline_url }}">{{ f.title }}</a>
+                </li>
+        </ul>
+    </div>
+    <div id="content_bar" class="col-lg-9">
+        <!--
+        <div class="panel panel-info entry">
+            <div class="panel-heading">
+                <h3>{{ feed.title }}</h3>
+            </div>
+        </div>
+        {% for e in entries %}
+        <div class="panel panel-default entry">
+            <div class="panel-heading entry_heading">
+                <h5 class="entry_title">{{ e.title }} <small>{{ e.updated}}</small></h5>
+                <a href="{{ e.url }}" target="_blank">URL</a>
+            </div>
+            <div class="panel-body">
+                {{ e.content }}
+            </div>
+        </div>
+        {% endfor %}
+        -->
+    </div>
 </div>

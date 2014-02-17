@@ -31,10 +31,18 @@
                 });
             }
         ]);
+        feedhoos.filter("timeline_url", function() {
+            return function(feed_id) {
+                return "/reader/feed/timeline/" + feed_id + "/page/1/"
+            }
+        });
         var feedhoosControllers = angular.module('feedhoosControllers', []);
-        feedhoosControllers.controller('ReaderCtrl', ['$scope', '$routeParams',
-            function($scope, $routeParams) {
-               $scope.test = "Hello World!";
+        feedhoosControllers.controller('ReaderCtrl', ['$scope', '$routeParams', '$http',
+            function($scope, $routeParams, $http) {
+               $scope.feeds = [];
+               $http.get('/reader/feed/list/all/').success(function(data) {
+                   $scope.feeds = data;
+               });
             }]
         ); 
     </script>

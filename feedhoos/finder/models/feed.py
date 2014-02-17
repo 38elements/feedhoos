@@ -22,6 +22,17 @@ class FeedModel(models.Model):
     }
 
     @property
+    def json(self):
+        d = {
+            "id": self.id,
+            "url": self.url.encode("utf-8"),
+            "link": self.link.encode("utf-8"),
+            "title": self.title.encode("utf-8"),
+            "stars": self.stars,
+        }
+        return d
+
+    @property
     def unread_count(self):
         if not hasattr(self, "_unread_count"):
             bookmark_model = BookmarkModel.objects.get(feed_id__exact=self.id)
