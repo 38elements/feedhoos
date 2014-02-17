@@ -1,8 +1,9 @@
 <div class="row" ng-controller="ReaderCtrl">
     <div id="feed_bar" class="col-lg-3">
         <ul class="list-group">
-                <li class="list-group-item feed text-left" data-ng-repeat="f in feeds">
-                <a href="{{ f.id | timeline_url }}">{{ f.title }}</a>
+                <li class="list-group-item feed text-left" data-ng-repeat="f in feeds" 
+                    ng-click="read_timeline(f.id)">
+                    {{ f.title }}
                 </li>
         </ul>
     </div>

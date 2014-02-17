@@ -18,18 +18,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.min.js"></script>   
     <script src="/static/js/ui-bootstrap-tpls-0.10.0.js"></script>
     <script>
-        var feedhoos = angular.module('feedhoos', ['ngRoute', 'feedhoosControllers']);
-        feedhoos.config(['$routeProvider',
-            function($routeProvider) {
-                $routeProvider.
-                when('/reader', {
-                    templateUrl: '/static/partials/reader.html',
-                    controller: 'ReaderCtrl'
-                }).
-                otherwise({
-                    redirectTo: '/reader'
-                });
-                var set_bar = function() {
+        var feedhoos = angular.module("feedhoos", ["ngRoute", "feedhoosControllers"]);
+        feedhoos.factory("ui_setter",function(){
+            var ui_setter = {
+                bar: function() {
                     var content_bar = document.getElementById("content_bar");
                     var feed_bar = document.getElementById("feed_bar");
                     var content_bar_top = content_bar.getBoundingClientRect().top 
@@ -37,30 +29,49 @@
                     var innerHeight = window.innerHeight;
                     content_bar.style.height = innerHeight - content_bar_top + "px";
                     feed_bar.style.height = innerHeight - feed_bar_top + "px";
+                },
+                timeline_url : function(feed_id) {
+                    return "/reader/feed/timeline/" + feed_id + "/page/1/";
                 }
-                window.addEventListener("resize", set_bar, false);
+            };
+            
+            window.addEventListener("resize", ui_setter.bar, false);
+            return ui_setter;
+        });
+        feedhoos.config(["$routeProvider",
+            function($routeProvider) {
+                $routeProvider.
+                when("/reader", {
+                    templateUrl: "/static/partials/reader.html",
+                    controller: "ReaderCtrl"
+                }).
+                otherwise({
+                    redirectTo: "/reader"
+                });
             }
         ]);
-        feedhoos.filter("timeline_url", function() {
-            return function(feed_id) {
-                return "/reader/feed/timeline/" + feed_id + "/page/1/"
-            }
-        });
-        var feedhoosControllers = angular.module('feedhoosControllers', []);
-        feedhoosControllers.controller('ReaderCtrl', ['$scope', '$routeParams', '$http',
-            function($scope, $routeParams, $http) {
-                var content_bar = document.getElementById("content_bar");
-                var feed_bar = document.getElementById("feed_bar");
-                var content_bar_top = content_bar.getBoundingClientRect().top 
-                var feed_bar_top = feed_bar.getBoundingClientRect().top 
-                var innerHeight = window.innerHeight;
-                content_bar.style.height = innerHeight - content_bar_top + "px";
-                feed_bar.style.height = innerHeight - feed_bar_top + "px";
+//        feedhoos.filter("timeline_url", function() {
+//            return function(feed_id) {
+//                return "/reader/feed/timeline/" + feed_id + "/page/1/"
+//            }
+//       });
+        var feedhoosControllers = angular.module("feedhoosControllers", []);
+        feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http", "ui_setter",
+            function($scope, $routeParams, $http, ui_setter) {
+                ui_setter.bar()
 
                 $scope.feeds = [];
-                $http.get('/reader/feed/list/all/').success(function(data) {
+                $http.get("/reader/feed/list/all/").success(function(data) {
                     $scope.feeds = data;
                 });
+                $scope.read_timeline = function(feed_id) {
+                    var timeline_url = ui_setter.timeline_url(feed_id);
+                    $http.get(timeline_url).success(function(data) {
+                        $scope.feed = data.feed;
+                        $scope.entries = data.entries;
+                    });
+                    alert();
+                }
             }]
         ); 
         feedhoosControllers.config([
