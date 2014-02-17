@@ -29,6 +29,16 @@
                 otherwise({
                     redirectTo: '/reader'
                 });
+                var set_bar = function() {
+                    var content_bar = document.getElementById("content_bar");
+                    var feed_bar = document.getElementById("feed_bar");
+                    var content_bar_top = content_bar.getBoundingClientRect().top 
+                    var feed_bar_top = feed_bar.getBoundingClientRect().top 
+                    var innerHeight = window.innerHeight;
+                    content_bar.style.height = innerHeight - content_bar_top + "px";
+                    feed_bar.style.height = innerHeight - feed_bar_top + "px";
+                }
+                window.addEventListener("resize", set_bar, false);
             }
         ]);
         feedhoos.filter("timeline_url", function() {
@@ -39,12 +49,24 @@
         var feedhoosControllers = angular.module('feedhoosControllers', []);
         feedhoosControllers.controller('ReaderCtrl', ['$scope', '$routeParams', '$http',
             function($scope, $routeParams, $http) {
-               $scope.feeds = [];
-               $http.get('/reader/feed/list/all/').success(function(data) {
-                   $scope.feeds = data;
-               });
+                var content_bar = document.getElementById("content_bar");
+                var feed_bar = document.getElementById("feed_bar");
+                var content_bar_top = content_bar.getBoundingClientRect().top 
+                var feed_bar_top = feed_bar.getBoundingClientRect().top 
+                var innerHeight = window.innerHeight;
+                content_bar.style.height = innerHeight - content_bar_top + "px";
+                feed_bar.style.height = innerHeight - feed_bar_top + "px";
+
+                $scope.feeds = [];
+                $http.get('/reader/feed/list/all/').success(function(data) {
+                    $scope.feeds = data;
+                });
             }]
         ); 
+        feedhoosControllers.config([
+            function() {
+            }
+        ]);
     </script>
 </body>
 </html>
