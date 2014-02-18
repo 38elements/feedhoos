@@ -22,7 +22,7 @@ class FeedModel(models.Model):
     }
 
     @property
-    def json(self):
+    def dict(self):
         d = {
             "id": self.id,
             "url": self.url.encode("utf-8"),

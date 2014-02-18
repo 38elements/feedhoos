@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.db import models
 import time
+import datetime
 MAX_CONTENT_LENGTH = 8192
 PER_PAGE = 200
 
@@ -11,6 +12,23 @@ class EntryModel(models.Model):
     title = models.CharField(max_length=64)
     updated = models.IntegerField()
     content = models.TextField()
+
+    @property
+    def dict(self):
+        d = {
+            "id": self.id,
+            "url": self.url.encode("utf-8"),
+            "feed_id": self.feed_id,
+            "title": self.title.encode("utf-8"),
+            "updated": self.updated_stftime,
+            "content": self.content.encode("utf-8"),
+        }
+        return d
+
+    @property
+    def updated_stftime(self):
+        datetime_obj = datetime.datetime.fromtimestamp(self.updated)
+        return datetime_obj.strftime('%Y-%m-%d %H:%M')
 
     @staticmethod
     def count(feed_id, min_updated=0):

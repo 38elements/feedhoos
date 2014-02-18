@@ -16,9 +16,10 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>   
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.min.js"></script>   
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-sanitize.min.js"></script>
     <script src="/static/js/ui-bootstrap-tpls-0.10.0.js"></script>
     <script>
-        var feedhoos = angular.module("feedhoos", ["ngRoute", "feedhoosControllers"]);
+        var feedhoos = angular.module("feedhoos", ["ngRoute", 'ngSanitize', "feedhoosControllers"]);
         feedhoos.factory("ui_setter",function(){
             var ui_setter = {
                 bar: function() {
@@ -70,7 +71,6 @@
                         $scope.feed = data.feed;
                         $scope.entries = data.entries;
                     });
-                    alert();
                 }
             }]
         ); 
