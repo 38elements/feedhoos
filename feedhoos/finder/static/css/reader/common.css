@@ -48,10 +48,12 @@ blockquote {
 }
 
 #feed_bar .list-group {
-    -webkit-padding-start: 0px;
+    padding-right: 0px;
 }
 
-
+ul.nav.nav-tabs.nav-justified {
+    padding-right: 0px;
+}
 
 
 
