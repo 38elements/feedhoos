@@ -17,9 +17,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>   
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.min.js"></script>   
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-sanitize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-cookies.min.js"></script>
     <script src="/static/js/ui-bootstrap-tpls-0.10.0.js"></script>
     <script>
-        var feedhoos = angular.module("feedhoos", ["ngRoute", 'ngSanitize', "ui.bootstrap", "feedhoosControllers"]);
+        var feedhoos = angular.module("feedhoos", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap", "feedhoosControllers"]);
         feedhoos.factory("ui_setter",function(){
             var ui_setter = {
                 bar: function() {
@@ -48,6 +49,10 @@
                 when("/reader", {
                     templateUrl: "/static/partials/reader.html",
                     controller: "ReaderCtrl"
+                }).
+                when("/reader/list", {
+                    templateUrl: "/static/partials/list.html",
+                    controller: "ListCtrl"
                 }).
                 otherwise({
                     redirectTo: "/reader"
@@ -98,6 +103,28 @@
                 }
             }]
         ); 
+        feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", 
+            function($scope, $http, $cookies) {
+                $http.get("/reader/feed/list/all/").success(function(data) {
+                    data.shift();
+                    $scope.feeds = data;
+                });
+                $scope.remove = function(feed_id) {
+                    var csrftoken = $cookies.csrftoken;
+                    $http({
+                         "url": "/reader/feed/list/delete/",
+                         "method": "POST",
+                         "xsrfHeaderName": "X-CSRFToken",
+                         "xsrfCookieName": "csrftoken",
+                         "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
+                         "data": "feed_id=" + feed_id
+                    }).success(function(data) {
+                        data.shift();
+                        $scope.feeds = data;
+                    });
+                }
+            }]
+        );
         feedhoosControllers.config([
             function() {
             }

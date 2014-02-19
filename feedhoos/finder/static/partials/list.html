@@ -1,9 +1,8 @@
-<div class="row" ng-controller="ListCtrl">
-    <div id="feed_bar" class="col-lg-3">
-        <ul class="list-group">
-            <li class="list-group-item feed text-left" data-ng-repeat="f in feeds">
-                {{ f.title }}
-            </li>
-        </ul>
-    </div>
+<div class="row">
+    <table class="table table-hover col-lg-12">
+            <tr data-ng-repeat="f in feeds">
+                <td>{{ f.title }}</td> 
+                <td class="col-lg-1 text-right"><span class="glyphicon glyphicon-remove" ng-click="remove(f.id)"></span></td>
+            </tr>
+    </table>
 </div>
