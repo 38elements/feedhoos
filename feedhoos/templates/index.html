@@ -65,6 +65,8 @@
                 ui_setter.bar()
 
                 $scope.feeds = [];
+                $scope.active_feed_id = -1;
+                $scope.active_timeline_id = -1;
                 $scope.feed_tab = true;
                 $scope.timeline_tab = true;
                 $http.get("/reader/feed/list/all/").success(function(data) {
@@ -74,6 +76,7 @@
                     $scope.bookmarks = data;
                 });
                 $scope.read_timeline = function(feed_id) {
+                    $scope.active_timeline_id = feed_id;
                     var timeline_url = ui_setter.timeline_url(feed_id);
                     $http.get(timeline_url).success(function(data) {
                         $scope.feed = data.feed;
@@ -81,6 +84,7 @@
                     });
                 }
                 $scope.read_feed = function(feed_id) {
+                    $scope.active_feed_id = feed_id;
                     var feed_url = ui_setter.feed_url(feed_id);
                     $http.get(feed_url).success(function(data) {
                         $scope.feed = data.feed;
