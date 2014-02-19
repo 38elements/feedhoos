@@ -1,8 +1,0 @@
-{% extends "bases/_main.html" %}
-{% load reader_extras %}
-{% block content %}
-all<br/>
-{% for f in feeds %}
-{{ f.title }}&nbsp;<a href="{% url "reader:delete" f.id %}">delete</a><br/>
-{% endfor %}
-{% endblock %}
