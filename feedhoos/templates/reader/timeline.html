@@ -1,8 +1,0 @@
-{% extends "bases/_reader.html" %}
-{% block feeds %}
-{% for f in feeds %}
-<li class="list-group-item feed text-left">
-    <a href="{% url "reader:timeline" f.id 1 %}">{{ f.title }}</a>
-</li>
-{% endfor %}
-{% endblock %}

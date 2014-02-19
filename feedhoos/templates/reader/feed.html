@@ -1,8 +1,0 @@
-{% extends "bases/_reader.html" %}
-{% block feeds %}
-{% for f in feeds %}
-    <li class="list-group-item feed text-left">
-        <a href="{% url "reader:feed" f.id %}">{{ f.title }}</a>({{f.unread_count}})
-    </li>
-{% endfor %}
-{% endblock %}
