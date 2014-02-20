@@ -7,7 +7,7 @@ from feedhoos.finder.models.feed import FeedModel
 
 def execute(request, feed_id="0", page="1"):
     feed_id = int(feed_id)
-    feed_dict = {"feed_id": feed_id, "title": "登録されているすべてのFeed"}
+    feed_dict = {"id": feed_id, "title": "登録されているすべてのFeed"}
     if feed_id:
         # FIXME 該当するレコードがない時の処理
         feed_model = FeedModel.objects.get(pk=feed_id)
