@@ -86,6 +86,7 @@
                     $http.get(timeline_url).success(function(data) {
                         $scope.feed = data.feed;
                         $scope.entries = data.entries;
+                        document.querySelector("#content_bar > .panel-info > .panel-heading").scrollIntoView()
                     });
                 }
                 $scope.read_feed = function(feed_id) {
@@ -94,6 +95,7 @@
                     $http.get(feed_url).success(function(data) {
                         $scope.feed = data.feed;
                         $scope.entries = data.entries;
+                        document.querySelector("#content_bar > .panel-info > .panel-heading").scrollIntoView()
                     });
                     $scope.bookmarks.map(function(feed){
                         if (feed.id == feed_id) {
