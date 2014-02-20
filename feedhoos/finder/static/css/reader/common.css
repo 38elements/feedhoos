@@ -1,3 +1,7 @@
+.container {
+    width:1320px;
+}
+
 .feed {
     font-size: 12px;
     border-radius: 0px !important;
@@ -5,7 +9,6 @@
 }
 
 #feed_bar {
-    width: 20%;
     padding-right: 0px;
     overflow-y: scroll;
     direction: rtl;
@@ -13,7 +16,6 @@
 }
 
 #content_bar {
-    width: 80%;
     overflow-y: scroll;
     padding-left: 0px;
     padding-right: 0px;

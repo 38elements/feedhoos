@@ -69,6 +69,8 @@
             function($scope, $routeParams, $http, ui_setter) {
                 ui_setter.bar()
 
+                $scope.type = "";
+                $scope._feed_id = null;
                 $scope.feed = null;
                 $scope.entries = null;
                 $scope.feeds = [];
@@ -83,9 +85,11 @@
                     $scope.bookmarks = data;
                 });
                 $scope.read_timeline = function(feed_id) {
-                    if ($scope.feed !== null &&  $scope.feed.id == feed_id) {
+                    if ($scope._feed_id == feed_id && $scope.type == "timeline") {
                         return;
                     }
+                    $scope._feed_id = feed_id;
+                    $scope.type = "timeline";
                     $scope.active_timeline_id = feed_id;
                     var timeline_url = ui_setter.timeline_url(feed_id);
                     $http.get(timeline_url).success(function(data) {
@@ -94,9 +98,11 @@
                     });
                 }
                 $scope.read_feed = function(feed_id) {
-                    if ($scope.feed !== null && $scope.feed.id == feed_id) {
+                    if ($scope._feed_id == feed_id && $scope.type == "feed") {
                         return;
                     }
+                    $scope._feed_id = feed_id;
+                    $scope.type = "feed";
                     $scope.active_feed_id = feed_id;
                     var feed_url = ui_setter.feed_url(feed_id);
                     $http.get(feed_url).success(function(data) {

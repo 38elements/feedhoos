@@ -1,10 +1,11 @@
-<div class="row" ng-init="console.log(1111)">
-    <div id="feed_bar" class="col-lg-3">
+<div class="row">
+    <div id="feed_bar" class="col-lg-2 visible-lg">
         <tabset justified="true">
             <tab heading="Timeline" active="timeline_tab" ng-click="timeline_tab = true; feed_tab = false;">
                 <ul class="list-group">
                     <li class="list-group-item feed text-left" data-ng-repeat="f in feeds" 
-                    ng-click="read_timeline(f.id)" ng-class="{'list-group-item-info': (active_timeline_id == f.id)}">
+                    ng-click="read_timeline(f.id)"
+                    ng-class="{'list-group-item-info': (active_timeline_id == f.id && type == 'timeline')}">
                         {{ f.title }}
                     </li>
                 </ul>
@@ -12,14 +13,15 @@
             <tab heading="Feed" active="feed_tab" ng-click="timeline_tab = false; feed_tab = true;">
                 <ul class="list-group">
                     <li class="list-group-item feed text-left" data-ng-repeat="b in bookmarks" 
-                        ng-click="read_feed(b.id)" ng-class="{'list-group-item-info': (active_feed_id == b.id)}">
+                        ng-click="read_feed(b.id)"
+                        ng-class="{'list-group-item-info': (active_feed_id == b.id && type == 'feed')}">
                         {{ b.title }}({{b.unread_count}})
                     </li>
                 </ul>
             </tab>
         </tabset>
     </div>
-    <div id="content_bar" class="col-lg-9">
+    <div id="content_bar" class="col-lg-10 col-md-12">
         <div class="panel panel-info entry" ng-if="feed">
             <div class="panel-heading"  scroll-top>
                 <h3>{{ feed.title }}</h3>
