@@ -69,6 +69,8 @@
             function($scope, $routeParams, $http, ui_setter) {
                 ui_setter.bar()
 
+                $scope.feed = false;
+                $scope.entries = false;
                 $scope.feeds = [];
                 $scope.active_feed_id = -1;
                 $scope.active_timeline_id = -1;
@@ -86,7 +88,6 @@
                     $http.get(timeline_url).success(function(data) {
                         $scope.feed = data.feed;
                         $scope.entries = data.entries;
-                        document.querySelector("#content_bar > .panel-info > .panel-heading").scrollIntoView()
                     });
                 }
                 $scope.read_feed = function(feed_id) {
@@ -95,7 +96,6 @@
                     $http.get(feed_url).success(function(data) {
                         $scope.feed = data.feed;
                         $scope.entries = data.entries;
-                        document.querySelector("#content_bar > .panel-info > .panel-heading").scrollIntoView()
                     });
                     $scope.bookmarks.map(function(feed){
                         if (feed.id == feed_id) {
@@ -104,7 +104,26 @@
                     });
                 }
             }]
-        ); 
+        )
+        .directive("scrollTop", function() {
+            return {
+                restrict: "A",
+                link: function(scope, element, attrs, ReaderCtrl) {
+                    scope.$watch(function() {
+                        if (scope.feed) {
+                            return scope.feed.id
+                        }
+                        else {
+                            return scope.feed
+                        }
+                    }, function() {
+                        element[0].scrollIntoView();
+                    });
+                },
+            }
+        });
+
+
         feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", 
             function($scope, $http, $cookies) {
                 $http.get("/reader/feed/list/all/").success(function(data) {
