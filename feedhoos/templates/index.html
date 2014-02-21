@@ -26,8 +26,12 @@
                 bar: function() {
                     var content_bar = document.getElementById("content_bar");
                     var feed_bar = document.getElementById("feed_bar");
-                    var content_bar_top = content_bar.getBoundingClientRect().top 
-                    var feed_bar_top = feed_bar.getBoundingClientRect().top 
+                    try {
+                        var content_bar_top = content_bar.getBoundingClientRect().top 
+                        var feed_bar_top = feed_bar.getBoundingClientRect().top 
+                    } catch (e) {
+                        return
+                    }
                     var innerHeight = window.innerHeight;
                     content_bar.style.height = innerHeight - content_bar_top + "px";
                     feed_bar.style.height = innerHeight - feed_bar_top + "px";
@@ -221,6 +225,17 @@
                     if (new_rating == old_rating) {
                         return;
                     }
+                    var csrftoken = $cookies.csrftoken;
+                    $http({
+                         "url": "/bookmark/rating/",
+                         "method": "POST",
+                         "xsrfHeaderName": "X-CSRFToken",
+                         "xsrfCookieName": "csrftoken",
+                         "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+                         "data": ("feed_id=" + $scope.feed_id + "&rating=" + $scope.rating)
+                    }).success(function(data) {
+                        $scope.result = data;
+                    });
                 });
             }]
         )
@@ -229,6 +244,7 @@
                 restrict: "A",
                 link: function(scope, element, attrs, ReaderCtrl) {
                     scope.rating = scope.bookmark[attrs.feedId + ""].rating;
+                    scope.feed_id = attrs.feedId;
                 },
             }
         });
