@@ -7,7 +7,8 @@ from feedhoos.reader.models.bookmark import BookmarkModel
 
 
 def execute(request, feed_id, page="1"):
-    #FIXME
+    "未読のFeedを読む。bookmarkを更新する。"
+    #FIXME レコードがないときの処理を追加すること
     feed_model = FeedModel.objects.get(pk=feed_id)
     feed_dict = feed_model.dict
     bookmark_model = BookmarkModel.objects.get(feed_id=feed_id)

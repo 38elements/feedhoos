@@ -25,6 +25,7 @@
     <div ng-show="state == 3">
         <div ng-show="result == null">
             通信中
+            <button class="btn btn-sm btn-default" ng-click="set_state(1)">戻る</button>
         </div>
         <span ng-if="result != null">
             {{result.msg}}<br/>

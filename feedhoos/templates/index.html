@@ -127,10 +127,10 @@
                 link: function(scope, element, attrs, ReaderCtrl) {
                     scope.$watch(function() {
                         if (scope.feed) {
-                            return scope.feed.id
+                            return (scope.feed.id + scope.type);
                         }
                         else {
-                            return scope.feed
+                            return scope.feed;
                         }
                     }, function() {
                         element[0].scrollIntoView();
@@ -145,6 +145,9 @@
                 $http.get("/reader/feed/list/all/").success(function(data) {
                     data.shift();
                     $scope.feeds = data;
+                });
+                $http.get("/bookmark/list/").success(function(data) {
+                    $scope.bookmark = data;
                 });
                 $scope.remove = function(feed_id) {
                     var csrftoken = $cookies.csrftoken;
@@ -204,6 +207,32 @@
                 }
             }]
         );
+
+        feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", 
+            function($scope, $http, $cookies) {
+                $scope.max = 5;
+                $scope.isReadonly = false;
+
+                $scope.hoveringOver = function(value) {
+                    $scope.overStar = value;
+                };
+
+                $scope.$watch("rating", function(new_rating, old_rating) {
+                    if (new_rating == old_rating) {
+                        return;
+                    }
+                });
+            }]
+        )
+        .directive("setInitialRating", function() {
+            return {
+                restrict: "A",
+                link: function(scope, element, attrs, ReaderCtrl) {
+                    scope.rating = scope.bookmark[attrs.feedId + ""].rating;
+                },
+            }
+        });
+
         feedhoosControllers.config([
             function() {
             }

@@ -4,6 +4,7 @@ import feedhoos.reader.views.index
 import feedhoos.reader.urls
 import feedhoos.finder.urls
 import feedhoos.worker.urls
+import feedhoos.bookmark.urls
 from django.contrib import admin
 admin.autodiscover()
 urlpatterns = patterns(
@@ -16,6 +17,7 @@ urlpatterns = patterns(
     url(r'^reader/', include(feedhoos.reader.urls, namespace="reader")),
     url(r'^finder/', include(feedhoos.finder.urls, namespace="finder")),
     url(r'^worker/', include(feedhoos.worker.urls, namespace="worker")),
+    url(r'^bookmark/', include(feedhoos.bookmark.urls, namespace="bookmark")),
 )
 if settings.DEBUG:
     import debug_toolbar

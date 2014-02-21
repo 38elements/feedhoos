@@ -1,7 +1,15 @@
 <div class="row">
-    <table class="table table-hover col-lg-12">
+    <div ng-show="!bookmark || !feeds">通信中</div>
+    <table class="table table-hover col-lg-12" ng-if="bookmark && feeds">
             <tr data-ng-repeat="f in feeds">
                 <td>{{ f.title }}</td> 
+                <td ng-controller="RatingCtrl">
+                    <rating value="rating" max="max" 
+                        readonly="false" on-hover="hoveringOver(value)"
+                        feed-id="{{f.id}}"
+                        set-initial-rating
+                        on-leave="overStar = null"></rating>
+                </td>
                 <td class="col-lg-1 text-right"><span class="glyphicon glyphicon-remove" ng-click="remove(f.id)"></span></td>
             </tr>
     </table>
