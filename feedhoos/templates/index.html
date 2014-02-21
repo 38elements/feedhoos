@@ -166,6 +166,12 @@
         feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", 
             function($scope, $http, $cookies) {
                 $scope.state = 1;
+                $scope.set_state = function(state) {
+                    $scope.url = null;
+                    $scope.feed_urls = null;
+                    $scope.result = null;
+                    $scope.state = state;
+                }
                 $scope.search = function() {
                     $scope.state = 2;
                     $scope.feed_urls = null;

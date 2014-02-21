@@ -14,7 +14,6 @@ class FeedModel(models.Model):
     modified = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
     last_access = models.IntegerField()
-    stars = models.PositiveSmallIntegerField(default=0, db_index=True)
     ALL = {
         "url": "",
         "id": 0,
@@ -28,7 +27,6 @@ class FeedModel(models.Model):
             "url": self.url.encode("utf-8"),
             "link": self.link.encode("utf-8"),
             "title": self.title.encode("utf-8"),
-            "stars": self.stars,
         }
         return d
 

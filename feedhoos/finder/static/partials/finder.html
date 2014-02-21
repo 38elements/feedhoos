@@ -20,13 +20,15 @@
                     <td class="col-lg-1 text-right"><span class="glyphicon glyphicon-plus" ng-click="add(fu)"></span></td>
                 </tr>
         </table>
+        <button class="btn btn-sm btn-default" ng-click="set_state(1)">戻る</button>
     </div>
     <div ng-show="state == 3">
         <div ng-show="result == null">
             通信中
         </div>
         <span ng-if="result != null">
-            {{result.msg}}
+            {{result.msg}}<br/>
+            <button class="btn btn-sm btn-default" ng-click="set_state(1)">さらに登録</button>
         </span>
     </div>
 </div>
