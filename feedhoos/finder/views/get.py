@@ -1,5 +1,6 @@
 # coding: utf-8
-from django.shortcuts import render
+import json
+from django.http import HttpResponse
 from feedfinder2 import find_feeds
 from feedhoos.finder.forms.feed import FeedForm
 
@@ -10,4 +11,5 @@ def execute(request):
         feed_urls = find_feeds(feedform.cleaned_data["url"])
     else:
         feed_urls = []
-    return render(request, "finder/select.html", {"feed_urls": feed_urls})
+    feed_urls_json = json.dumps(feed_urls, ensure_ascii=False, skipkeys=True)
+    return HttpResponse(feed_urls_json, mimetype='application/json')

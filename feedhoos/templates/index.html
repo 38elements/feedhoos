@@ -54,6 +54,10 @@
                     templateUrl: "/static/partials/list.html",
                     controller: "ListCtrl"
                 }).
+                when("/finder", {
+                    templateUrl: "/static/partials/finder.html",
+                    controller: "FinderCtrl"
+                }).
                 otherwise({
                     redirectTo: "/reader"
                 });
@@ -154,6 +158,42 @@
                     }).success(function(data) {
                         data.shift();
                         $scope.feeds = data;
+                    });
+                }
+            }]
+        );
+
+        feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", 
+            function($scope, $http, $cookies) {
+                $scope.state = 1;
+                $scope.search = function() {
+                    $scope.state = 2;
+                    $scope.feed_urls = null;
+                    var csrftoken = $cookies.csrftoken;
+                    $http({
+                         "url": "/finder/get/",
+                         "method": "POST",
+                         "xsrfHeaderName": "X-CSRFToken",
+                         "xsrfCookieName": "csrftoken",
+                         "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
+                         "data": "url=" + $scope.url
+                    }).success(function(data) {
+                        $scope.feed_urls = data;
+                    });
+                }
+                $scope.add = function(fu) {
+                    $scope.state = 3;
+                    $scope.result = null;
+                    var csrftoken = $cookies.csrftoken;
+                    $http({
+                         "url": "/finder/registered/",
+                         "method": "POST",
+                         "xsrfHeaderName": "X-CSRFToken",
+                         "xsrfCookieName": "csrftoken",
+                         "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
+                         "data": "url=" + fu
+                    }).success(function(data) {
+                        $scope.result = data;
                     });
                 }
             }]

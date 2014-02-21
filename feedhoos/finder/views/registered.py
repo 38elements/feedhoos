@@ -1,5 +1,6 @@
 # coding: utf-8
-from django.shortcuts import render
+import json
+from django.http import HttpResponse
 import feedparser
 from feedhoos.finder.forms.feed import FeedForm
 from feedhoos.finder.models.feed import FeedModel
@@ -10,7 +11,7 @@ import time
 
 def execute(request):
     feedform = FeedForm(request.POST)
-    feed = {}
+    result = {}
     if feedform.is_valid():
         feed_url = feedform.cleaned_data["url"]
         try:
@@ -33,8 +34,12 @@ def execute(request):
                 # FIXME for personal
                 if not BookmarkModel.objects.filter(feed_id=feed_model.id).exists():
                     BookmarkModel(feed_id=feed_model.id).save()
+                result["msg"] = "ok"
+            else:
+                result["msg"] = "status error"
         else:
-            feed["msg"] = "exist"
+            result["msg"] = "exist"
     else:
-        feed["msg"] = "validation_error"
-    return render(request, "finder/registered.html", {"feed": feed})
+        result["msg"] = "validation_error"
+    result_json = json.dumps(result, ensure_ascii=False, skipkeys=True)
+    return HttpResponse(result_json, mimetype='application/json')
