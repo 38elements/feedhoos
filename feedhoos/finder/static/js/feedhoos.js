@@ -29,7 +29,10 @@ feedhoos.factory("uiSetter",function(){
 feedhoos.service("readingManager", ["$http", "$rootScope", function($http, $rootScope){
     var that = this;
     this.readings = null;
-    this.request = function() {
+    this.set = function(scope) {
+        scope.$on("readings", function() {
+            scope.readings = that.readings;
+        });
         if (this.readings === null) {
             $http.get("/reader/feed/reading/").success(function(data) {
                 that.readings = data;
@@ -45,8 +48,11 @@ feedhoos.service("readingManager", ["$http", "$rootScope", function($http, $root
 feedhoos.service("feedManager", ["$http", "$rootScope", function($http, $rootScope){
     var that = this;
     this.feeds = null;
-    this.request = function() {
+    this.set = function(scope) {
         if (this.feeds === null) {
+            scope.$on("feeds", function() {
+                scope.feeds = that.feeds;
+            });
             $http.get("/reader/feed/list/all/").success(function(data) {
                 that.feeds = data;
                 $rootScope.$broadcast("feeds");
@@ -99,14 +105,8 @@ feedhoosControllers.controller(
         $scope.active_timeline_id = -1;
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
-        $scope.$on("feeds", function() {
-            $scope.feeds = feedManager.feeds;
-        });
-        feedManager.request();
-        $scope.$on("readings", function() {
-            $scope.readings = readingManager.readings;
-        });
-        readingManager.request();
+        feedManager.set($scope);
+        readingManager.set($scope)
         $scope.read_timeline = function(feed_id) {
             if ($scope._feed_id == feed_id && $scope.type == "timeline") {
                 return;
