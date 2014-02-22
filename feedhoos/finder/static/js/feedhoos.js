@@ -1,6 +1,6 @@
 var feedhoos = angular.module("feedhoos", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap", "feedhoosControllers"]);
-feedhoos.factory("ui_setter",function(){
-    var ui_setter = {
+feedhoos.factory("uiSetter",function(){
+    var uiSetter = {
         bar: function() {
             var content_bar = document.getElementById("content_bar");
             var feed_bar = document.getElementById("feed_bar");
@@ -22,9 +22,24 @@ feedhoos.factory("ui_setter",function(){
         }
     };
     
-    window.addEventListener("resize", ui_setter.bar, false);
-    return ui_setter;
+    window.addEventListener("resize", uiSetter.bar, false);
+    return uiSetter;
 });
+feedhoos.service("readingManager", ["$http", "$rootScope", function($http, $rootScope){
+    var that = this;
+    this.readings = null;
+    this.request = function() {
+        if (this.readings === null) {
+            $http.get("/reader/feed/reading/").success(function(data) {
+                that.readings = data;
+                $rootScope.$broadcast("readings");
+            });
+        }
+        else {
+            $rootScope.$broadcast("readings");
+        }
+    };
+}]);
 feedhoos.config(["$routeProvider",
     function($routeProvider) {
         $routeProvider.
@@ -51,9 +66,9 @@ feedhoos.config(["$routeProvider",
 //            }
 //       });
 var feedhoosControllers = angular.module("feedhoosControllers", []);
-feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http", "ui_setter", 
-    function($scope, $routeParams, $http, ui_setter) {
-        ui_setter.bar()
+feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http", "uiSetter", "readingManager", 
+    function($scope, $routeParams, $http, uiSetter, readingManager) {
+        uiSetter.bar()
 
         $scope.type = "";
         $scope._feed_id = null;
@@ -67,9 +82,10 @@ feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http",
         $http.get("/reader/feed/list/all/").success(function(data) {
             $scope.feeds = data;
         });
-        $http.get("/reader/feed/reading/").success(function(data) {
-            $scope.readings = data;
+        $scope.$on("readings", function() {
+            $scope.readings = readingManager.readings;
         });
+        readingManager.request();
         $scope.read_timeline = function(feed_id) {
             if ($scope._feed_id == feed_id && $scope.type == "timeline") {
                 return;
@@ -77,7 +93,7 @@ feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http",
             $scope._feed_id = feed_id;
             $scope.type = "timeline";
             $scope.active_timeline_id = feed_id;
-            var timeline_url = ui_setter.timeline_url(feed_id);
+            var timeline_url = uiSetter.timeline_url(feed_id);
             $http.get(timeline_url).success(function(data) {
                 $scope.feed = data.feed;
                 $scope.entries = data.entries;
@@ -90,7 +106,7 @@ feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http",
             $scope._feed_id = feed_id;
             $scope.type = "feed";
             $scope.active_feed_id = feed_id;
-            var feed_url = ui_setter.feed_url(feed_id);
+            var feed_url = uiSetter.feed_url(feed_id);
             $http.get(feed_url).success(function(data) {
                 $scope.feed = data.feed;
                 $scope.entries = data.entries;
