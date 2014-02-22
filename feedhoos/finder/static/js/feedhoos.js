@@ -26,24 +26,42 @@ feedhoos.factory("uiSetter",function(){
     return uiSetter;
 });
 
-feedhoos.service("readingManager", ["$http", "$rootScope", function($http, $rootScope){
-    var that = this;
-    this.readings = null;
-    this.set = function(scope, callback) {
-        scope.$on("readings", function() {
-            callback(scope, that);
-        });
-        if (this.readings === null) {
-            $http.get("/reader/feed/reading/").success(function(data) {
-                that.readings = data;
-                $rootScope.$broadcast("readings");
+(function () {
+    function baseManager() {
+        this.set = function(scope, callback) {
+            var that = this;
+            scope.$on(this.message, function() {
+                callback(scope, that);
             });
-        }
-        else {
-            $rootScope.$broadcast("readings");
+            if (this.data === null) {
+                this.$http.get(this.url).success(function(data) {
+                    that.data = data;
+                    that.$rootScope.$broadcast(that.message);
+                });
+            }
+            else {
+                this.$rootScope.$broadcast(that.message);
+            }
+        };
+    }
+
+    function readingManager($http, $rootScope) {
+        this.$http = $http;
+        this.$rootScope = $rootScope;
+        this.data = null;
+        this.message = "readings";
+        this.url = "/reader/feed/reading/";
+        this.remove = function(feed_id) {
+            this.data = this.data.filter(function(f) {
+                f.id  != feed_id;
+            });
+            $rootScope.$broadcast(this.message);
         }
     };
-}]);
+    readingManager.prototype = new baseManager();
+    feedhoos.service("readingManager", ["$http", "$rootScope", readingManager]);
+}());
+
 
 feedhoos.service("feedManager", ["$http", "$rootScope", function($http, $rootScope){
     var that = this;
@@ -62,6 +80,12 @@ feedhoos.service("feedManager", ["$http", "$rootScope", function($http, $rootSco
             $rootScope.$broadcast("feeds");
         }
     };
+    this.remove = function(feed_id) {
+        this.feeds = this.feeds.filter(function(f) {
+            f.id  != feed_id;
+        });
+        $rootScope.$broadcast("feeds");
+    }
 }]);
 
 feedhoos.service("bookmarkManager", ["$http", "$rootScope", function($http, $rootScope){
@@ -126,7 +150,7 @@ feedhoosControllers.controller(
         $scope.timeline_tab = true;
                 
         feedManager.set($scope, function(scope, that) {scope.feeds = that.feeds;});
-        readingManager.set($scope, function(scope, that) {scope.readings = that.readings;})
+        readingManager.set($scope, function(scope, that) {scope.readings = that.data;})
         $scope.read_timeline = function(feed_id) {
             if ($scope._feed_id == feed_id && $scope.type == "timeline") {
                 return;
@@ -152,6 +176,7 @@ feedhoosControllers.controller(
                 $scope.feed = data.feed;
                 $scope.entries = data.entries;
             });
+            //FIXME
             $scope.readings.map(function(feed){
                 if (feed.id == feed_id) {
                     feed.unread_count = 0;
