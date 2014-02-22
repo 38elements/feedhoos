@@ -25,6 +25,7 @@ feedhoos.factory("uiSetter",function(){
     window.addEventListener("resize", uiSetter.bar, false);
     return uiSetter;
 });
+
 feedhoos.service("readingManager", ["$http", "$rootScope", function($http, $rootScope){
     var that = this;
     this.readings = null;
@@ -40,6 +41,23 @@ feedhoos.service("readingManager", ["$http", "$rootScope", function($http, $root
         }
     };
 }]);
+
+feedhoos.service("feedManager", ["$http", "$rootScope", function($http, $rootScope){
+    var that = this;
+    this.feeds = null;
+    this.request = function() {
+        if (this.feeds === null) {
+            $http.get("/reader/feed/list/all/").success(function(data) {
+                that.feeds = data;
+                $rootScope.$broadcast("feeds");
+            });
+        }
+        else {
+            $rootScope.$broadcast("feeds");
+        }
+    };
+}]);
+
 feedhoos.config(["$routeProvider",
     function($routeProvider) {
         $routeProvider.
@@ -66,8 +84,10 @@ feedhoos.config(["$routeProvider",
 //            }
 //       });
 var feedhoosControllers = angular.module("feedhoosControllers", []);
-feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http", "uiSetter", "readingManager", 
-    function($scope, $routeParams, $http, uiSetter, readingManager) {
+feedhoosControllers.controller(
+    "ReaderCtrl",
+    ["$scope", "$routeParams", "$http", "uiSetter", "readingManager", "feedManager", 
+    function($scope, $routeParams, $http, uiSetter, readingManager, feedManager) {
         uiSetter.bar()
 
         $scope.type = "";
@@ -79,9 +99,10 @@ feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http",
         $scope.active_timeline_id = -1;
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
-        $http.get("/reader/feed/list/all/").success(function(data) {
-            $scope.feeds = data;
+        $scope.$on("feeds", function() {
+            $scope.feeds = feedManager.feeds;
         });
+        feedManager.request();
         $scope.$on("readings", function() {
             $scope.readings = readingManager.readings;
         });
