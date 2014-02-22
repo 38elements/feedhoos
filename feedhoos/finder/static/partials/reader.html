@@ -12,10 +12,10 @@
             </tab>
             <tab heading="Feed" active="feed_tab" ng-click="timeline_tab = false; feed_tab = true;">
                 <ul class="list-group">
-                    <li class="list-group-item feed text-left" data-ng-repeat="b in bookmarks" 
-                        ng-click="read_feed(b.id)"
-                        ng-class="{'list-group-item-info': (active_feed_id == b.id && type == 'feed')}">
-                        {{ b.title }}({{b.unread_count}})
+                    <li class="list-group-item feed text-left" data-ng-repeat="r in readings" 
+                        ng-click="read_feed(r.id)"
+                        ng-class="{'list-group-item-info': (active_feed_id == r.id && type == 'feed')}">
+                        {{ r.title }}({{r.unread_count}})
                     </li>
                 </ul>
             </tab>

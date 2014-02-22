@@ -67,8 +67,8 @@ feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http",
         $http.get("/reader/feed/list/all/").success(function(data) {
             $scope.feeds = data;
         });
-        $http.get("/reader/feed/bookmark/").success(function(data) {
-            $scope.bookmarks = data;
+        $http.get("/reader/feed/reading/").success(function(data) {
+            $scope.readings = data;
         });
         $scope.read_timeline = function(feed_id) {
             if ($scope._feed_id == feed_id && $scope.type == "timeline") {
@@ -95,7 +95,7 @@ feedhoosControllers.controller("ReaderCtrl", ["$scope", "$routeParams", "$http",
                 $scope.feed = data.feed;
                 $scope.entries = data.entries;
             });
-            $scope.bookmarks.map(function(feed){
+            $scope.readings.map(function(feed){
                 if (feed.id == feed_id) {
                     feed.unread_count = 0;
                 }

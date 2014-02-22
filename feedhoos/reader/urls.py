@@ -5,7 +5,7 @@ import feedhoos.reader.views.feed
 import feedhoos.reader.views.list_all
 import feedhoos.reader.views.delete
 import feedhoos.reader.views.timeline
-import feedhoos.reader.views.bookmark
+import feedhoos.reader.views.reading
 
 urlpatterns = patterns(
     '',
@@ -20,5 +20,5 @@ urlpatterns = patterns(
         feedhoos.reader.views.timeline.execute, name="timeline_all"),
     url(r'^feed/timeline/(?P<feed_id>\d+)/page/(?P<page>\d+)/$',
         feedhoos.reader.views.timeline.execute, name="timeline"),
-    url(r'^feed/bookmark/$', feedhoos.reader.views.bookmark.execute, name="bookmark"),
+    url(r'^feed/reading/$', feedhoos.reader.views.reading.execute, name="reading"),
 )
