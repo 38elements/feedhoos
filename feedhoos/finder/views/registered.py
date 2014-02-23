@@ -35,6 +35,9 @@ def execute(request):
                 if not BookmarkModel.objects.filter(feed_id=feed_model.id).exists():
                     BookmarkModel(feed_id=feed_model.id).save()
                 result["msg"] = "ok"
+                result["feed"] = feed_model.dict
+                result["reading"] = feed_model.reading_dict
+                #Bookmarkはクライアントで生成
             else:
                 result["msg"] = "status error"
         else:

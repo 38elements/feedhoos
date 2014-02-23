@@ -40,9 +40,15 @@ feedhoos.factory("uiSetter",function(){
                 });
             }
             else {
-                this.$rootScope.$broadcast(that.message);
+                this.$rootScope.$broadcast(this.message);
             }
         };
+        this.add = function(one) {
+            if (this.data !== null) {
+                this.data.push(one);
+                this.$rootScope.$broadcast(this.message);
+            }
+        }
     }
 
     function readingManager($http, $rootScope) {
@@ -90,6 +96,13 @@ feedhoos.factory("uiSetter",function(){
         this.remove = function(feed_id) {
             if (this.data !== null) {
                 delete this.data[feed_id + ""]
+                $rootScope.$broadcast(this.message);
+            }
+        }
+        this.add = function(feed_id) {
+            feed_id = feed_id + "";
+            if (this.data !== null) {
+                this.data[feed_id] = {"rating": 0}
                 $rootScope.$broadcast(this.message);
             }
         }
@@ -217,15 +230,14 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feed
                  "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
                  "data": "feed_id=" + feed_id
             }).success(function(data) {
-                data.shift();
-                $scope.feeds = data;
+                //FIXME
             });
         }
     }]
 );
 
-feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", 
-    function($scope, $http, $cookies) {
+feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "feedManager", "readingManager", "bookmarkManager",
+    function($scope, $http, $cookies, feedManager, readingManager, bookmarkManager) {
         $scope.state = 1;
         $scope.set_state = function(state) {
             $scope.url = null;
@@ -260,7 +272,12 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies",
                  "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
                  "data": "url=" + fu
             }).success(function(data) {
-                $scope.result = data;
+                if (data.msg === "ok") {
+                    $scope.result = data;
+                    feedManager.add(data.feed);
+                    readingManager.add(data.reading);
+                    bookmarkManager.add(data.feed.id);
+                }
             });
         }
     }]

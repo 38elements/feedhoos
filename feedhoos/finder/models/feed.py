@@ -31,6 +31,12 @@ class FeedModel(models.Model):
         return d
 
     @property
+    def reading_dict(self):
+        d = self.dict
+        d["unread_count"] = self.unread_count
+        return d
+
+    @property
     def unread_count(self):
         if not hasattr(self, "_unread_count"):
             bookmark_model = BookmarkModel.objects.get(feed_id__exact=self.id)

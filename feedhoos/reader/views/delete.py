@@ -1,5 +1,6 @@
 # coding: utf-8
-from django.shortcuts import redirect
+import json
+from django.http import HttpResponse
 from feedhoos.worker.models.entry import EntryModel
 from feedhoos.finder.models.feed import FeedModel
 from feedhoos.reader.models.bookmark import BookmarkModel
@@ -15,4 +16,5 @@ def execute(request):
     EntryModel.objects.filter(
         feed_id__exact=feed_id
     ).delete()
-    return redirect("reader:list_all")
+    response_json = json.dumps({"msg": "OK"}, ensure_ascii=False, skipkeys=True)
+    return HttpResponse(response_json, mimetype='application/json')
