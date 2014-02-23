@@ -52,10 +52,12 @@ feedhoos.factory("uiSetter",function(){
         this.message = "readings";
         this.url = "/reader/feed/reading/";
         this.remove = function(feed_id) {
-            this.data = this.data.filter(function(f) {
-                f.feed_id  != feed_id;
-            });
-            $rootScope.$broadcast(this.message);
+            if (this.data !== null) {
+                this.data = this.data.filter(function(f) {
+                    return f.id != feed_id;
+                });
+                $rootScope.$broadcast(this.message);
+            }
         }
     };
     readingManager.prototype = new baseManager();
@@ -68,10 +70,12 @@ feedhoos.factory("uiSetter",function(){
         this.message = "feeds";
         this.url = "/reader/feed/list/all/";
         this.remove = function(feed_id) {
-            this.data = this.data.filter(function(f) {
-                f.id  != feed_id;
-            });
-            $rootScope.$broadcast(this.message);
+            if (this.data !== null) {
+                this.data = this.data.filter(function(f) {
+                    return f.id != feed_id;
+                });
+                $rootScope.$broadcast(this.message);
+            }
         }
     }
     feedManager.prototype = new baseManager();
@@ -83,6 +87,12 @@ feedhoos.factory("uiSetter",function(){
         this.data = null;
         this.message = "bookmark";
         this.url = "/bookmark/list/";
+        this.remove = function(feed_id) {
+            if (this.data !== null) {
+                delete this.data[feed_id + ""]
+                $rootScope.$broadcast(this.message);
+            }
+        }
     }
     bookmarkManager.prototype = new baseManager();
     feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
@@ -186,7 +196,8 @@ feedhoosControllers.controller(
 
 
 feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feedManager", "bookmarkManager",
-    function($scope, $http, $cookies, feedManager, bookmarkManager) {
+    "feedManager", "readingManager",
+    function($scope, $http, $cookies, feedManager, bookmarkManager, feedManager, readingManager) {
         feedManager.set($scope, function(scope, that) {
             scope.feeds = that.data.slice(1);
         });
@@ -194,6 +205,9 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feed
             scope.bookmark = that.data;
         });
         $scope.remove = function(feed_id) {
+            bookmarkManager.remove(feed_id);
+            feedManager.remove(feed_id);
+            readingManager.remove(feed_id);
             var csrftoken = $cookies.csrftoken;
             $http({
                  "url": "/reader/feed/list/delete/",
