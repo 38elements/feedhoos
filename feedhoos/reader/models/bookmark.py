@@ -10,7 +10,7 @@ class BookmarkModel(models.Model):
 
     @staticmethod
     def get_json(bookmark_models):
-        bookmarks_dict = {}
+        bookmarks_dict = {"0": {"rating": 6}}
         for b in bookmark_models:
             bookmarks_dict[str(b.feed_id)] = {"rating": b.rating}
         bookmark_json = json.dumps(

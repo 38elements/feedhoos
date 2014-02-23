@@ -49,11 +49,39 @@ feedhoos.factory("uiSetter",function(){
                 this.$rootScope.$broadcast(this.message);
             }
         }
+        this.sortByRating = function(data) {
+            var that = this;
+            var sort = function() {
+                data.sort(
+                    function(a, b) {
+                        var a_rating,
+                            b_rating;
+                        a_rating = that.bookmarkManager.data[a.id + ""]["rating"]; 
+                        b_rating = that.bookmarkManager.data[b.id + ""]["rating"]; 
+                        if (a_rating < b_rating) {
+                            return 1;
+                        }
+                        else if (a_rating > b_rating) {
+                            return -1;
+                        }
+                        else {
+                            return 0
+                        }
+                    }
+                );
+            }
+            //FIXME
+            while(this.bookmarkManager.data === null) {
+            }
+            sort();
+            return data;
+        }
     }
 
-    function readingManager($http, $rootScope) {
+    function readingManager($http, $rootScope, bookmarkManager) {
         this.$http = $http;
         this.$rootScope = $rootScope;
+        this.bookmarkManager = bookmarkManager;
         this.data = null;
         this.message = "readings";
         this.url = "/reader/feed/reading/";
@@ -67,11 +95,12 @@ feedhoos.factory("uiSetter",function(){
         }
     };
     readingManager.prototype = new baseManager();
-    feedhoos.service("readingManager", ["$http", "$rootScope", readingManager]);
+    feedhoos.service("readingManager", ["$http", "$rootScope", "bookmarkManager", readingManager]);
 
-    function feedManager($http, $rootScope){
+    function feedManager($http, $rootScope, bookmarkManager){
         this.$http = $http;
         this.$rootScope = $rootScope;
+        this.bookmarkManager = bookmarkManager;
         this.data = null;
         this.message = "feeds";
         this.url = "/reader/feed/list/all/";
@@ -85,7 +114,7 @@ feedhoos.factory("uiSetter",function(){
         }
     }
     feedManager.prototype = new baseManager();
-    feedhoos.service("feedManager", ["$http", "$rootScope", feedManager]);
+    feedhoos.service("feedManager", ["$http", "$rootScope", "bookmarkManager", feedManager]);
 
     function bookmarkManager($http, $rootScope){
         this.$http = $http;
@@ -146,8 +175,8 @@ feedhoos.config(["$routeProvider",
 var feedhoosControllers = angular.module("feedhoosControllers", []);
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "uiSetter", "readingManager", "feedManager", 
-    function($scope, $routeParams, $http, uiSetter, readingManager, feedManager) {
+    ["$scope", "$routeParams", "$http", "uiSetter", "readingManager", "feedManager", "bookmarkManager", 
+    function($scope, $routeParams, $http, uiSetter, readingManager, feedManager, bookmarkManager) {
         uiSetter.bar()
 
         $scope.type = "";
@@ -159,9 +188,13 @@ feedhoosControllers.controller(
         $scope.active_timeline_id = -1;
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
-                
-        feedManager.set($scope, function(scope, that) {scope.feeds = that.data;});
-        readingManager.set($scope, function(scope, that) {scope.readings = that.data;})
+        bookmarkManager.set($scope, function() {}); 
+        feedManager.set($scope, function(scope, that) {
+            scope.feeds = that.sortByRating(that.data);
+        });
+        readingManager.set($scope, function(scope, that) {
+            scope.readings = that.sortByRating(that.data);
+        })
         $scope.read_timeline = function(feed_id) {
             if ($scope._feed_id == feed_id && $scope.type == "timeline") {
                 return;
@@ -219,7 +252,8 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feed
     "feedManager", "readingManager",
     function($scope, $http, $cookies, feedManager, bookmarkManager, feedManager, readingManager) {
         feedManager.set($scope, function(scope, that) {
-            scope.feeds = that.data.slice(1);
+            //「登録されているすべてのfeedを除外
+            scope.feeds = that.data.filter(function(f) {return f.id != 0});
         });
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
