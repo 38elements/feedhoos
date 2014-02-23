@@ -76,26 +76,17 @@ feedhoos.factory("uiSetter",function(){
     }
     feedManager.prototype = new baseManager();
     feedhoos.service("feedManager", ["$http", "$rootScope", feedManager]);
-}());
 
-feedhoos.service("bookmarkManager", ["$http", "$rootScope", function($http, $rootScope){
-    var that = this;
-    this.bookmark = null;
-    this.set = function(scope, callback) {
-        scope.$on("bookmark", function() {
-            callback(scope, that);
-        });
-        if (this.bookmark === null) {
-            $http.get("/bookmark/list/").success(function(data) {
-                that.bookmark = data;
-                $rootScope.$broadcast("bookmark");
-            });
-        }
-        else {
-            $rootScope.$broadcast("bookmark");
-        }
-    };
-}]);
+    function bookmarkManager($http, $rootScope){
+        this.$http = $http;
+        this.$rootScope = $rootScope;
+        this.data = null;
+        this.message = "bookmark";
+        this.url = "/bookmark/list/";
+    }
+    bookmarkManager.prototype = new baseManager();
+    feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
+}());
 
 feedhoos.config(["$routeProvider",
     function($routeProvider) {
@@ -200,7 +191,7 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feed
             scope.feeds = that.data.slice(1);
         });
         bookmarkManager.set($scope, function(scope, that) {
-            scope.bookmark = that.bookmark;
+            scope.bookmark = that.data;
         });
         $scope.remove = function(feed_id) {
             var csrftoken = $cookies.csrftoken;
