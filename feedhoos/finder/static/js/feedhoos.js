@@ -106,6 +106,13 @@ feedhoos.factory("uiSetter",function(){
                 $rootScope.$broadcast(this.message);
             }
         }
+        this.set_rating = function(feed_id, rating) {
+            feed_id = feed_id + "";
+            if (this.data !== null && feed_id in this.data) {
+                this.data[feed_id]["rating"] = rating;
+                $rootScope.$broadcast(this.message);
+            }
+        }
     }
     bookmarkManager.prototype = new baseManager();
     feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
@@ -283,8 +290,8 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "fe
     }]
 );
 
-feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", 
-    function($scope, $http, $cookies) {
+feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bookmarkManager", 
+    function($scope, $http, $cookies, bookmarkManager) {
         $scope.max = 5;
         $scope.isReadonly = false;
 
@@ -296,6 +303,7 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies",
             if (new_rating == old_rating) {
                 return;
             }
+            bookmarkManager.set_rating($scope.feed_id, new_rating);
             var csrftoken = $cookies.csrftoken;
             $http({
                  "url": "/bookmark/rating/",
