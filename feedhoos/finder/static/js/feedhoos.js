@@ -1,16 +1,49 @@
 var feedhoos = angular.module("feedhoos", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap", "feedhoosControllers"]);
-feedhoos.factory("fhSetter",function(){
+feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     var fhSetter = {
+        shortcut: function(event) {
+            // j :74, k: 75
+            if ($route.current.templateUrl !== "/static/partials/reader.html") {
+                return
+            }
+            if (event.keyCode == 74 || event.keyCode == 75) {
+                var content_bar_top = $window.document.getElementById("content_bar").getBoundingClientRect().top;
+                var entries = $window.document.querySelectorAll(".panel-heading.entry_heading");
+                entries = Array.prototype.slice.call(entries);
+            }
+            var margin = 10;
+            var forward_standard_top = content_bar_top + margin;
+            var back_standard_top = content_bar_top - margin;
+            if (event.keyCode == 74) {
+                for (var i = 0, max = entries.length; i < max; i++) {
+                    var e = entries[i];
+                    if (forward_standard_top < e.getBoundingClientRect().top) {
+                        e.scrollIntoView();
+                        return
+                    }
+                }
+            }
+            if (event.keyCode == 75) {
+                entries.reverse();
+                for (var i = 0, max = entries.length; i < max; i++) {
+                    var e = entries[i];
+                    if (back_standard_top > e.getBoundingClientRect().top) {
+                        e.scrollIntoView();
+                        return
+                    }
+                }
+            }
+        },
         resize: function() {
-            var content_bar = document.getElementById("content_bar");
-            var feed_bar = document.getElementById("feed_bar");
+            var content_bar = $window.document.getElementById("content_bar");
+            var feed_bar = $window.document.getElementById("feed_bar");
             try {
                 var content_bar_top = content_bar.getBoundingClientRect().top 
                 var feed_bar_top = feed_bar.getBoundingClientRect().top 
             } catch (e) {
                 return
             }
-            var innerHeight = window.innerHeight;
+            var innerHeight = $window.innerHeight;
             content_bar.style.height = innerHeight - content_bar_top + "px";
             feed_bar.style.height = innerHeight - feed_bar_top + "px";
         },
@@ -22,7 +55,7 @@ feedhoos.factory("fhSetter",function(){
         }
     };
     return fhSetter;
-});
+}]);
 
 (function () {
     function baseManager() {
@@ -166,10 +199,11 @@ feedhoos.config(["$routeProvider",
     }
 ]);
 
-feedhoos.run(["$rootScope", "$window", "fhSetter",
-    function($rootScope, $window, fhSetter) {
+feedhoos.run(["$rootScope", "$window", "$document", "fhSetter",
+    function($rootScope, $window, $document,  fhSetter) {
         $rootScope.feedhoos = {}
         $window.addEventListener("resize", fhSetter.resize, false);
+        $document.bind("keyup", fhSetter.shortcut);
     }
 ]);
 
