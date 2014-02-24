@@ -1,7 +1,7 @@
 var feedhoos = angular.module("feedhoos", ["ngCookies", "ngRoute", 'ngSanitize', "ui.bootstrap", "feedhoosControllers"]);
-feedhoos.factory("uiSetter",function(){
-    var uiSetter = {
-        bar: function() {
+feedhoos.factory("fhSetter",function(){
+    var fhSetter = {
+        resize: function() {
             var content_bar = document.getElementById("content_bar");
             var feed_bar = document.getElementById("feed_bar");
             try {
@@ -21,9 +21,7 @@ feedhoos.factory("uiSetter",function(){
             return "/reader/feed/" + feed_id + "/page/1/";
         }
     };
-    
-    window.addEventListener("resize", uiSetter.bar, false);
-    return uiSetter;
+    return fhSetter;
 });
 
 (function () {
@@ -148,7 +146,7 @@ feedhoos.factory("uiSetter",function(){
 }());
 
 feedhoos.config(["$routeProvider",
-    function($routeProvider) {
+    function($routeProvider, $rootScope) {
         $routeProvider.
         when("/reader", {
             templateUrl: "/static/partials/reader.html",
@@ -167,6 +165,14 @@ feedhoos.config(["$routeProvider",
         });
     }
 ]);
+
+feedhoos.run(["$rootScope", "$window", "fhSetter",
+    function($rootScope, $window, fhSetter) {
+        $rootScope.feedhoos = {}
+        $window.addEventListener("resize", fhSetter.resize, false);
+    }
+]);
+
 //        feedhoos.filter("timeline_url", function() {
 //            return function(feed_id) {
 //                return "/reader/feed/timeline/" + feed_id + "/page/1/"
@@ -175,10 +181,9 @@ feedhoos.config(["$routeProvider",
 var feedhoosControllers = angular.module("feedhoosControllers", []);
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "uiSetter", "readingManager", "feedManager", "bookmarkManager", 
-    function($scope, $routeParams, $http, uiSetter, readingManager, feedManager, bookmarkManager) {
-        uiSetter.bar()
-
+    ["$scope", "$routeParams", "$http", "fhSetter", "readingManager", "feedManager", "bookmarkManager", 
+    function($scope, $routeParams, $http, fhSetter, readingManager, feedManager, bookmarkManager) {
+        $scope.fhSetter = fhSetter;
         $scope.type = "";
         $scope._feed_id = null;
         $scope.feed = null;
@@ -202,7 +207,7 @@ feedhoosControllers.controller(
             $scope._feed_id = feed_id;
             $scope.type = "timeline";
             $scope.active_timeline_id = feed_id;
-            var timeline_url = uiSetter.timeline_url(feed_id);
+            var timeline_url = fhSetter.timeline_url(feed_id);
             $http.get(timeline_url).success(function(data) {
                 $scope.feed = data.feed;
                 $scope.entries = data.entries;
@@ -215,7 +220,7 @@ feedhoosControllers.controller(
             $scope._feed_id = feed_id;
             $scope.type = "feed";
             $scope.active_feed_id = feed_id;
-            var feed_url = uiSetter.feed_url(feed_id);
+            var feed_url = fhSetter.feed_url(feed_id);
             $http.get(feed_url).success(function(data) {
                 $scope.feed = data.feed;
                 $scope.entries = data.entries;
@@ -243,6 +248,14 @@ feedhoosControllers.controller(
             }, function() {
                 element[0].scrollIntoView();
             });
+        },
+    }
+})
+.directive("fhSetterResize", function() {
+    return {
+        restrict: "A",
+        link: function(scope, element, attrs, ReaderCtrl) {
+            scope.fhSetter.resize();
         },
     }
 });
