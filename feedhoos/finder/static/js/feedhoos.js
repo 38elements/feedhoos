@@ -182,18 +182,8 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     bookmarkManager.prototype = new baseManager();
     feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
 
-    function readingEntryManager($http, $rootScope){
-        this.$http = $http;
-        this.$rootScope = $rootScope;
-        this.data = null;
-        this.store = {};
-        this.message = "reading_entry";
-        this.url = "";
-        //feed_barに表示さえているfeedのタイプ  
-        this.type = "feed";
-        this.set_url = function(feed_id) {
-            this.url = "/reader/feed/" + feed_id + "/page/1/";
-        }
+    
+    function baseEntryManager() {
         this.read_feed = function(scope, feed_id) {
             feed_id = feed_id + "";
             if (scope._feed_id == feed_id && scope.type == this.type) {
@@ -230,7 +220,23 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
         }
     }
-    readingEntryManager.prototype = new baseManager();
+    baseEntryManager.prototype = new baseManager();
+
+
+    function readingEntryManager($http, $rootScope){
+        this.$http = $http;
+        this.$rootScope = $rootScope;
+        this.data = null;
+        this.store = {};
+        this.message = "reading_entry";
+        this.url = "";
+        //feed_barに表示さえているfeedのタイプ  
+        this.type = "feed";
+        this.set_url = function(feed_id) {
+            this.url = "/reader/feed/" + feed_id + "/page/1/";
+        }
+    }
+    readingEntryManager.prototype = new baseEntryManager();
     feedhoos.service("readingEntryManager", ["$http", "$rootScope", readingEntryManager]);
 }());
 
