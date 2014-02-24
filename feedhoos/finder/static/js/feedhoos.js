@@ -59,8 +59,9 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
 
 (function () {
     function baseManager() {
-        this.set = function(scope, callback, is_reset) {
+        this.set = function(scope, callback, message, is_reset) {
             var that = this;
+            message = message || this.message; 
             scope.$on(this.message, function() {
                 callback(scope, that);
             });
@@ -209,13 +210,13 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
             else {
                 this.set(scope, function(scope, that) {
-                    // Listctrlでfeedを削除してもentryを削除してはいけない。
-                    if (!(feed_id in that.store)) {
                         scope.feed = that.data.feed;
                         scope.entries = that.data.entries;
                         that.store[feed_id] = that.data;
-                    }
-                }, true);
+                    },
+                    (this.message + feed_id),
+                    true
+                );
                 scope.readings.map(function(feed){
                     if (feed.id == feed_id) {
                         feed.unread_count = 0;
