@@ -62,7 +62,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.set = function(scope, callback, message, is_reset) {
             var that = this;
             message = message || this.message; 
-            scope.$on(this.message, function() {
+            scope.$on(message, function() {
                 callback(scope, that);
             });
             if (is_reset) {
@@ -71,13 +71,14 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             if (this.data === null) {
                 this.$http.get(this.url).success(function(data) {
                     that.data = data;
-                    that.$rootScope.$broadcast(that.message);
+                    that.$rootScope.$broadcast(message);
                 });
             }
             else {
-                this.$rootScope.$broadcast(this.message);
+                this.$rootScope.$broadcast(message);
             }
         };
+        //entryには使用することはできない。
         this.add = function(one) {
             if (this.data !== null) {
                 this.data.push(one);
@@ -210,9 +211,13 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
             else {
                 this.set(scope, function(scope, that) {
-                        scope.feed = that.data.feed;
-                        scope.entries = that.data.entries;
-                        that.store[feed_id] = that.data;
+                        if (scope.active_feed_id == feed_id) {
+                            scope.feed = that.data.feed;
+                            scope.entries = that.data.entries;
+                        }
+                        if (feed_id == that.data.feed.id) {
+                            that.store[feed_id] = that.data;
+                        }
                     },
                     (this.message + feed_id),
                     true
