@@ -59,11 +59,14 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
 
 (function () {
     function baseManager() {
-        this.set = function(scope, callback) {
+        this.set = function(scope, callback, is_reset) {
             var that = this;
             scope.$on(this.message, function() {
                 callback(scope, that);
             });
+            if (is_reset) {
+                this.data = null;
+            }
             if (this.data === null) {
                 this.$http.get(this.url).success(function(data) {
                     that.data = data;
@@ -176,6 +179,53 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     }
     bookmarkManager.prototype = new baseManager();
     feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
+
+    function readingEntryManager($http, $rootScope){
+        this.$http = $http;
+        this.$rootScope = $rootScope;
+        this.data = null;
+        this.store = {};
+        this.message = "reading_entry";
+        this.url = "";
+        //feed_barに表示さえているfeedのタイプ  
+        this.type = "feed";
+        this.set_url = function(feed_id) {
+            this.url = "/reader/feed/" + feed_id + "/page/1/";
+        }
+        this.read_feed = function(scope, feed_id) {
+            feed_id = feed_id + "";
+            if (scope._feed_id == feed_id && scope.type == this.type) {
+                return;
+            }
+            scope._feed_id = feed_id;
+            scope.type = this.type;
+            scope.active_feed_id = feed_id;
+            this.set_url(feed_id);
+            if (feed_id in this.store) {
+                var data = this.store[feed_id];
+                scope.feed = data.feed;
+                scope.entries = data.entries;
+                return
+            }
+            else {
+                this.set(scope, function(scope, that) {
+                    // Listctrlでfeedを削除してもentryを削除してはいけない。
+                    if (!(feed_id in that.store)) {
+                        scope.feed = that.data.feed;
+                        scope.entries = that.data.entries;
+                        that.store[feed_id] = that.data;
+                    }
+                }, true);
+                scope.readings.map(function(feed){
+                    if (feed.id == feed_id) {
+                        feed.unread_count = 0;
+                    }
+                });
+            }
+        }
+    }
+    readingEntryManager.prototype = new baseManager();
+    feedhoos.service("readingEntryManager", ["$http", "$rootScope", readingEntryManager]);
 }());
 
 feedhoos.config(["$routeProvider",
@@ -215,8 +265,8 @@ feedhoos.run(["$rootScope", "$window", "$document", "fhSetter",
 var feedhoosControllers = angular.module("feedhoosControllers", []);
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "fhSetter", "readingManager", "feedManager", "bookmarkManager", 
-    function($scope, $routeParams, $http, fhSetter, readingManager, feedManager, bookmarkManager) {
+    ["$scope", "$routeParams", "$http", "fhSetter", "readingManager", "feedManager", "bookmarkManager", "readingEntryManager", 
+    function($scope, $routeParams, $http, fhSetter, readingManager, feedManager, bookmarkManager, readingEntryManager) {
         $scope.fhSetter = fhSetter;
         $scope.type = "";
         $scope._feed_id = null;
@@ -233,7 +283,7 @@ feedhoosControllers.controller(
         });
         readingManager.set($scope, function(scope, that) {
             scope.readings = that.sortByRating(that.data);
-        })
+        });
         $scope.read_timeline = function(feed_id) {
             if ($scope._feed_id == feed_id && $scope.type == "timeline") {
                 return;
@@ -248,23 +298,7 @@ feedhoosControllers.controller(
             });
         }
         $scope.read_feed = function(feed_id) {
-            if ($scope._feed_id == feed_id && $scope.type == "feed") {
-                return;
-            }
-            $scope._feed_id = feed_id;
-            $scope.type = "feed";
-            $scope.active_feed_id = feed_id;
-            var feed_url = fhSetter.feed_url(feed_id);
-            $http.get(feed_url).success(function(data) {
-                $scope.feed = data.feed;
-                $scope.entries = data.entries;
-            });
-            //FIXME
-            $scope.readings.map(function(feed){
-                if (feed.id == feed_id) {
-                    feed.unread_count = 0;
-                }
-            });
+            readingEntryManager.read_feed($scope, feed_id);
         }
     }]
 )
