@@ -114,6 +114,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         }
     }
 
+
     function readingManager($http, $rootScope, bookmarkManager) {
         this.$http = $http;
         this.$rootScope = $rootScope;
@@ -133,7 +134,8 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     readingManager.prototype = new baseManager();
     feedhoos.service("readingManager", ["$http", "$rootScope", "bookmarkManager", readingManager]);
 
-    function feedManager($http, $rootScope, bookmarkManager){
+
+    function timelineManager($http, $rootScope, bookmarkManager){
         this.$http = $http;
         this.$rootScope = $rootScope;
         this.bookmarkManager = bookmarkManager;
@@ -149,8 +151,9 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
         }
     }
-    feedManager.prototype = new baseManager();
-    feedhoos.service("feedManager", ["$http", "$rootScope", "bookmarkManager", feedManager]);
+    timelineManager.prototype = new baseManager();
+    feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
+
 
     function bookmarkManager($http, $rootScope){
         this.$http = $http;
@@ -191,7 +194,6 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
             scope._feed_id = feed_id;
             scope.type = this.type;
-            scope.active_feed_id = feed_id;
             this.set_url(feed_id);
             if (feed_id in this.store) {
                 var data = this.store[feed_id];
@@ -201,7 +203,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
             else {
                 this.set(scope, function(scope, that) {
-                        if (scope.active_feed_id == feed_id) {
+                        if (scope._feed_id == feed_id && scope.type == that.type) {
                             scope.feed = that.data.feed;
                             scope.entries = that.data.entries;
                         }
@@ -238,6 +240,23 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     }
     readingEntryManager.prototype = new baseEntryManager();
     feedhoos.service("readingEntryManager", ["$http", "$rootScope", readingEntryManager]);
+
+
+    function timelineEntryManager($http, $rootScope){
+        this.$http = $http;
+        this.$rootScope = $rootScope;
+        this.data = null;
+        this.store = {};
+        this.message = "timeline_entry";
+        this.url = "";
+        //feed_barに表示さえているfeedのタイプ  
+        this.type = "timeline";
+        this.set_url = function(feed_id) {
+            this.url = "/reader/feed/timeline/" + feed_id + "/page/1/";
+        }
+    }
+    timelineEntryManager.prototype = new baseEntryManager();
+    feedhoos.service("timelineEntryManager", ["$http", "$rootScope", timelineEntryManager]);
 }());
 
 feedhoos.config(["$routeProvider",
@@ -277,39 +296,31 @@ feedhoos.run(["$rootScope", "$window", "$document", "fhSetter",
 var feedhoosControllers = angular.module("feedhoosControllers", []);
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "fhSetter", "readingManager", "feedManager", "bookmarkManager", "readingEntryManager", 
-    function($scope, $routeParams, $http, fhSetter, readingManager, feedManager, bookmarkManager, readingEntryManager) {
+    ["$scope", "$routeParams", "$http", "fhSetter", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
+    function($scope, $routeParams, $http, fhSetter, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
         $scope.fhSetter = fhSetter;
         $scope.type = "";
         $scope._feed_id = null;
         $scope.feed = null;
         $scope.entries = null;
         $scope.feeds = [];
-        $scope.active_feed_id = -1;
+        $scope.active_reading_id = -1;
         $scope.active_timeline_id = -1;
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
         bookmarkManager.set($scope, function() {}); 
-        feedManager.set($scope, function(scope, that) {
+        timelineManager.set($scope, function(scope, that) {
             scope.feeds = that.sortByRating(that.data);
         });
         readingManager.set($scope, function(scope, that) {
             scope.readings = that.sortByRating(that.data);
         });
         $scope.read_timeline = function(feed_id) {
-            if ($scope._feed_id == feed_id && $scope.type == "timeline") {
-                return;
-            }
-            $scope._feed_id = feed_id;
-            $scope.type = "timeline";
             $scope.active_timeline_id = feed_id;
-            var timeline_url = fhSetter.timeline_url(feed_id);
-            $http.get(timeline_url).success(function(data) {
-                $scope.feed = data.feed;
-                $scope.entries = data.entries;
-            });
+            timelineEntryManager.read_feed($scope, feed_id);
         }
-        $scope.read_feed = function(feed_id) {
+        $scope.read_reading = function(feed_id) {
+            $scope.active_reading_id = feed_id;
             readingEntryManager.read_feed($scope, feed_id);
         }
     }]
@@ -341,10 +352,10 @@ feedhoosControllers.controller(
 });
 
 
-feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feedManager", "bookmarkManager",
-    "feedManager", "readingManager",
-    function($scope, $http, $cookies, feedManager, bookmarkManager, feedManager, readingManager) {
-        feedManager.set($scope, function(scope, that) {
+feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "timelineManager", "bookmarkManager",
+    "timelineManager", "readingManager",
+    function($scope, $http, $cookies, timelineManager, bookmarkManager, timelineManager, readingManager) {
+        timelineManager.set($scope, function(scope, that) {
             //「登録されているすべてのfeedを除外
             scope.feeds = that.data.filter(function(f) {return f.id != 0});
         });
@@ -353,7 +364,7 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feed
         });
         $scope.remove = function(feed_id) {
             bookmarkManager.remove(feed_id);
-            feedManager.remove(feed_id);
+            timelineManager.remove(feed_id);
             readingManager.remove(feed_id);
             var csrftoken = $cookies.csrftoken;
             $http({
@@ -370,8 +381,8 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "feed
     }]
 );
 
-feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "feedManager", "readingManager", "bookmarkManager",
-    function($scope, $http, $cookies, feedManager, readingManager, bookmarkManager) {
+feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "timelineManager", "readingManager", "bookmarkManager",
+    function($scope, $http, $cookies, timelineManager, readingManager, bookmarkManager) {
         $scope.state = 1;
         $scope.set_state = function(state) {
             $scope.url = null;
@@ -408,7 +419,7 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "fe
             }).success(function(data) {
                 if (data.msg === "ok") {
                     $scope.result = data;
-                    feedManager.add(data.feed);
+                    timelineManager.add(data.feed);
                     readingManager.add(data.reading);
                     bookmarkManager.add(data.feed.id);
                 }
