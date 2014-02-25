@@ -74,7 +74,10 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                 this.$rootScope.$broadcast(message);
             }
         };
-        //entryには使用することはできない。
+    }
+
+
+    function baseFeedManager() {
         this.add = function(one) {
             if (this.data !== null) {
                 this.data.push(one);
@@ -108,7 +111,8 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             sort();
             return data;
         }
-    }
+    };
+    baseFeedManager.prototype = new baseManager();
 
 
     function readingManager($http, $rootScope, bookmarkManager) {
@@ -127,7 +131,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
         }
     };
-    readingManager.prototype = new baseManager();
+    readingManager.prototype = new baseFeedManager();
     feedhoos.service("readingManager", ["$http", "$rootScope", "bookmarkManager", readingManager]);
 
 
@@ -147,7 +151,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
         }
     }
-    timelineManager.prototype = new baseManager();
+    timelineManager.prototype = new baseFeedManager();
     feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
 
 
@@ -166,7 +170,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.add = function(feed_id) {
             feed_id = feed_id + "";
             if (this.data !== null) {
-                this.data[feed_id] = {"rating": 0}
+                this.data[feed_id] = {"rating": 1}
                 $rootScope.$broadcast(this.message);
             }
         }
@@ -296,6 +300,7 @@ feedhoosControllers.controller(
     function($scope, $routeParams, $http, fhSetter, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
         $scope.fhSetter = fhSetter;
         $scope.type = "";
+        //現在選択されているfeedのid
         $scope._feed_id = null;
         $scope.feed = null;
         $scope.entries = null;
