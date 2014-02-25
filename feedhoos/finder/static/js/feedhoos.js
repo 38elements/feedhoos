@@ -40,18 +40,14 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             try {
                 var content_bar_top = content_bar.getBoundingClientRect().top 
                 var feed_bar_top = feed_bar.getBoundingClientRect().top 
+                var feed_bar_inner_elem = $window.document.querySelector(".tabbable.ng-isolate-scope");
             } catch (e) {
                 return
             }
             var innerHeight = $window.innerHeight;
             content_bar.style.height = innerHeight - content_bar_top + "px";
             feed_bar.style.height = innerHeight - feed_bar_top + "px";
-        },
-        timeline_url: function(feed_id) {
-            return "/reader/feed/timeline/" + feed_id + "/page/1/";
-        },
-        feed_url: function(feed_id) {
-            return "/reader/feed/" + feed_id + "/page/1/";
+            feed_bar_inner_elem.style.minHeight = innerHeight - feed_bar_top + 1 + "px";
         }
     };
     return fhSetter;
