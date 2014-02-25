@@ -358,7 +358,8 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies", "time
     function($scope, $http, $cookies, timelineManager, bookmarkManager, timelineManager, readingManager) {
         timelineManager.set($scope, function(scope, that) {
             //「登録されているすべてのfeedを除外
-            scope.feeds = that.data.filter(function(f) {return f.id != 0});
+            var feeds = that.data.filter(function(f) {return f.id != 0});
+            scope.feeds = that.sortByRating(feeds);
         });
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
