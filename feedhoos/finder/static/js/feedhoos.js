@@ -457,14 +457,17 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
             });
         });
     }]
-)
-.directive("setInitialRating", function() {
+);
+
+feedhoos.directive("fhRating", function() {
     return {
-        restrict: "A",
-        link: function(scope, element, attrs, ReaderCtrl) {
+        replace: true,
+        restrict: "E",
+        link: function(scope, element, attrs, controller) {
             scope.rating = scope.bookmark[attrs.feedId + ""].rating;
             scope.feed_id = attrs.feedId;
         },
+        template: '<span><span class="glyphicon glyphicon-arrow-left" ng-click="rating = 0"></span> <rating value="rating" max="max" readonly="false"></rating></span>'
     }
 });
 

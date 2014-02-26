@@ -3,14 +3,10 @@
     <table class="table table-hover col-lg-12" ng-if="bookmark && feeds">
             <tr data-ng-repeat="f in feeds">
                 <td>{{ f.title }}</td> 
-                <td ng-controller="RatingCtrl">
-                    <span class="glyphicon glyphicon-arrow-left"
-                        ng-click="rating = 0"></span>
-                    <rating value="rating" max="max" 
-                        readonly="false"
-                        feed-id="{{f.id}}"
-                        set-initial-rating
-                    ></rating>
+                <td>
+                    <span ng-controller="RatingCtrl"> 
+                        <fh-rating feed-id="{{f.id}}"></fh-rating>
+                    </span>
                 </td>
                 <td class="col-lg-1 text-right"><span class="glyphicon glyphicon-remove" ng-click="remove(f.id)"></span></td>
             </tr>
