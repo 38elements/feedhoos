@@ -6,7 +6,7 @@ from django.db import models
 class BookmarkModel(models.Model):
     feed_id = models.IntegerField(unique=True)
     last_updated = models.IntegerField(default=0)
-    rating = models.PositiveSmallIntegerField(default=1)
+    rating = models.PositiveSmallIntegerField(default=0)
 
     @staticmethod
     def get_json(bookmark_models):
