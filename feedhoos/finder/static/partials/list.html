@@ -4,9 +4,7 @@
             <tr data-ng-repeat="f in feeds">
                 <td>{{ f.title }}</td> 
                 <td>
-                    <span ng-controller="RatingCtrl"> 
-                        <fh-rating feed-id="{{f.id}}"></fh-rating>
-                    </span>
+                    <fh-rating ng-if="f.id != 0" feed-id="{{f.id}}"></fh-rating>
                 </td>
                 <td class="col-lg-1 text-right"><span class="glyphicon glyphicon-remove" ng-click="remove(f.id)"></span></td>
             </tr>

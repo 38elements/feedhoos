@@ -25,6 +25,7 @@
         <div class="panel panel-info entry" ng-if="feed">
             <div class="panel-heading"  scroll-top>
                 <h3>{{ feed.title }}</h3>
+                    <fh-rating ng-if="feed.id != 0" feed-id="{{feed.id}}"></fh-rating>
             </div>
         </div>
         <div class="panel panel-default entry" data-ng-repeat="e in entries" ng-if="entries" >
