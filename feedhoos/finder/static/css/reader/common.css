@@ -68,3 +68,9 @@ ul.nav.nav-tabs.nav-justified {
 .glyphicon-arrow-left {
     color: #D0D0D0;
 }
+
+.panel-heading > h3, .panel-heading > span {
+    line-height: 1;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

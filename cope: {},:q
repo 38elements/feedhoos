@@ -1,0 +1,60 @@
+diff --git a/feedhoos/finder/static/css/reader/common.css b/feedhoos/finder/static/css/reader/common.css
+index f8827fa..c26012c 100644
+--- a/feedhoos/finder/static/css/reader/common.css
++++ b/feedhoos/finder/static/css/reader/common.css
+@@ -68,3 +68,9 @@ ul.nav.nav-tabs.nav-justified {
+ .glyphicon-arrow-left {
+     color: #D0D0D0;
+ }
++
++.panel-heading > h3, .panel-heading > span {
++    line-height: 1;
++    margin-top: 0px;
++    margin-bottom: 0px;
++}
+diff --git a/feedhoos/finder/static/js/feedhoos.js b/feedhoos/finder/static/js/feedhoos.js
+index 44dd1d7..66878c2 100644
+--- a/feedhoos/finder/static/js/feedhoos.js
++++ b/feedhoos/finder/static/js/feedhoos.js
+@@ -436,7 +436,10 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
+     function($scope, $http, $cookies, bookmarkManager) {
+         $scope.max = 5;
+         $scope.isReadonly = false;
+-
++        $scope.bookmark = null;
++        bookmarkManager.set($scope, function(scope, that) {
++            scope.bookmark = that.data;
++        });
+         $scope.watch_rating = function() {
+             this.unwatch_rating = $scope.$watch("rating", function(new_rating, old_rating) {
+                 if (new_rating == old_rating) {
+@@ -456,6 +459,8 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
+                 });
+             });
+         }
++        while($scope.bookmark === null) {
++        }
+     }]
+ );
+ 
+@@ -463,6 +468,7 @@ feedhoos.directive("fhRating", function() {
+     return {
+         replace: true,
+         restrict: "E",
++        scope: {}, 
+         controller: "RatingCtrl",
+         link: function(scope, element, attrs, controller) {
+             scope.rating = scope.bookmark[attrs.feedId + ""].rating;
+diff --git a/feedhoos/finder/static/partials/reader.html b/feedhoos/finder/static/partials/reader.html
+index e55daf4..35e9983 100644
+--- a/feedhoos/finder/static/partials/reader.html
++++ b/feedhoos/finder/static/partials/reader.html
+@@ -25,7 +25,7 @@
+         <div class="panel panel-info entry" ng-if="feed">
+             <div class="panel-heading"  scroll-top>
+                 <h3>{{ feed.title }}</h3>
+-                    <fh-rating ng-if="feed.id != 0" feed-id="{{feed.id}}"></fh-rating>
++                <fh-rating ng-if="feed.id != 0" feed-id="{{feed.id}}"></fh-rating>
+             </div>
+         </div>
+         <div class="panel panel-default entry" data-ng-repeat="e in entries" ng-if="entries" >

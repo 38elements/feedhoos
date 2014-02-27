@@ -436,7 +436,10 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
     function($scope, $http, $cookies, bookmarkManager) {
         $scope.max = 5;
         $scope.isReadonly = false;
-
+        $scope.bookmark = null;
+        bookmarkManager.set($scope, function(scope, that) {
+            scope.bookmark = that.data;
+        });
         $scope.watch_rating = function() {
             this.unwatch_rating = $scope.$watch("rating", function(new_rating, old_rating) {
                 if (new_rating == old_rating) {
@@ -456,6 +459,8 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
                 });
             });
         }
+        while($scope.bookmark === null) {
+        }
     }]
 );
 
@@ -463,6 +468,7 @@ feedhoos.directive("fhRating", function() {
     return {
         replace: true,
         restrict: "E",
+        scope: {}, 
         controller: "RatingCtrl",
         link: function(scope, element, attrs, controller) {
             scope.rating = scope.bookmark[attrs.feedId + ""].rating;
