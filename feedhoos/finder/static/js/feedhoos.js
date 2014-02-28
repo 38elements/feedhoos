@@ -214,11 +214,13 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                     (this.message + feed_id),
                     true
                 );
-                scope.readings.map(function(feed){
-                    if (feed.id == feed_id) {
-                        feed.unread_count = 0;
-                    }
-                });
+                if (this.type == "feed") {
+                    scope.readings.map(function(feed){
+                        if (feed.id == feed_id) {
+                            feed.unread_count = 0;
+                        }
+                    });
+                }
             }
         }
     }
