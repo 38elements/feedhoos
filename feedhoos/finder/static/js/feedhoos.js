@@ -404,7 +404,7 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "ti
                  "xsrfHeaderName": "X-CSRFToken",
                  "xsrfCookieName": "csrftoken",
                  "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
-                 "data": "url=" + $scope.url
+                 "data": "url=" + encodeURIComponent($scope.url)
             }).success(function(data) {
                 $scope.feed_urls = data;
             });
@@ -419,7 +419,7 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "ti
                  "xsrfHeaderName": "X-CSRFToken",
                  "xsrfCookieName": "csrftoken",
                  "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
-                 "data": "url=" + fu
+                 "data": "url=" + encodeURIComponent(fu)
             }).success(function(data) {
                 if (data.msg === "ok") {
                     $scope.result = data;
