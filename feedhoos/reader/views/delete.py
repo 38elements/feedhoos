@@ -9,7 +9,7 @@ from django.db import transaction
 
 @transaction.commit_on_success
 def execute(request):
-    feed_id = request.POST["feed_id"]
+    feed_id = request.POST["id"]
     feed_id = int(feed_id)
     FeedModel.objects.get(pk=feed_id).delete()
     BookmarkModel.objects.filter(feed_id__exact=feed_id).delete()

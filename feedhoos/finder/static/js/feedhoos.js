@@ -439,7 +439,7 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
                      "xsrfHeaderName": "X-CSRFToken",
                      "xsrfCookieName": "csrftoken",
                      "headers": {"Content-Type": "application/x-www-form-urlencoded"},
-                     "data": ("feed_id=" + $scope.feed_id + "&rating=" + $scope.rating)
+                     "data": ("id=" + $scope.feed_id + "&rating=" + $scope.rating)
                 }).success(function(data) {
                     $scope.result = data;
                 });
@@ -490,7 +490,7 @@ feedhoosControllers.controller("RemoveFeedCtrl", ["$scope", "$http", "$cookies",
                  "xsrfHeaderName": "X-CSRFToken",
                  "xsrfCookieName": "csrftoken",
                  "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
-                 "data": "feed_id=" + $scope.feed_id
+                 "data": "id=" + $scope.feed_id
             }).success(function(data) {
                 //FIXME
             });

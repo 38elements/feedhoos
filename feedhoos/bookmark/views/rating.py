@@ -6,7 +6,7 @@ from feedhoos.reader.models.bookmark import BookmarkModel
 
 def execute(request):
     "bookmarkのratingを変更する。"
-    feed_id = request.POST["feed_id"]
+    feed_id = request.POST["id"]
     rating = request.POST["rating"]
     bookmark_model = BookmarkModel.objects.get(feed_id=feed_id)
     bookmark_model.rating = int(rating)
