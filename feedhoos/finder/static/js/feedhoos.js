@@ -434,7 +434,7 @@ feedhoosControllers.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bo
                 bookmarkManager.set_rating($scope.feed_id, new_rating);
                 var csrftoken = $cookies.csrftoken;
                 $http({
-                     "url": "/bookmark/rating/",
+                     "url": $scope.url,
                      "method": "POST",
                      "xsrfHeaderName": "X-CSRFToken",
                      "xsrfCookieName": "csrftoken",
@@ -454,7 +454,7 @@ feedhoos.directive("fhRating", function() {
     return {
         replace: true,
         restrict: "E",
-        scope: {}, 
+        scope: {url: "@url"}, 
         controller: "RatingCtrl",
         link: function(scope, element, attrs, controller) {
             scope.rating = scope.bookmark[attrs.feedId + ""].rating;

@@ -27,7 +27,7 @@
                 <h3>{{ feed.title }}</h3>
                 <div class="row">
                     <div class="col-lg-11">
-                        <fh-rating ng-if="feed.id != 0" feed-id="{{feed.id}}"></fh-rating>
+                        <fh-rating ng-if="feed.id != 0" feed-id="{{feed.id}}" url="/bookmark/rating/"></fh-rating>
                     </div>
                     <div class="col-lg-1 text-right">
                         <fh-remove-feed ng-if="feed.id != 0" feed-id="{{feed.id}}"></fh-remove-feed>
