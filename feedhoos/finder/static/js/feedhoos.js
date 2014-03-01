@@ -502,7 +502,10 @@ feedhoos.directive("fhRemoveFeed", function() {
     return {
         replace: true,
         restrict: "E",
-        scope: {feed_id: "@feedId"}, 
+        scope: {
+            feed_id: "@feedId",
+            url: "@url",
+        }, 
         controller: "RemoveFeedCtrl",
         link: function(scope, element, attrs, controller) {
         },
