@@ -1,6 +1,7 @@
 feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies",  "bookmarkManager",
-    "timelineManager", "readingManager",
-    function($scope, $http, $cookies, bookmarkManager, timelineManager, readingManager) {
+    "timelineManager", "fhSetter",
+    function($scope, $http, $cookies, bookmarkManager, timelineManager, fhSetter) {
+        $scope.fhSetter = fhSetter;
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
         });

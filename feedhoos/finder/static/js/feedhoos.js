@@ -47,7 +47,9 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             var innerHeight = $window.innerHeight;
             content_bar.style.height = innerHeight - content_bar_top + "px";
             feed_bar.style.height = innerHeight - feed_bar_top + "px";
-            feed_bar_inner_elem.style.minHeight = innerHeight - feed_bar_top + 1 + "px";
+            if (feed_bar_inner_elem) {
+                feed_bar_inner_elem.style.minHeight = innerHeight - feed_bar_top + 1 + "px";
+            }
         }
     };
     return fhSetter;

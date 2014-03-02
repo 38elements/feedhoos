@@ -48,8 +48,9 @@ feedhoosControllers.controller(
             });
         },
     }
-})
-.directive("fhSetterResize", function() {
+});
+
+feedhoos.directive("fhSetterResize", function() {
     return {
         restrict: "A",
         link: function(scope, element, attrs, ReaderCtrl) {
