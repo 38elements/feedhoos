@@ -1,7 +1,10 @@
 feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies",  "bookmarkManager",
-    "timelineManager", "fhSetter",
-    function($scope, $http, $cookies, bookmarkManager, timelineManager, fhSetter) {
-        $scope.fhSetter = fhSetter;
+    "timelineManager",
+    function($scope, $http, $cookies, bookmarkManager, timelineManager) {
+        $scope.is_add_folder = true;
+        $scope.create_folder = function() {
+            console.log($scope.folder_name);
+        }
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
         });
