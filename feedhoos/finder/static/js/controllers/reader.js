@@ -1,8 +1,7 @@
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "fhSetter", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
-    function($scope, $routeParams, $http, fhSetter, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
-        $scope.fhSetter = fhSetter;
+    ["$scope", "$routeParams", "$http", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
+    function($scope, $routeParams, $http, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
         $scope.type = "";
         //現在選択されているfeedのid
         $scope._feed_id = null;
@@ -46,15 +45,6 @@ feedhoosControllers.controller(
             }, function() {
                 element[0].scrollIntoView();
             });
-        },
-    }
-});
-
-feedhoos.directive("fhSetterResize", function() {
-    return {
-        restrict: "A",
-        link: function(scope, element, attrs, ReaderCtrl) {
-            scope.fhSetter.resize();
         },
     }
 });
