@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'feedhoos.finder',
     'feedhoos.reader',
     'feedhoos.worker',
+    'feedhoos.folder',
 )
 
 MIDDLEWARE_CLASSES = (
