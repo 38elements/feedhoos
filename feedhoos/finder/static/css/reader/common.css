@@ -82,3 +82,13 @@ ul.nav.nav-tabs.nav-justified {
 .feedhoos-finder {
     margin-top: 20px;
 }
+
+#list_bar {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+}
+
+#list_table {
+    border-left: 1px solid #ddd;
+}
