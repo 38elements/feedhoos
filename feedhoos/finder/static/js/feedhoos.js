@@ -157,6 +157,17 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
 
 
+    function folderManager($http, $rootScope){
+        this.$http = $http;
+        this.$rootScope = $rootScope;
+        this.data = null;
+        this.message = "folder";
+        this.url = "/folder/list/";
+    }
+    folderManager.prototype = new baseManager();
+    feedhoos.service("folderManager", ["$http", "$rootScope", folderManager]);
+
+
     function bookmarkManager($http, $rootScope){
         this.$http = $http;
         this.$rootScope = $rootScope;
