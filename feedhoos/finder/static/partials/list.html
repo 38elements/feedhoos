@@ -1,11 +1,17 @@
-<div ng-show="!bookmark || !feeds">通信中</div>
-<div class="row" ng-show="bookmark && feeds" fh-setter-resize>
+<div ng-show="!bookmark || !feeds || !folders">通信中</div>
+<div class="row" ng-show="bookmark && feeds && folders" fh-setter-resize>
     <div id="feed_bar" class="col-lg-2 visible-lg">
         <ul id="list_bar" class="list-group">
             <li class="list-group-item feed text-left" 
                 ng-click="select_folder(0)"
                 ng-class="{'list-group-item-info': (active_folder_id == 0)}">
                 登録しているすべてのfeed
+            </li>
+            <li class="list-group-item feed text-left" 
+                data-ng-repeat="folder in folders"
+                ng-click="select_folder(folder.id)"
+                ng-class="{'list-group-item-info': (active_folder_id == folder.id)}">
+                {{ folder.name }} 
             </li>
         </ul>
     </div>

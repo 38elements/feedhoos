@@ -1,6 +1,6 @@
 feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies",  "bookmarkManager",
-    "timelineManager",
-    function($scope, $http, $cookies, bookmarkManager, timelineManager) {
+    "timelineManager", "folderManager",
+    function($scope, $http, $cookies, bookmarkManager, timelineManager, folderManager) {
         $scope.is_add_folder = true;
         $scope.active_folder_id = 0;
         $scope.select_folder = function(folder_id) {
@@ -9,6 +9,9 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies",  "boo
         $scope.create_folder = function() {
             console.log($scope.folder_name);
         }
+        folderManager.set($scope, function(scope, that) {
+            scope.folders = that.data;
+        }); 
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
         });
