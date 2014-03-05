@@ -14,13 +14,14 @@ feedhoosControllers.controller(
         $scope.timeline_tab = true;
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
+            //FIXME bookmarkと並列にリクエスト
+            timelineManager.set($scope, function(scope, that) {
+                scope.feeds = that.sortByRating(that.data);
+            });
+            readingManager.set($scope, function(scope, that) {
+                scope.readings = that.sortByRating(that.data);
+            });
         }); 
-        timelineManager.set($scope, function(scope, that) {
-            scope.feeds = that.sortByRating(that.data);
-        });
-        readingManager.set($scope, function(scope, that) {
-            scope.readings = that.sortByRating(that.data);
-        });
         $scope.read_timeline = function(feed_id) {
             $scope.active_timeline_id = feed_id;
             timelineEntryManager.read_feed($scope, feed_id);
