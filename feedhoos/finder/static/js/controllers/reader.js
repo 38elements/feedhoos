@@ -1,27 +1,44 @@
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
-    function($scope, $routeParams, $http, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
+    ["$scope", "$routeParams", "$http", "$timeout", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
+    function($scope, $routeParams, $http, $timeout, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
         $scope.type = "";
+        //FIXME 抽象化すること
+        var wait = function(timeout, scope, that, time, callback) {
+            if (scope.bookmark === null) {
+                debugger;
+                var _wait = function() {
+                    wait(timeout, scope, that, time, callback); 
+                }
+                timeout(_wait, time);
+            }
+            else {
+                callback();
+            }
+        }
         //現在選択されているfeedのid
         $scope._feed_id = null;
         $scope.feed = null;
         $scope.entries = null;
         $scope.feeds = [];
+        $scope.bookmark = null;
         $scope.active_reading_id = -1;
         $scope.active_timeline_id = -1;
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
-            //FIXME bookmarkと並列にリクエスト
-            timelineManager.set($scope, function(scope, that) {
-                scope.feeds = that.sortByRating(that.data);
-            });
-            readingManager.set($scope, function(scope, that) {
-                scope.readings = that.sortByRating(that.data);
-            });
         }); 
+        timelineManager.set($scope, function(scope, that) {
+            wait($timeout, scope, that, 25,  function() {
+                scope.feeds = that.sortByRating(that.data)
+            });
+        });
+        readingManager.set($scope, function(scope, that) {
+            wait($timeout, scope, that, 25,  function() {
+                scope.readings = that.sortByRating(that.data)
+            });
+        });
         $scope.read_timeline = function(feed_id) {
             $scope.active_timeline_id = feed_id;
             timelineEntryManager.read_feed($scope, feed_id);

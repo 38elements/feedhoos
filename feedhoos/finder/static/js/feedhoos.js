@@ -88,29 +88,23 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         }
         this.sortByRating = function(data) {
             var that = this;
-            var sort = function() {
-                data.sort(
-                    function(a, b) {
-                        var a_rating,
-                            b_rating;
-                        a_rating = that.bookmarkManager.data[a.id + ""]["rating"]; 
-                        b_rating = that.bookmarkManager.data[b.id + ""]["rating"]; 
-                        if (a_rating < b_rating) {
-                            return 1;
-                        }
-                        else if (a_rating > b_rating) {
-                            return -1;
-                        }
-                        else {
-                            return 0
-                        }
+            data.sort(
+                function(a, b) {
+                    var a_rating,
+                        b_rating;
+                    a_rating = that.bookmarkManager.data[a.id + ""]["rating"]; 
+                    b_rating = that.bookmarkManager.data[b.id + ""]["rating"]; 
+                    if (a_rating < b_rating) {
+                        return 1;
                     }
-                );
-            }
-            //FIXME
-            while(this.bookmarkManager.data === null) {
-            }
-            sort();
+                    else if (a_rating > b_rating) {
+                        return -1;
+                    }
+                    else {
+                        return 0
+                    }
+                }
+            );
             return data;
         }
     };
