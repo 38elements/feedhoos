@@ -198,7 +198,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.add = function(feed_id) {
             feed_id = feed_id + "";
             if (this.data !== null) {
-                this.data[feed_id] = {"rating": 1}
+                this.data[feed_id] = {"rating": 0}
                 $rootScope.$broadcast(this.message);
             }
         }
