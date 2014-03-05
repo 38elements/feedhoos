@@ -157,15 +157,30 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
 
 
-    function folderManager($http, $rootScope){
+    function folderManager($http, $rootScope, $cookies){
+        var that = this;
         this.$http = $http;
         this.$rootScope = $rootScope;
         this.data = null;
         this.message = "folder";
         this.url = "/folder/list/";
+        this.create_url = "/folder/create/";
+        this.create = function(name) {
+            var csrftoken = $cookies.csrftoken;
+            this.$http({
+                 "url": this.create_url,
+                 "method": "POST",
+                 "xsrfHeaderName": "X-CSRFToken",
+                 "xsrfCookieName": "csrftoken",
+                 "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+                 "data": "name=" + encodeURIComponent(name)
+            }).success(function(data) {
+                that.data.push(data);
+            });
+        };
     }
     folderManager.prototype = new baseManager();
-    feedhoos.service("folderManager", ["$http", "$rootScope", folderManager]);
+    feedhoos.service("folderManager", ["$http", "$rootScope", "$cookies", folderManager]);
 
 
     function bookmarkManager($http, $rootScope){

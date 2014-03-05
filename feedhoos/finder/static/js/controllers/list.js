@@ -7,7 +7,7 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$http", "$cookies",  "boo
             console.log(folder_id);
         };
         $scope.create_folder = function() {
-            console.log($scope.folder_name);
+            folderManager.create($scope.folder_name);
         }
         folderManager.set($scope, function(scope, that) {
             scope.folders = that.data;
