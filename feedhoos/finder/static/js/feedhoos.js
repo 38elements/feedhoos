@@ -76,6 +76,18 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                 this.$rootScope.$broadcast(message);
             }
         };
+        this.wait = function(timeout, time, predict_func, callback) {
+            if (predict_func()) {
+                var that = this;
+                var _wait = function() {
+                    that.wait(timeout, time, predict_func, callback); 
+                }
+                timeout(_wait, time);
+            }
+            else {
+                callback();
+            }
+        }
     }
 
 

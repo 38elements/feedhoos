@@ -3,19 +3,6 @@ feedhoosControllers.controller(
     ["$scope", "$routeParams", "$http", "$timeout", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
     function($scope, $routeParams, $http, $timeout, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
         $scope.type = "";
-        //FIXME 抽象化すること
-        var wait = function(timeout, scope, that, time, callback) {
-            if (scope.bookmark === null) {
-                debugger;
-                var _wait = function() {
-                    wait(timeout, scope, that, time, callback); 
-                }
-                timeout(_wait, time);
-            }
-            else {
-                callback();
-            }
-        }
         //現在選択されているfeedのid
         $scope._feed_id = null;
         $scope.feed = null;
@@ -26,16 +13,19 @@ feedhoosControllers.controller(
         $scope.active_timeline_id = -1;
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
+        var predict_func = function() {
+            return $scope.bookmark === null;
+        }
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
         }); 
         timelineManager.set($scope, function(scope, that) {
-            wait($timeout, scope, that, 25,  function() {
+            that.wait($timeout, 25, predict_func, function() {
                 scope.feeds = that.sortByRating(that.data)
             });
         });
         readingManager.set($scope, function(scope, that) {
-            wait($timeout, scope, that, 25,  function() {
+            that.wait($timeout, 25, predict_func,  function() {
                 scope.readings = that.sortByRating(that.data)
             });
         });
