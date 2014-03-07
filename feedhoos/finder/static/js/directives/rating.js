@@ -25,8 +25,6 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bookmarkManag
                 });
             });
         }
-        while($scope.bookmark === null) {
-        }
     }]
 );
 
