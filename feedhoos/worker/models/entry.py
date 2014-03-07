@@ -2,7 +2,7 @@
 from django.db import models
 import time
 import datetime
-MAX_CONTENT_LENGTH = 8192
+MAX_CONTENT_LENGTH = 10240
 PER_PAGE = 200
 
 
