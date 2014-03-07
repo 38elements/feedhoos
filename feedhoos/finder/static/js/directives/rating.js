@@ -37,7 +37,8 @@ feedhoos.directive("fhRating", function() {
         link: function(scope, element, attrs, controller) {
             scope.rating = scope.bookmark[attrs.feedId + ""].rating;
             scope.feed_id = attrs.feedId;
-            scope.watch_rating()
+            scope.watch_rating();
+            //readerでのratingの変更に対応するため
             scope.$watch(function() { 
                     return element.attr("feed-id");
             },

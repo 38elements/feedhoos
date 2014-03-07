@@ -171,7 +171,12 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.message = "folder";
         this.url = "/folder/list/";
         this.create_url = "/folder/create/";
-        this.create = function(name) {
+        this.create = function(name, scope, callback) {
+            if (!name) {
+                callback(scope, that);
+                return
+            }
+            var that = this;
             var csrftoken = $cookies.csrftoken;
             this.$http({
                  "url": this.create_url,
@@ -182,6 +187,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                  "data": "name=" + encodeURIComponent(name)
             }).success(function(data) {
                 that.data.push(data);
+                callback(scope, that);
             });
         };
     }

@@ -20,14 +20,7 @@
         <button class="btn btn-default" ng-click="is_add_folder = !is_add_folder" ng-show="!is_add_folder">cancel</button>
         <div collapse="is_add_folder">
             <small>追加するフォルダーの名前を入力してください。</small>
-            <div class="input-group col-lg-4">
-                <input type="text" class="form-control" ng-model="folder_name">
-                <span class="input-group-btn">
-                    <button 
-                        class="btn btn-default" type="button"
-                        ng-click="create_folder()" ng-disabled="!folder_name">add</button>
-                </span>
-            </div>
+            <fh-create-folder size="col-lg-4"></fh-create-folder>
             <br/>
         </div>
         <table id="list_table" class="table table-hover col-lg-12" ng-if="bookmark && feeds">
