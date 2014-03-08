@@ -16,7 +16,7 @@ admin.site.register(FeedModel, FeedModelAdmin)
 
 
 class BookmarkModelAdmin(admin.ModelAdmin):
-    list_display = ('id', "feed_id", "last_updated", "rating")
+    list_display = ('id', "feed_id", "last_updated", "rating", "folder_id")
 admin.site.register(BookmarkModel, BookmarkModelAdmin)
 
 
