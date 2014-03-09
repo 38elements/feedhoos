@@ -171,6 +171,19 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.message = "folder";
         this.url = "/folder/list/";
         this.create_url = "/folder/create/";
+        this.default = {"id": 0, "name": "-", "rating": 6, "type": "folder"};
+        this.get_name = function(feed_id) {
+            //FIXME 高速化
+            feed_id = feed_id - 0;
+            if (this.default.id === feed_id) {
+                return this.default.name;
+            }
+            var target_folder = this.data.filter(function(d) {return d.id === feed_id});
+            if (target_folder.length > 0) {
+                return target_folder[0].name;
+            }
+            throw new Error("No folder name.");
+        }
         this.create = function(name, scope, callback) {
             if (!name) {
                 callback(scope, that);
@@ -186,10 +199,27 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                  "headers": {"Content-Type": "application/x-www-form-urlencoded"},
                  "data": "name=" + encodeURIComponent(name)
             }).success(function(data) {
+                //folderのデータを追加する処理
                 that.data.push(data);
                 callback(scope, that);
             });
         };
+        this.sortByRating = function() {
+            this.data = this.data.sort(
+                function(a, b) {
+                    if (a.rating < b.rating) {
+                        return 1;
+                    }
+                    else if (a.rating > b.rating) {
+                        return -1;
+                    }
+                    else {
+                        return 0
+                    }
+                }
+            );
+            return this.data;
+        }
     }
     folderManager.prototype = new baseManager();
     feedhoos.service("folderManager", ["$http", "$rootScope", "$cookies", folderManager]);

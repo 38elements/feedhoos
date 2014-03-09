@@ -1,11 +1,12 @@
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "$timeout", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", 
-    function($scope, $routeParams, $http, $timeout, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager) {
+    ["$scope", "$routeParams", "$http", "$timeout", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", "folderManager", 
+    function($scope, $routeParams, $http, $timeout, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager, folderManager) {
         $scope.type = "";
         //現在選択されているfeedのid
         $scope._feed_id = null;
         $scope.feed = null;
+        $scope.folders = null;
         $scope.entries = null;
         $scope.feeds = [];
         $scope.bookmark = null;
@@ -18,6 +19,9 @@ feedhoosControllers.controller(
         }
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
+        }); 
+        folderManager.set($scope, function(scope, that) {
+            scope.folders = that.data;
         }); 
         timelineManager.set($scope, function(scope, that) {
             that.wait($timeout, 25, predict_func, function() {
