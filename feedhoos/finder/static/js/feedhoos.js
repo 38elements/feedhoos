@@ -163,7 +163,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
 
 
-    function folderManager($http, $rootScope, $cookies){
+    function folderManager($http, $rootScope){
         var that = this;
         this.$http = $http;
         this.$rootScope = $rootScope;
@@ -171,7 +171,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.message = "folder";
         this.url = "/folder/list/";
         this.create_url = "/folder/create/";
-        this.default = {"id": 0, "name": "-", "rating": 6, "type": "folder"};
+        this.default = {"id": 0, "name": "---", "rating": 6, "type": "folder"};
         this.get_name = function(feed_id) {
             //FIXME 高速化
             feed_id = feed_id - 0;
@@ -190,7 +190,6 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                 return
             }
             var that = this;
-            var csrftoken = $cookies.csrftoken;
             this.$http({
                  "url": this.create_url,
                  "method": "POST",
@@ -222,15 +221,16 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         }
     }
     folderManager.prototype = new baseManager();
-    feedhoos.service("folderManager", ["$http", "$rootScope", "$cookies", folderManager]);
+    feedhoos.service("folderManager", ["$http", "$rootScope", folderManager]);
 
 
-    function bookmarkManager($http, $rootScope){
+    function bookmarkManager($http, $rootScope, $cookies){
         this.$http = $http;
         this.$rootScope = $rootScope;
         this.data = null;
         this.message = "bookmark";
         this.url = "/bookmark/list/";
+        this.folder_url = "/bookmark/folder/";
         this.remove = function(feed_id) {
             if (this.data !== null) {
                 delete this.data[feed_id + ""]
@@ -251,6 +251,26 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                 $rootScope.$broadcast(this.message);
             }
         }
+        this.set_folder_id = function(feed_id, folder_id) {
+            feed_id = feed_id + "";
+            if (this.data !== null && feed_id in this.data) {
+                this.data[feed_id]["folder_id"] = folder_id;
+                $rootScope.$broadcast(this.message);
+                this._send_folder_id(feed_id, folder_id);
+            }
+        }
+        this._send_folder_id = function(feed_id, folder_id) {
+            var that = this;
+            this.$http({
+                 "url": this.folder_url,
+                 "method": "POST",
+                 "xsrfHeaderName": "X-CSRFToken",
+                 "xsrfCookieName": "csrftoken",
+                 "headers": {"Content-Type": "application/x-www-form-urlencoded"},
+                 "data": "feed_id=" + encodeURIComponent(feed_id) + "&folder_id=" + encodeURIComponent(folder_id) 
+            }).success(function(data) {
+            });
+        };
     }
     bookmarkManager.prototype = new baseManager();
     feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
