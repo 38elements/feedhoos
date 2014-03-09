@@ -27,7 +27,7 @@
                 <tr data-ng-repeat="f in feeds">
                     <td>{{ f.title }}</td> 
                     <td>
-                        <fh-select-folder feed-id="{{f.id}}" folder-id="{{f.folder_id}}"></fh-select-folder>
+                        <fh-select-folder feed-id="{{f.id}}"></fh-select-folder>
                     </td> 
                     <td>
                         <fh-rating ng-if="f.id != 0" feed-id="{{f.id}}" url="/bookmark/rating/"></fh-rating>

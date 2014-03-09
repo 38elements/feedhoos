@@ -163,7 +163,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
 
 
-    function folderManager($http, $rootScope){
+    function folderManager($http, $rootScope, bookmarkManager){
         var that = this;
         this.$http = $http;
         this.$rootScope = $rootScope;
@@ -172,17 +172,21 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         this.url = "/folder/list/";
         this.create_url = "/folder/create/";
         this.default = {"id": 0, "name": "---", "rating": 6, "type": "folder"};
-        this.get_name = function(feed_id) {
+        this.get_name = function(folder_id) {
             //FIXME 高速化
-            feed_id = feed_id - 0;
-            if (this.default.id === feed_id) {
+            folder_id = folder_id - 0;
+            if (this.default.id === folder_id) {
                 return this.default.name;
             }
-            var target_folder = this.data.filter(function(d) {return d.id === feed_id});
+            var target_folder = this.data.filter(function(d) {return d.id === folder_id});
             if (target_folder.length > 0) {
                 return target_folder[0].name;
             }
             throw new Error("No folder name.");
+        }
+        this.get_name_by_feed_id = function(feed_id) {
+            var folder_id = bookmarkManager.get_folder_id(feed_id);
+            return this.get_name(folder_id)
         }
         this.create = function(name, scope, callback) {
             if (!name) {
@@ -221,7 +225,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         }
     }
     folderManager.prototype = new baseManager();
-    feedhoos.service("folderManager", ["$http", "$rootScope", folderManager]);
+    feedhoos.service("folderManager", ["$http", "$rootScope", "bookmarkManager", folderManager]);
 
 
     function bookmarkManager($http, $rootScope, $cookies){
@@ -271,6 +275,9 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }).success(function(data) {
             });
         };
+        this.get_folder_id = function(feed_id) {
+            return this.data[feed_id + ""].folder_id;
+        }
     }
     bookmarkManager.prototype = new baseManager();
     feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);

@@ -1,6 +1,6 @@
 feedhoos.controller("SelectFolderCtrl", ["$scope", "folderManager", "bookmarkManager", 
     function($scope, folderManager, bookmarkManager) {
-        $scope.current_name = folderManager.get_name($scope.folder_id);
+        $scope.folderManager = folderManager;
         $scope.folders = folderManager.sortByRating();
         $scope.select = function(folder_id) {
             $scope.current_name = folderManager.get_name(folder_id);
@@ -16,10 +16,10 @@ feedhoos.directive("fhSelectFolder", function() {
         restrict: "E",
         scope: {
             feed_id: "@feedId",
-            folder_id: "@folderId",
         }, 
         controller: "SelectFolderCtrl",
         link: function(scope, element, attrs, controller) {
+            scope.current_name = scope.folderManager.get_name_by_feed_id(scope.feed_id);
         },
         template: '' +
                 '<span class="dropdown">' +
