@@ -4,7 +4,10 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$timeout",  "bookmarkMana
         $scope.is_add_folder = true;
         $scope.active_folder_id = 0;
         $scope.select_folder = function(folder_id) {
-            console.log(folder_id);
+           folder_id = folder_id - 0;
+           $scope.active_folder_id = folder_id;
+           var feeds = timelineManager.get_data_by_folder_id(folder_id);
+           $scope.feeds = timelineManager.sortByRating(feeds);
         };
         folderManager.set($scope, function(scope, that) {
             scope.folders = that.data;

@@ -158,6 +158,13 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                 $rootScope.$broadcast(this.message);
             }
         }
+        this.get_data_by_folder_id = function(folder_id) {
+            var feed_ids = this.bookmarkManager.get_feed_ids_by_folder_id(folder_id);
+            var data = this.data.filter(function(d) {
+                return feed_ids.indexOf(d.id) > -1;
+            });
+            return data;
+        }
     }
     timelineManager.prototype = new baseFeedManager();
     feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
@@ -277,6 +284,15 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         };
         this.get_folder_id = function(feed_id) {
             return this.data[feed_id + ""].folder_id;
+        }
+        this.get_feed_ids_by_folder_id = function(folder_id) {
+            folder_id = folder_id - 0;
+            var feed_ids = Object.keys(this.data).map(function(id) {return id - 0})
+            if (folder_id === 0) {
+                //「登録されているすべてのfeed」を除外
+                return feed_ids.filter(function(id) {return id > 0;});
+            }
+            return feed_ids.filter(function(id) { return this.data[id + ""].folder_id === folder_id  }, this);
         }
     }
     bookmarkManager.prototype = new baseManager();
