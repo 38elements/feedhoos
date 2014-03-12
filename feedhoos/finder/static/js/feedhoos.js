@@ -375,7 +375,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
 }());
 
 feedhoos.config(["$routeProvider",
-    function($routeProvider, $rootScope) {
+    function($routeProvider) {
         $routeProvider.
         when("/reader", {
             templateUrl: "/static/partials/reader.html",
