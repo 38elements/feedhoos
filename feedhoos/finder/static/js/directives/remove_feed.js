@@ -1,11 +1,10 @@
-feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "$cookies", "bookmarkManager",
+feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
     "timelineManager", "readingManager",
-    function($scope, $http, $cookies, timelineManager, bookmarkManager, readingManager) {
+    function($scope, $http, timelineManager, bookmarkManager, readingManager) {
         $scope.remove = function() {
             bookmarkManager.remove($scope.feed_id);
             timelineManager.remove($scope.feed_id);
             readingManager.remove($scope.feed_id);
-            var csrftoken = $cookies.csrftoken;
             $http({
                  "url": "/reader/feed/list/delete/",
                  "method": "POST",

@@ -1,5 +1,5 @@
-feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "timelineManager", "readingManager", "bookmarkManager",
-    function($scope, $http, $cookies, timelineManager, readingManager, bookmarkManager) {
+feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "timelineManager", "readingManager", "bookmarkManager",
+    function($scope, $http, timelineManager, readingManager, bookmarkManager) {
         $scope.state = 1;
         $scope.set_state = function(state) {
             $scope.url = null;
@@ -10,7 +10,6 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "ti
         $scope.search = function() {
             $scope.state = 2;
             $scope.feed_urls = null;
-            var csrftoken = $cookies.csrftoken;
             $http({
                  "url": "/finder/get/",
                  "method": "POST",
@@ -25,7 +24,6 @@ feedhoosControllers.controller("FinderCtrl", ["$scope", "$http", "$cookies", "ti
         $scope.add = function(fu) {
             $scope.state = 3;
             $scope.result = null;
-            var csrftoken = $cookies.csrftoken;
             $http({
                  "url": "/finder/registered/",
                  "method": "POST",

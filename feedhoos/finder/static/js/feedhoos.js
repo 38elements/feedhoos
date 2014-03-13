@@ -235,7 +235,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     feedhoos.service("folderManager", ["$http", "$rootScope", "bookmarkManager", folderManager]);
 
 
-    function bookmarkManager($http, $rootScope, $cookies){
+    function bookmarkManager($http, $rootScope){
         this.$http = $http;
         this.$rootScope = $rootScope;
         this.data = null;

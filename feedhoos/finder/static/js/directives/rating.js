@@ -1,5 +1,5 @@
-feedhoos.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bookmarkManager", 
-    function($scope, $http, $cookies, bookmarkManager) {
+feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", 
+    function($scope, $http, bookmarkManager) {
         $scope.max = 5;
         $scope.isReadonly = false;
         $scope.bookmark = null;
@@ -12,7 +12,6 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "$cookies", "bookmarkManag
                     return;
                 }
                 bookmarkManager.set_rating($scope.feed_id, new_rating);
-                var csrftoken = $cookies.csrftoken;
                 $http({
                      "url": $scope.url,
                      "method": "POST",
