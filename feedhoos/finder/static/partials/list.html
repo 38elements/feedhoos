@@ -1,5 +1,5 @@
-<div ng-show="!bookmark || !feeds || !folders">通信中</div>
-<div class="row" ng-show="bookmark !== undefined && feeds !== undefined && folders !== undefined" fh-setter-resize>
+<div ng-show="!is_ready()">通信中</div>
+<div class="row" ng-show="is_ready()" fh-setter-resize>
     <div id="feed_bar" class="col-lg-2 visible-lg">
         <ul id="list_bar" class="list-group">
             <li class="list-group-item feed text-left" 

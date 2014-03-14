@@ -3,6 +3,9 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$timeout",  "bookmarkMana
     function($scope, $timeout, bookmarkManager, timelineManager, folderManager) {
         $scope.is_add_folder = true;
         $scope.active_folder_id = 0;
+        $scope.is_ready = function() {
+            return $scope.bookmark !== undefined && $scope.feeds !== undefined && $scope.folders !== undefined
+        }
         $scope.select_folder = function(folder_id) {
            folder_id = folder_id - 0;
            $scope.active_folder_id = folder_id;
