@@ -21,5 +21,5 @@ admin.site.register(BookmarkModel, BookmarkModelAdmin)
 
 
 class FolderModelAdmin(admin.ModelAdmin):
-    list_display = ('id', "name", "rating")
+    list_display = ('id', "title", "rating")
 admin.site.register(FolderModel, FolderModelAdmin)

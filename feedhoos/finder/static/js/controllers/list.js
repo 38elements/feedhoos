@@ -8,7 +8,6 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$timeout",  "bookmarkMana
            $scope.active_folder_id = folder_id;
            var feeds = timelineManager.get_data_by_folder_id(folder_id);
            $scope.feeds = timelineManager.sortByRating(feeds);
-           console.dir(this)
         };
         folderManager.set($scope, function(scope, that) {
             scope.folders = that.data;

@@ -4,7 +4,7 @@ from django.db import models
 
 
 class FolderModel(models.Model):
-    name = models.CharField(max_length=32)
+    title = models.CharField(max_length=32)
     rating = models.PositiveSmallIntegerField(default=0)
 
     @staticmethod
@@ -20,7 +20,7 @@ class FolderModel(models.Model):
     def dict(self):
         d = {
             "id": self.id,
-            "name": self.name,
+            "title": self.title,
             "rating": self.rating,
             "type": "folder"
         }

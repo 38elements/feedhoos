@@ -1,5 +1,5 @@
 <div ng-show="!bookmark || !feeds || !folders">通信中</div>
-<div class="row" ng-show="bookmark && feeds && folders" fh-setter-resize>
+<div class="row" ng-show="bookmark !== undefined && feeds !== undefined && folders !== undefined" fh-setter-resize>
     <div id="feed_bar" class="col-lg-2 visible-lg">
         <ul id="list_bar" class="list-group">
             <li class="list-group-item feed text-left" 
@@ -11,7 +11,7 @@
                 data-ng-repeat="folder in folders"
                 ng-click="select_folder(folder.id)"
                 ng-class="{'list-group-item-info': (active_folder_id == folder.id)}">
-                {{ folder.name }} 
+                {{ folder.title }} 
             </li>
         </ul>
     </div>

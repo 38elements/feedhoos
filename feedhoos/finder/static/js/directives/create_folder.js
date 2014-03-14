@@ -3,10 +3,10 @@ feedhoos.controller("CreateFolderCtrl", ["$scope", "folderManager",
         $scope.input_disabled = false;
         $scope.create_folder = function() {
             $scope.input_disabled = true;
-            folderManager.create($scope.folder_name, $scope, function(scope, that) {
+            folderManager.create($scope.folder_title, $scope, function(scope, that) {
                 scope.input_disabled = false;
             });
-            $scope.folder_name = "";
+            $scope.folder_title = "";
         }
     }]
 );
@@ -22,11 +22,11 @@ feedhoos.directive("fhCreateFolder", function() {
         template: '' +
             '<article>' +
                 '<div class="input-group {{size}}">' +
-                    '<input type="text" class="form-control" ng-model="folder_name" ng-disabled="input_disabled">' + 
+                    '<input type="text" class="form-control" ng-model="folder_title" ng-disabled="input_disabled">' + 
                     '<span class="input-group-btn">'+
                         '<button ' +
                             'class="btn btn-default" type="button"' +
-                            'ng-click="create_folder()" ng-disabled="!folder_name">add</button>' +
+                            'ng-click="create_folder()" ng-disabled="!folder_title">add</button>' +
                     '</span>' + 
                 '</div>' +
             '</article>'
