@@ -32,7 +32,7 @@
                     <td>
                         <fh-rating ng-if="f.id != 0" feed-id="{{f.id}}" type="{{f.type}}" ></fh-rating>
                     </td>
-                    <td class="col-lg-1 text-right"><fh-remove-feed feed-id="{{f.id}}" url="/reader/feed/list/delete/"></fh-remove-feed></td>
+                    <td class="col-lg-1 text-right"><fh-remove-feed feed-id="{{f.id}}" type="{{f.type}}"></fh-remove-feed></td>
                 </tr>
         </table>
     </div>

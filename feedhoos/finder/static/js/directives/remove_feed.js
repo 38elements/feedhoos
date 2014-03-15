@@ -2,11 +2,15 @@ feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
     "timelineManager", "readingManager",
     function($scope, $http, timelineManager, bookmarkManager, readingManager) {
         $scope.remove = function() {
-            bookmarkManager.remove($scope.feed_id);
-            timelineManager.remove($scope.feed_id);
-            readingManager.remove($scope.feed_id);
+            var url = "";
+            if ($scope.type === "feed") {
+                bookmarkManager.remove($scope.feed_id);
+                timelineManager.remove($scope.feed_id);
+                readingManager.remove($scope.feed_id);
+                url = "/reader/feed/list/delete/";
+            }
             $http({
-                 "url": "/reader/feed/list/delete/",
+                 "url": url,
                  "method": "POST",
                  "xsrfHeaderName": "X-CSRFToken",
                  "xsrfCookieName": "csrftoken",
@@ -25,7 +29,7 @@ feedhoos.directive("fhRemoveFeed", function() {
         restrict: "E",
         scope: {
             feed_id: "@feedId",
-            url: "@url",
+            type: "@type",
         }, 
         controller: "RemoveFeedCtrl",
         link: function(scope, element, attrs, controller) {
