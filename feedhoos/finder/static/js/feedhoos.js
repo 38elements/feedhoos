@@ -37,18 +37,16 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         resize: function() {
             var content_bar = $window.document.getElementById("content_bar");
             var feed_bar = $window.document.getElementById("feed_bar");
-            try {
+            if (content_bar && feed_bar) {
                 var content_bar_top = content_bar.getBoundingClientRect().top 
                 var feed_bar_top = feed_bar.getBoundingClientRect().top 
                 var feed_bar_inner_elem = $window.document.querySelector(".tabbable.ng-isolate-scope");
-            } catch (e) {
-                return
-            }
-            var innerHeight = $window.innerHeight;
-            content_bar.style.height = innerHeight - content_bar_top + "px";
-            feed_bar.style.height = innerHeight - feed_bar_top + "px";
-            if (feed_bar_inner_elem) {
-                feed_bar_inner_elem.style.minHeight = innerHeight - feed_bar_top + 1 + "px";
+                var innerHeight = $window.innerHeight;
+                content_bar.style.height = innerHeight - content_bar_top + "px";
+                feed_bar.style.height = innerHeight - feed_bar_top + "px";
+                if (feed_bar_inner_elem) {
+                    feed_bar_inner_elem.style.minHeight = innerHeight - feed_bar_top + 1 + "px";
+                }
             }
         }
     };
