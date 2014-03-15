@@ -8,12 +8,16 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager",
         });
         $scope.watch_rating = function() {
             this.unwatch_rating = $scope.$watch("rating", function(new_rating, old_rating) {
+                var url = "";
                 if (new_rating == old_rating) {
                     return;
                 }
-                bookmarkManager.set_rating($scope.feed_id, new_rating);
+                if ($scope.type == "feed") {
+                    url = "/bookmark/rating/";
+                    bookmarkManager.set_rating($scope.feed_id, new_rating);
+                }
                 $http({
-                     "url": $scope.url,
+                     "url": url,
                      "method": "POST",
                      "xsrfHeaderName": "X-CSRFToken",
                      "xsrfCookieName": "csrftoken",
@@ -31,24 +35,26 @@ feedhoos.directive("fhRating", function() {
     return {
         replace: true,
         restrict: "E",
-        scope: {url: "@url"}, 
+        scope: {
+            type: "@type",
+            feed_id: "@feedId",
+        }, 
         controller: "RatingCtrl",
         link: function(scope, element, attrs, controller) {
             scope.rating = scope.bookmark[attrs.feedId + ""].rating;
-            scope.feed_id = attrs.feedId;
             scope.watch_rating();
             //readerでのratingの変更に対応するため
             scope.$watch(function() { 
                     return element.attr("feed-id");
-            },
-            function (new_feed_id, old_feed_id) {
-                if (new_feed_id != old_feed_id) {
-                    scope.unwatch_rating();
-                    scope.rating = scope.bookmark[attrs.feedId + ""].rating;
-                    scope.feed_id = attrs.feedId;
-                    scope.watch_rating();
+                },
+                function (new_feed_id, old_feed_id) {
+                    if (new_feed_id != old_feed_id) {
+                        scope.unwatch_rating();
+                        scope.rating = scope.bookmark[attrs.feedId + ""].rating;
+                        scope.watch_rating();
+                    }
                 }
-            });
+            );
         },
         template: '<span><span class="glyphicon glyphicon-arrow-left" ng-click="rating = 0"></span> <rating value="rating" max="max" readonly="false"></rating></span>'
     }

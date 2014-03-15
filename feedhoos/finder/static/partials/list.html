@@ -30,7 +30,7 @@
                         <fh-select-folder feed-id="{{f.id}}"></fh-select-folder>
                     </td> 
                     <td>
-                        <fh-rating ng-if="f.id != 0" feed-id="{{f.id}}" url="/bookmark/rating/"></fh-rating>
+                        <fh-rating ng-if="f.id != 0" feed-id="{{f.id}}" type="{{f.type}}" ></fh-rating>
                     </td>
                     <td class="col-lg-1 text-right"><fh-remove-feed feed-id="{{f.id}}" url="/reader/feed/list/delete/"></fh-remove-feed></td>
                 </tr>

@@ -27,6 +27,7 @@ class FeedModel(models.Model):
             "url": self.url.encode("utf-8"),
             "link": self.link.encode("utf-8"),
             "title": self.title.encode("utf-8"),
+            "type": "feed",
         }
         return d
 
