@@ -14,7 +14,7 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager",
                 }
                 if ($scope.type == "feed") {
                     url = "/bookmark/rating/";
-                    bookmarkManager.set_rating($scope.feed_id, new_rating);
+                    bookmarkManager.set_rating($scope.target_id, new_rating);
                 }
                 $http({
                      "url": url,
@@ -22,7 +22,7 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager",
                      "xsrfHeaderName": "X-CSRFToken",
                      "xsrfCookieName": "csrftoken",
                      "headers": {"Content-Type": "application/x-www-form-urlencoded"},
-                     "data": ("id=" + $scope.feed_id + "&rating=" + $scope.rating)
+                     "data": ("id=" + $scope.target_id + "&rating=" + $scope.rating)
                 }).success(function(data) {
                     $scope.result = data;
                 });
@@ -37,20 +37,20 @@ feedhoos.directive("fhRating", function() {
         restrict: "E",
         scope: {
             type: "@type",
-            feed_id: "@feedId",
+            target_id: "@targetId",
         }, 
         controller: "RatingCtrl",
         link: function(scope, element, attrs, controller) {
-            scope.rating = scope.bookmark[attrs.feedId + ""].rating;
+            scope.rating = scope.bookmark[attrs.targetId + ""].rating;
             scope.watch_rating();
             //readerでのratingの変更に対応するため
             scope.$watch(function() { 
-                    return element.attr("feed-id");
+                    return element.attr("target-id");
                 },
-                function (new_feed_id, old_feed_id) {
-                    if (new_feed_id != old_feed_id) {
+                function (new_target_id, old_target_id) {
+                    if (new_target_id != old_target_id) {
                         scope.unwatch_rating();
-                        scope.rating = scope.bookmark[attrs.feedId + ""].rating;
+                        scope.rating = scope.bookmark[attrs.targetId + ""].rating;
                         scope.watch_rating();
                     }
                 }

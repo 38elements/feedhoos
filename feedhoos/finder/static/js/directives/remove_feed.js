@@ -4,10 +4,15 @@ feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
         $scope.remove = function() {
             var url = "";
             if ($scope.type === "feed") {
-                bookmarkManager.remove($scope.feed_id);
-                timelineManager.remove($scope.feed_id);
-                readingManager.remove($scope.feed_id);
+                bookmarkManager.remove($scope.target_id);
+                timelineManager.remove($scope.target_id);
+                readingManager.remove($scope.target_id);
                 url = "/reader/feed/list/delete/";
+            }
+            else if ($scope.type === "folder") {
+                folderManager.remove($scope.target_id);
+                bookmarkManager.remove_folder($scope.target_id);
+                url = "/reader/folder/delete/";
             }
             $http({
                  "url": url,
@@ -15,7 +20,7 @@ feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
                  "xsrfHeaderName": "X-CSRFToken",
                  "xsrfCookieName": "csrftoken",
                  "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
-                 "data": "id=" + $scope.feed_id
+                 "data": "id=" + $scope.target_id
             }).success(function(data) {
                 //FIXME
             });
@@ -28,7 +33,7 @@ feedhoos.directive("fhRemoveFeed", function() {
         replace: true,
         restrict: "E",
         scope: {
-            feed_id: "@feedId",
+            target_id: "@targetId",
             type: "@type",
         }, 
         controller: "RemoveFeedCtrl",

@@ -54,7 +54,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
 }]);
 
 (function () {
-    function baseManager() {
+    function baseManager($rootScope) {
         this.set = function(scope, callback, message, is_reset) {
             var that = this;
             message = message || this.message; 
@@ -67,11 +67,11 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             if (this.data === null) {
                 this.$http.get(this.url).success(function(data) {
                     that.data = data;
-                    that.$rootScope.$broadcast(message);
+                    $rootScope.$broadcast(message);
                 });
             }
             else {
-                this.$rootScope.$broadcast(message);
+                $rootScope.$broadcast(message);
             }
         };
         this.wait = function(timeout, time, predict_func, callback) {
@@ -87,13 +87,23 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
         }
     }
+    feedhoos.service("baseManager", ["$rootScope", baseManager]);
 
 
-    function baseFeedManager() {
+    function baseFeedManager($rootScope, baseManager) {
+        angular.extend(this, baseManager);
         this.add = function(one) {
             if (this.data !== null) {
                 this.data.push(one);
-                this.$rootScope.$broadcast(this.message);
+                $rootScope.$broadcast(this.message);
+            }
+        }
+        this.remove = function(feed_id) {
+            if (this.data !== null) {
+                this.data = this.data.filter(function(f) {
+                    return f.id != feed_id;
+                });
+                $rootScope.$broadcast(this.message);
             }
         }
         this.sortByRating = function(data) {
@@ -118,44 +128,27 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             return data;
         }
     };
-    baseFeedManager.prototype = new baseManager();
+    feedhoos.service("baseFeedManager", ["$rootScope", "baseManager", baseFeedManager]);
 
 
-    function readingManager($http, $rootScope, bookmarkManager) {
+    function readingManager($http, bookmarkManager, baseFeedManager) {
+        angular.extend(this, baseFeedManager);
         this.$http = $http;
-        this.$rootScope = $rootScope;
         this.bookmarkManager = bookmarkManager;
         this.data = null;
         this.message = "readings";
         this.url = "/reader/feed/reading/";
-        this.remove = function(feed_id) {
-            if (this.data !== null) {
-                this.data = this.data.filter(function(f) {
-                    return f.id != feed_id;
-                });
-                $rootScope.$broadcast(this.message);
-            }
-        }
     };
-    readingManager.prototype = new baseFeedManager();
-    feedhoos.service("readingManager", ["$http", "$rootScope", "bookmarkManager", readingManager]);
+    feedhoos.service("readingManager", ["$http", "bookmarkManager", "baseFeedManager", readingManager]);
 
 
-    function timelineManager($http, $rootScope, bookmarkManager){
+    function timelineManager($http, bookmarkManager, baseFeedManager){
+        angular.extend(this, baseFeedManager);
         this.$http = $http;
-        this.$rootScope = $rootScope;
         this.bookmarkManager = bookmarkManager;
         this.data = null;
         this.message = "feeds";
         this.url = "/reader/feed/list/all/";
-        this.remove = function(feed_id) {
-            if (this.data !== null) {
-                this.data = this.data.filter(function(f) {
-                    return f.id != feed_id;
-                });
-                $rootScope.$broadcast(this.message);
-            }
-        }
         this.get_data_by_folder_id = function(folder_id) {
             var feed_ids = this.bookmarkManager.get_feed_ids_by_folder_id(folder_id);
             var data = this.data.filter(function(d) {
@@ -165,13 +158,13 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
         }
     }
     timelineManager.prototype = new baseFeedManager();
-    feedhoos.service("timelineManager", ["$http", "$rootScope", "bookmarkManager", timelineManager]);
+    feedhoos.service("timelineManager", ["$http", "bookmarkManager", "baseFeedManager", timelineManager]);
 
 
-    function folderManager($http, $rootScope, bookmarkManager){
+    function folderManager($http, bookmarkManager, baseFeedManager){
+        angular.extend(this, baseFeedManager);
         var that = this;
         this.$http = $http;
-        this.$rootScope = $rootScope;
         this.data = null;
         this.message = "folder";
         this.url = "/folder/list/";
@@ -229,13 +222,12 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             return this.data;
         }
     }
-    folderManager.prototype = new baseManager();
-    feedhoos.service("folderManager", ["$http", "$rootScope", "bookmarkManager", folderManager]);
+    feedhoos.service("folderManager", ["$http", "bookmarkManager", "baseFeedManager",  folderManager]);
 
 
-    function bookmarkManager($http, $rootScope){
+    function bookmarkManager($http, $rootScope, baseManager){
+        angular.extend(this, baseManager);
         this.$http = $http;
-        this.$rootScope = $rootScope;
         this.data = null;
         this.message = "bookmark";
         this.url = "/bookmark/list/";
@@ -292,12 +284,22 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
             return feed_ids.filter(function(id) { return this.data[id + ""].folder_id === folder_id  }, this);
         }
+        this.remove_folder = function(folder_id) {
+            folder_id = folder_id - 0;
+            Object.keys(this.data).map(
+                function(key) {
+                    var d = this.data[key];
+                    d.folder_id = d.folder_id === folder_id ? 0 : folder_id; 
+                }
+            );
+            $rootScope.$broadcast(this.message);
+        }
     }
-    bookmarkManager.prototype = new baseManager();
-    feedhoos.service("bookmarkManager", ["$http", "$rootScope", bookmarkManager]);
+    feedhoos.service("bookmarkManager", ["$http", "$rootScope", "baseManager", bookmarkManager]);
 
     
-    function baseEntryManager() {
+    function baseEntryManager(baseManager) {
+        angular.extend(this, baseManager);
         this.read_feed = function(scope, feed_id) {
             feed_id = feed_id + "";
             if (scope._feed_id == feed_id && scope.type == this.type) {
@@ -335,12 +337,12 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             }
         }
     }
-    baseEntryManager.prototype = new baseManager();
+    feedhoos.service("baseEntryManager", ["baseManager", baseEntryManager]);
 
 
-    function readingEntryManager($http, $rootScope){
+    function readingEntryManager($http, baseEntryManager){
+        angular.extend(this, baseEntryManager);
         this.$http = $http;
-        this.$rootScope = $rootScope;
         this.data = null;
         this.store = {};
         this.message = "reading_entry";
@@ -351,13 +353,12 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             this.url = "/reader/feed/" + feed_id + "/page/1/";
         }
     }
-    readingEntryManager.prototype = new baseEntryManager();
-    feedhoos.service("readingEntryManager", ["$http", "$rootScope", readingEntryManager]);
+    feedhoos.service("readingEntryManager", ["$http", "baseEntryManager", readingEntryManager]);
 
 
-    function timelineEntryManager($http, $rootScope){
+    function timelineEntryManager($http, baseEntryManager){
+        angular.extend(this, baseEntryManager);
         this.$http = $http;
-        this.$rootScope = $rootScope;
         this.data = null;
         this.store = {};
         this.message = "timeline_entry";
@@ -368,8 +369,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
             this.url = "/reader/feed/timeline/" + feed_id + "/page/1/";
         }
     }
-    timelineEntryManager.prototype = new baseEntryManager();
-    feedhoos.service("timelineEntryManager", ["$http", "$rootScope", timelineEntryManager]);
+    feedhoos.service("timelineEntryManager", ["$http", "baseEntryManager", timelineEntryManager]);
 }());
 
 feedhoos.config(["$routeProvider",
