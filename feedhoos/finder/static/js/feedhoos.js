@@ -15,6 +15,10 @@ feedhoos.config(["$routeProvider",
             templateUrl: "/static/partials/finder.html",
             controller: "FinderCtrl"
         }).
+        when("/folder", {
+            templateUrl: "/static/partials/folder.html",
+            controller: "FolderCtrl"
+        }).
         otherwise({
             redirectTo: "/reader"
         });
