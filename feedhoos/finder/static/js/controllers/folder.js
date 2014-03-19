@@ -1,5 +1,7 @@
-feedhoosControllers.controller("FolderCtrl", ["$scope", "$timeout",  "bookmarkManager",
-    "timelineManager", "folderManager",
-    function($scope, $timeout, bookmarkManager, timelineManager, folderManager) {
+feedhoosControllers.controller("FolderCtrl", ["$scope", "$timeout", "folderManager",
+    function($scope, $timeout, folderManager) {
+        folderManager.set($scope, function(scope, that) {
+            scope.folders = that.data;
+        }); 
     }]
 );
