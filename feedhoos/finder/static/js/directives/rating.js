@@ -1,11 +1,22 @@
-feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", 
-    function($scope, $http, bookmarkManager) {
+feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", "folderManager", 
+    function($scope, $http, bookmarkManager, folderManager) {
         $scope.max = 5;
         $scope.isReadonly = false;
         $scope.bookmark = null;
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
         });
+        folderManager.set($scope, function(scope, that) {
+            scope.folders = that.data;
+        });
+        $scope.set_rating = function(target_id) {
+            if ($scope.type === "feed") {
+                $scope.rating = $scope.bookmark[target_id + ""].rating;
+            }
+            else if ($scope.type === "folder") {
+                $scope.rating = folderManager.get_rating_by_id(target_id);
+            }
+        };
         $scope.watch_rating = function() {
             this.unwatch_rating = $scope.$watch("rating", function(new_rating, old_rating) {
                 var url = "";
@@ -15,6 +26,10 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager",
                 if ($scope.type == "feed") {
                     url = "/bookmark/rating/";
                     bookmarkManager.set_rating($scope.target_id, new_rating);
+                }
+                else if ($scope.type == "folder") {
+                    url = "/folder/rating/";
+                    folderManager.set_rating($scope.target_id, new_rating);
                 }
                 $http({
                      "url": url,
@@ -41,7 +56,7 @@ feedhoos.directive("fhRating", function() {
         }, 
         controller: "RatingCtrl",
         link: function(scope, element, attrs, controller) {
-            scope.rating = scope.bookmark[attrs.targetId + ""].rating;
+            scope.set_rating(attrs.targetId);
             scope.watch_rating();
             //readerでのratingの変更に対応するため
             scope.$watch(function() { 
@@ -50,7 +65,7 @@ feedhoos.directive("fhRating", function() {
                 function (new_target_id, old_target_id) {
                     if (new_target_id != old_target_id) {
                         scope.unwatch_rating();
-                        scope.rating = scope.bookmark[attrs.targetId + ""].rating;
+                        scope.set_rating(attrs.targetId);
                         scope.watch_rating();
                     }
                 }

@@ -43,6 +43,17 @@
                 callback(scope, that);
             });
         };
+        this.get_rating_by_id = function(folder_id) {
+            folder_id = folder_id - 0;
+            return this.data
+                .filter(function(d) {return d.id === folder_id })[0].rating;
+        };
+        this.set_rating = function(folder_id, rating) {
+            folder_id = folder_id - 0;
+            this.data
+                .filter(function(d) {return d.id === folder_id })
+                .map(function(d) {d.rating = rating});
+        };
         this.sortByRating = function() {
             this.data = this.data.sort(
                 function(a, b) {
