@@ -6,7 +6,7 @@
                 this.data.push(one);
                 $rootScope.$broadcast(this.message);
             }
-        }
+        };
         this.remove = function(feed_id) {
             if (this.data !== null) {
                 this.data = this.data.filter(function(f) {
@@ -14,7 +14,16 @@
                 });
                 $rootScope.$broadcast(this.message);
             }
-        }
+        };
+        this.attachRating = function() {
+            var that = this;
+            this.data.map(
+                function(d) {
+                    d.rating = that.bookmarkManager.data[d.id + ""]["rating"]
+                }
+            );
+            return this.data;
+        };
         this.sortByRating = function(data) {
             var that = this;
             data.sort(
@@ -35,7 +44,7 @@
                 }
             );
             return data;
-        }
+        };
     };
     feedhoos.service("baseFeedManager", ["$rootScope", "baseManager", baseFeedManager]);
 })();
