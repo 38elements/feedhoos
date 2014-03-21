@@ -59,11 +59,14 @@
             return feed_ids.filter(function(id) { return this.data[id + ""].folder_id === folder_id  }, this);
         }
         this.remove_folder = function(folder_id) {
+            var that = this;
             folder_id = folder_id - 0;
             Object.keys(this.data).map(
                 function(key) {
-                    var d = this.data[key];
-                    d.folder_id = d.folder_id === folder_id ? 0 : folder_id; 
+                    var d = that.data[key];
+                    if (d.folder_id === folder_id) {
+                        d.folder_id = 0;
+                    }
                 }
             );
             $rootScope.$broadcast(this.message);

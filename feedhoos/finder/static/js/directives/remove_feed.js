@@ -1,6 +1,6 @@
 feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
-    "timelineManager", "readingManager",
-    function($scope, $http, timelineManager, bookmarkManager, readingManager) {
+    "timelineManager", "readingManager", "folderManager",
+    function($scope, $http, bookmarkManager, timelineManager, readingManager, folderManager) {
         $scope.remove = function() {
             var url = "";
             if ($scope.type === "feed") {
@@ -12,7 +12,7 @@ feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
             else if ($scope.type === "folder") {
                 folderManager.remove($scope.target_id);
                 bookmarkManager.remove_folder($scope.target_id);
-                url = "/reader/folder/delete/";
+                url = "/folder/delete/";
             }
             $http({
                  "url": url,

@@ -23,7 +23,7 @@ class FolderModel(models.Model):
         """フォルダーを消す 。ブックマークのフォルダーidをデフォルトidにする。"""
         folder_model = FolderModel.objects.get(pk=folder_id)
         folder_model.delete()
-        BookmarkModel.objects.filter(folder_model=self.id).update(folder_id=DEFAULT_FOLDER_ID)
+        BookmarkModel.objects.filter(folder_id=folder_id).update(folder_id=DEFAULT_FOLDER_ID)
 
     @property
     def dict(self):
