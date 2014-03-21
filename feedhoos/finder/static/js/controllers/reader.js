@@ -15,7 +15,7 @@ feedhoosControllers.controller(
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
         var predict_func = function() {
-            return $scope.bookmark === null;
+            return $scope.bookmark === null && $scope.folders === null;
         }
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
@@ -25,12 +25,16 @@ feedhoosControllers.controller(
         }); 
         timelineManager.set($scope, function(scope, that) {
             that.wait($timeout, 25, predict_func, function() {
-                scope.feeds = that.sortByRating(that.data)
+                var feeds = [];
+                var timelines = that.attachRating(that.data); 
+                Array.prototype.push.apply(feeds, timelines);
+                Array.prototype.push.apply(feeds, scope.folders);
+                scope.feeds = feeds;
             });
         });
         readingManager.set($scope, function(scope, that) {
             that.wait($timeout, 25, predict_func,  function() {
-                scope.readings = that.sortByRating(that.data)
+                scope.readings = that.sortByRating(that.data);
             });
         });
         $scope.read_timeline = function(feed_id) {

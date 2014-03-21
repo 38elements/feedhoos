@@ -3,7 +3,7 @@
         <tabset justified="true">
             <tab heading="Timeline" active="timeline_tab" ng-click="timeline_tab = true; feed_tab = false;">
                 <ul class="list-group">
-                    <li class="list-group-item feed text-left" data-ng-repeat="f in feeds" 
+                    <li class="list-group-item feed text-left" data-ng-repeat="f in feeds | orderBy:'-rating'" 
                     ng-click="read_timeline(f.id)"
                     ng-class="{'list-group-item-info': (active_timeline_id == f.id && type == 'timeline')}">
                         {{ f.title }}
