@@ -61,6 +61,10 @@ ul.nav.nav-tabs.nav-justified {
     padding-right: 0px;
 }
 
+.glyphicon-folder-close {
+    color: #d3d3d3;
+}
+
 .glyphicon-remove {
     color: #ff4333;
 }

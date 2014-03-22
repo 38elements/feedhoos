@@ -37,8 +37,9 @@ feedhoosControllers.controller(
                 scope.readings = that.sortByRating(that.data);
             });
         });
-        $scope.read_timeline = function(feed_id) {
+        $scope.read_timeline = function(feed_id, type) {
             $scope.active_timeline_id = feed_id;
+            $scope.active_timeline_type = type;
             timelineEntryManager.read_feed($scope, feed_id);
         }
         $scope.read_reading = function(feed_id) {
