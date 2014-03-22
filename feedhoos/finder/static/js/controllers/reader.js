@@ -1,7 +1,7 @@
 feedhoosControllers.controller(
     "ReaderCtrl",
-    ["$scope", "$routeParams", "$http", "$timeout", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", "folderManager", 
-    function($scope, $routeParams, $http, $timeout, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager, folderManager) {
+    ["$scope", "$routeParams", "$http", "$timeout", "readingManager", "timelineManager", "bookmarkManager", "readingEntryManager", "timelineEntryManager", "folderManager", "folderEntryManager", 
+    function($scope, $routeParams, $http, $timeout, readingManager, timelineManager, bookmarkManager, readingEntryManager, timelineEntryManager, folderManager, folderEntryManager) {
         $scope.type = "";
         //現在選択されているfeedのid
         $scope._feed_id = null;
@@ -43,7 +43,7 @@ feedhoosControllers.controller(
                 timelineEntryManager.read_feed($scope, feed_id, type);
             }
             else if (type == "folder") {
-                timelineEntryManager.read_feed($scope, feed_id, type);
+                folderEntryManager.read_feed($scope, feed_id, type);
             }
         }
         $scope.read_reading = function(feed_id, type) {

@@ -35,6 +35,7 @@
                     (this.message + feed_id),
                     true
                 );
+                // readingの未読数を0にする。
                 if (this.type == "feed") {
                     scope.readings.map(function(feed){
                         if (feed.id == feed_id) {
