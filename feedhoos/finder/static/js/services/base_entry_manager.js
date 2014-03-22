@@ -1,13 +1,20 @@
 (function () {
     function baseEntryManager(baseManager) {
         angular.extend(this, baseManager);
-        this.read_feed = function(scope, feed_id) {
+        this.read_feed = function(scope, feed_id, feed_type) {
             feed_id = feed_id + "";
             if (scope._feed_id == feed_id && scope.type == this.type) {
-                return;
+                if (scope.type == "timeline" && scope.active_timeline_type !== feed_type ) {
+                }
+                else {
+                    return;
+                }
             }
+
             scope._feed_id = feed_id;
             scope.type = this.type;
+            scope.active_timeline_type = feed_type;
+
             this.set_url(feed_id);
             if (feed_id in this.store) {
                 var data = this.store[feed_id];

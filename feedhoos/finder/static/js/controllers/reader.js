@@ -39,12 +39,16 @@ feedhoosControllers.controller(
         });
         $scope.read_timeline = function(feed_id, type) {
             $scope.active_timeline_id = feed_id;
-            $scope.active_timeline_type = type;
-            timelineEntryManager.read_feed($scope, feed_id);
+            if (type == "feed") {
+                timelineEntryManager.read_feed($scope, feed_id, type);
+            }
+            else if (type == "folder") {
+                timelineEntryManager.read_feed($scope, feed_id, type);
+            }
         }
-        $scope.read_reading = function(feed_id) {
+        $scope.read_reading = function(feed_id, type) {
             $scope.active_reading_id = feed_id;
-            readingEntryManager.read_feed($scope, feed_id);
+            readingEntryManager.read_feed($scope, feed_id, type);
         }
     }]
 )
