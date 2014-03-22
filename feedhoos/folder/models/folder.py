@@ -29,7 +29,7 @@ class FolderModel(models.Model):
     def dict(self):
         d = {
             "id": self.id,
-            "title": self.title,
+            "title": self.title.encode("utf-8"),
             "rating": self.rating,
             "type": "folder"
         }
