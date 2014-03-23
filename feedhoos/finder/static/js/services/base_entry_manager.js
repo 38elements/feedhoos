@@ -1,21 +1,43 @@
 (function () {
     function baseEntryManager(baseManager) {
         angular.extend(this, baseManager);
-        this.read_feed = function(scope, feed_id, feed_type) {
-            feed_id = feed_id + "";
+        this._is_skip = function(scope, feed_id, feed_type) {
             if (scope._feed_id == feed_id && scope.type == this.type) {
                 if (scope.type == "timeline" && scope.active_timeline_type !== feed_type ) {
                 }
                 else {
-                    return;
+                    return true;
                 }
+            }
+            return false
+        };
+        //サーバからデータを得る
+        this.set_entries = function(scope, feed_id) {
+            this.set_url(feed_id);
+            this.set(scope, function(scope, that) {
+                    //２つのリクエストが進行しているときの対応
+                    if (scope._feed_id == feed_id && scope.type == that.type) {
+                        scope.feed = that.data.feed;
+                        scope.entries = that.data.entries;
+                    }
+                    if (feed_id == that.data.feed.id) {
+                        that.store[feed_id] = that.data;
+                    }
+                },
+                (this.message + feed_id),
+                true
+            );
+        }
+        this.read_feed = function(scope, feed_id, feed_type) {
+            feed_id = feed_id + "";
+            if (this._is_skip(scope, feed_id, feed_type)) {
+                return;
             }
 
             scope._feed_id = feed_id;
             scope.type = this.type;
             scope.active_timeline_type = feed_type;
 
-            this.set_url(feed_id);
             if (feed_id in this.store) {
                 var data = this.store[feed_id];
                 scope.feed = data.feed;
@@ -23,18 +45,7 @@
                 return
             }
             else {
-                this.set(scope, function(scope, that) {
-                        if (scope._feed_id == feed_id && scope.type == that.type) {
-                            scope.feed = that.data.feed;
-                            scope.entries = that.data.entries;
-                        }
-                        if (feed_id == that.data.feed.id) {
-                            that.store[feed_id] = that.data;
-                        }
-                    },
-                    (this.message + feed_id),
-                    true
-                );
+                this.set_entries(scope, feed_id);
                 // readingの未読数を0にする。
                 if (this.type == "feed") {
                     scope.readings.map(function(feed){
@@ -44,6 +55,10 @@
                     });
                 }
             }
+        }
+        this.remove = function(feed_id) {
+            feed_id = feed_id + "";
+            delete this.store[feed_id];
         }
     }
     feedhoos.service("baseEntryManager", ["baseManager", baseEntryManager]);

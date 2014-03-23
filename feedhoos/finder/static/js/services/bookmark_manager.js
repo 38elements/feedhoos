@@ -26,6 +26,12 @@
                 $rootScope.$broadcast(this.message);
             }
         }
+        this.get_folder_id = function(feed_id) {
+            feed_id = feed_id + "";
+            if (this.data !== null && feed_id in this.data) {
+                return this.data[feed_id]["folder_id"];
+            }
+        }
         this.set_folder_id = function(feed_id, folder_id) {
             feed_id = feed_id + "";
             if (this.data !== null && feed_id in this.data) {

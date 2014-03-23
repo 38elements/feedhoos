@@ -18,7 +18,7 @@
             if (target_folder.length > 0) {
                 return target_folder[0].title;
             }
-            throw new Error("No folder title.");
+            throw new Error("feed_id=" + feed_id + " No folder title.");
         }
         this.get_title_by_feed_id = function(feed_id) {
             var folder_id = bookmarkManager.get_folder_id(feed_id);

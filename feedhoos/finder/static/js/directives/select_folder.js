@@ -1,11 +1,14 @@
-feedhoos.controller("SelectFolderCtrl", ["$scope", "folderManager", "bookmarkManager", 
-    function($scope, folderManager, bookmarkManager) {
+feedhoos.controller("SelectFolderCtrl", ["$scope", "folderManager", "bookmarkManager", "folderEntryManager", 
+    function($scope, folderManager, bookmarkManager, folderEntryManager) {
         $scope.folderManager = folderManager;
         $scope.folders = folderManager.sortByRating();
         $scope.select = function(folder_id) {
+            var prev_folder_id = bookmarkManager.get_folder_id(this.feed_id);
+            folderEntryManager.remove(prev_folder_id);
             $scope.current_title = folderManager.get_title(folder_id);
             $scope.folder_id = folder_id;
             bookmarkManager.set_folder_id(this.feed_id, folder_id);
+            folderEntryManager.remove(folder_id);
         }
     }]
 );
