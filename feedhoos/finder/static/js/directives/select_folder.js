@@ -1,7 +1,11 @@
 feedhoos.controller("SelectFolderCtrl", ["$scope", "folderManager", "bookmarkManager", "folderEntryManager", 
     function($scope, folderManager, bookmarkManager, folderEntryManager) {
+        $scope.folders =[folderManager.default];
+        Array.prototype.push.apply(
+            $scope.folders,
+            folderManager.sortByRating()
+        );
         $scope.folderManager = folderManager;
-        $scope.folders = folderManager.sortByRating();
         $scope.select = function(folder_id) {
             var prev_folder_id = bookmarkManager.get_folder_id(this.feed_id);
             folderEntryManager.remove(prev_folder_id);
