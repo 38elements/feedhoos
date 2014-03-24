@@ -46,6 +46,12 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
                 if (feed_bar_inner_elem) {
                     feed_bar_inner_elem.style.minHeight = innerHeight - feed_bar_top + 1 + "px";
                 }
+                var content_bar_top = content_bar.getBoundingClientRect().top 
+                var last_entry = content_bar.querySelector(".entry.panel-default:nth-last-of-type(1)");
+                if (last_entry 
+                        && parseInt($window.getComputedStyle(last_entry, "").height) < (innerHeight - content_bar_top)) {
+                    last_entry.style.height = innerHeight - content_bar_top + "px";
+                }
             }
         }
     };
