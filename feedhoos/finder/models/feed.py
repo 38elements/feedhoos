@@ -1,6 +1,7 @@
 # coding: utf-8
 from django.db import models
 from feedhoos.worker.models.entry import EntryModel
+from feedhoos.worker.models.entry import PER_PAGE
 from feedhoos.reader.models.bookmark import BookmarkModel
 import feedparser
 import datetime
@@ -42,6 +43,8 @@ class FeedModel(models.Model):
         if not hasattr(self, "_unread_count"):
             bookmark_model = BookmarkModel.objects.get(feed_id__exact=self.id)
             self._unread_count = EntryModel.count(self.id, min_updated=bookmark_model.last_updated)
+            if self._unread_count > PER_PAGE:
+                self._unread_count = PER_PAGE
         return self._unread_count
 
     @property
