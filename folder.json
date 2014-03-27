@@ -1,0 +1,18 @@
+[
+{
+    "pk": 2, 
+    "model": "folder.foldermodel", 
+    "fields": {
+        "rating": 2, 
+        "title": "74"
+    }
+},
+{
+    "pk": 3, 
+    "model": "folder.foldermodel", 
+    "fields": {
+        "rating": 5, 
+        "title": "a"
+    }
+}
+]

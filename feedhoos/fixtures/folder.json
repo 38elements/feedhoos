@@ -1,0 +1,26 @@
+[
+{
+    "pk": 1, 
+    "model": "folder.foldermodel", 
+    "fields": {
+        "rating": 2, 
+        "title": "folder_title1"
+    }
+},
+{
+    "pk": 2, 
+    "model": "folder.foldermodel", 
+    "fields": {
+        "rating": 5, 
+        "title": "folder_title2"
+    }
+},
+{
+    "pk": 3, 
+    "model": "folder.foldermodel", 
+    "fields": {
+        "rating": 1, 
+        "title": "folder_title3"
+    }
+}
+]
