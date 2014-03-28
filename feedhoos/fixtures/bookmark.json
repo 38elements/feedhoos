@@ -1,0 +1,52 @@
+[
+    {
+        "pk": 1, 
+        "model": "reader.bookmarkmodel", 
+        "fields": {
+            "rating": 5, 
+            "feed_id": 1, 
+            "last_updated": 1395943574, 
+            "folder_id": 0
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "reader.bookmarkmodel", 
+        "fields": {
+            "rating": 0, 
+            "feed_id": 2, 
+            "last_updated": 1392939789, 
+            "folder_id": 3
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "reader.bookmarkmodel", 
+        "fields": {
+            "rating": 5, 
+            "feed_id": 3, 
+            "last_updated": 1395997636, 
+            "folder_id": 2
+        }
+    },
+    {
+        "pk": 4, 
+        "model": "reader.bookmarkmodel", 
+        "fields": {
+            "rating": 5, 
+            "feed_id": 4, 
+            "last_updated": 1395874885, 
+            "folder_id": 1
+        }
+    },
+    {
+        "pk": 5, 
+        "model": "reader.bookmarkmodel", 
+        "fields": {
+            "rating": 4, 
+            "feed_id": 5, 
+            "last_updated": 1395635513, 
+            "folder_id": 1
+        }
+    }
+]
