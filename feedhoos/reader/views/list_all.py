@@ -5,7 +5,7 @@ from feedhoos.finder.models.feed import FeedModel
 
 
 def execute(request):
-    feed_dict = {"id": 0, "title": "登録されているすべてのFeed"}
+    feed_dict = FeedModel.ALL  
     feeds_queryset = FeedModel.objects.all()
     feeds = map(lambda f: f.dict, feeds_queryset)
     feeds.insert(0, feed_dict)

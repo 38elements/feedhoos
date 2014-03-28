@@ -16,9 +16,11 @@ class FeedModel(models.Model):
     title = models.CharField(max_length=64)
     last_access = models.IntegerField()
     ALL = {
-        "url": "",
         "id": 0,
+        "url": "",
+        "link": "",
         "title": "すべてのFeed",
+        "type": "feed",
     }
 
     @property
