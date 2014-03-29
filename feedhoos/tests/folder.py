@@ -18,7 +18,9 @@ class FolderModelTestCase(TestCase):
     def test_get_json(self):
         folder_models = FolderModel.objects.all()
         folder_json = FolderModel.get_json(folder_models)
-        result = '[{"rating": 2, "type": "folder", "id": 1, "title": "folder_title1"}, {"rating": 5, "type": "folder", "id": 2, "title": "folder_title2"}, {"rating": 1, "type": "folder", "id": 3, "title": "folder_title3"}]'
+        result = '[{"rating": 2, "type": "folder", "id": 1, "title": "folder_title1"},' \
+            ' {"rating": 5, "type": "folder", "id": 2, "title": "folder_title2"},' \
+            ' {"rating": 1, "type": "folder", "id": 3, "title": "folder_title3"}]'
         self.assertEqual(result, folder_json)
 
     def test_dict(self):
