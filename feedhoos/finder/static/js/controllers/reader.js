@@ -15,7 +15,7 @@ feedhoosControllers.controller(
         $scope.feed_tab = true;
         $scope.timeline_tab = true;
         var predict_func = function() {
-            return $scope.bookmark === null && $scope.folders === null;
+            return $scope.bookmark === null || $scope.folders === null;
         }
         bookmarkManager.set($scope, function(scope, that) {
             scope.bookmark = that.data;
