@@ -38,11 +38,11 @@ class EntryModel(models.Model):
         ).filter(
             updated__gt=min_updated
         ).order_by("-updated").count()
-        count = count if count <= MAX_CONTENT_LENGTH else MAX_CONTENT_LENGTH
         return count
 
     @staticmethod
     def get_entries(feed_id, page, min_updated=None):
+        """reading"""
         feed_id = int(feed_id)
         page = int(page)
         start_index = (page - 1) * PER_PAGE
@@ -94,10 +94,10 @@ class EntryModel(models.Model):
     @staticmethod
     def get_content(entry):
         if ("content" in entry and entry.content and
-                len(entry.content) > 1 and len(entry.content[0]["value"]) < MAX_CONTENT_LENGTH):
+                len(entry.content) >= 1 and len(entry.content[0]["value"]) <= MAX_CONTENT_LENGTH):
             return entry.content[0]["value"]
         elif "summary" in entry and entry.summary:
-            return entry.summary if len(entry.summary) < MAX_CONTENT_LENGTH else ""
+            return entry.summary if len(entry.summary) <= MAX_CONTENT_LENGTH else ""
         else:
             return ""
 

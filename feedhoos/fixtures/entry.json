@@ -1,0 +1,35 @@
+[
+    {
+        "pk": 1, 
+        "model": "worker.entrymodel", 
+        "fields": {
+            "url": "http://example.com/110001", 
+            "content": "content1", 
+            "updated": 1392941000, 
+            "feed_id": 1, 
+            "title": "title1"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "worker.entrymodel", 
+        "fields": {
+            "url": "http://example.com/110002", 
+            "content": "content1", 
+            "updated": 1392942000, 
+            "feed_id": 2, 
+            "title": "title2"
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "worker.entrymodel", 
+        "fields": {
+            "url": "http://example.com/110003", 
+            "content": "content1", 
+            "updated": 1392943000, 
+            "feed_id": 1, 
+            "title": "title3"
+        }
+    }
+]
