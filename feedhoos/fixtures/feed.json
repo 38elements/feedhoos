@@ -28,7 +28,7 @@
         "model": "finder.feedmodel", 
         "fields": {
             "title": "title3", 
-            "url": "http:/example.com/foo3.atom", 
+            "url": "http://127.0.0.1:45000/atom", 
             "modified": "", 
             "etag": "", 
             "link": "http:/example.com/foo3", 

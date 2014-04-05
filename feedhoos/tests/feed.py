@@ -18,7 +18,7 @@ class FeedModelTestCase(TestCase):
     def test_dict(self):
         feed_model = FeedModel.objects.get(pk=3)
         d = {
-            'url': 'http:/example.com/foo3.atom',
+            'url': 'http://127.0.0.1:45000/atom',
             'type': 'feed',
             'link': 'http:/example.com/foo3',
             'id': 3,
@@ -42,3 +42,8 @@ class FeedModelTestCase(TestCase):
         self.assertEqual(feed_model1.last_updated, l)
         feed_model2 = FeedModel.objects.get(pk=4)
         self.assertEqual(feed_model2.last_updated, 0)
+
+    def test_feed(self):
+        feed_model = FeedModel.objects.get(pk=3)
+        feed_model.feed
+        self.assertEqual(len(feed_model.entries), 2)
