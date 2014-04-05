@@ -29,4 +29,15 @@
             <p>DjangoのModelをスクリプトでコマンドラインから利用する。</p> 
         </content>
     </entry>
+    <entry>
+        <title>Djangoメモ</title>
+        <link href="http://38elements.github.com/2014/02/08/new.html"/>
+        <updated>2014-04-05T13:22:51Z</updated>
+        <id>
+            http://38elements.github.com/2014/02/08/new
+        </id>
+        <content type="html">
+            <p>DjangoのModelをスクリプトでコマンドラインから利用する。</p> 
+        </content>
+    </entry>
 </feed>
