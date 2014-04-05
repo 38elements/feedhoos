@@ -5,7 +5,7 @@
         "fields": {
             "rating": 5, 
             "feed_id": 1, 
-            "last_updated": 1395943574, 
+            "last_updated": 1000, 
             "folder_id": 0
         }
     },
@@ -25,7 +25,7 @@
         "fields": {
             "rating": 5, 
             "feed_id": 3, 
-            "last_updated": 1395997636, 
+            "last_updated": 1000, 
             "folder_id": 2
         }
     },

@@ -1,0 +1,62 @@
+[
+    {
+        "pk": 1, 
+        "model": "finder.feedmodel", 
+        "fields": {
+            "title": "title1", 
+            "url": "http:/example.com/foo1.atom", 
+            "modified": "", 
+            "etag": "", 
+            "link": "http:/example.com/foo1", 
+            "last_access": 1396178282
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "finder.feedmodel", 
+        "fields": {
+            "title": "title2", 
+            "url": "http:/example.com/foo2.atom", 
+            "modified": "", 
+            "etag": "", 
+            "link": "http:/example.com/foo2", 
+            "last_access": 1396178282
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "finder.feedmodel", 
+        "fields": {
+            "title": "title3", 
+            "url": "http:/example.com/foo3.atom", 
+            "modified": "", 
+            "etag": "", 
+            "link": "http:/example.com/foo3", 
+            "last_access": 1396178319
+        }
+    },
+    {
+        "pk": 4, 
+        "model": "finder.feedmodel", 
+        "fields": {
+            "title": "title4", 
+            "url": "http:/example.com/foo4.atom", 
+            "modified": "", 
+            "etag": "", 
+            "link": "http:/example.com/foo4", 
+            "last_access": 1396178319
+        }
+    },
+    {
+        "pk": 5, 
+        "model": "finder.feedmodel", 
+        "fields": {
+            "title": "title5", 
+            "url": "http:/example.com/foo5.atom", 
+            "modified": "", 
+            "etag": "", 
+            "link": "http:/example.com/foo5", 
+            "last_access": 1396178319
+        }
+    }
+]

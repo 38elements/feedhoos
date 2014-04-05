@@ -31,5 +31,38 @@
             "feed_id": 1, 
             "title": "title3"
         }
+    },
+    {
+        "pk": 4, 
+        "model": "worker.entrymodel", 
+        "fields": {
+            "url": "http://example.com/110004", 
+            "content": "content4", 
+            "updated": 1, 
+            "feed_id": 3, 
+            "title": "title4"
+        }
+    },
+    {
+        "pk": 5, 
+        "model": "worker.entrymodel", 
+        "fields": {
+            "url": "http://example.com/110005", 
+            "content": "content5", 
+            "updated": 1392943000, 
+            "feed_id": 3, 
+            "title": "title5"
+        }
+    },
+    {
+        "pk": 6, 
+        "model": "worker.entrymodel", 
+        "fields": {
+            "url": "http://example.com/110006", 
+            "content": "content6", 
+            "updated": 1500000000, 
+            "feed_id": 3, 
+            "title": "title6"
+        }
     }
 ]
