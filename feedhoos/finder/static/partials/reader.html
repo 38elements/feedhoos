@@ -1,8 +1,8 @@
 <div class="row">
-    <div id="feed_bar" class="col-lg-2 visible-lg" fh-setter-resize>
+    <div id="feed_bar" class="col-lg-2 visible-lg" >
         <tabset justified="true">
             <tab heading="Timeline" active="timeline_tab" ng-click="timeline_tab = true; feed_tab = false;">
-                <ul class="list-group">
+                <ul class="list-group" fh-setter-resize>
                     <li class="list-group-item feed text-left" data-ng-repeat="f in feeds | orderBy:'-rating'" 
                     ng-click="read_timeline(f.id, f.type)"
                     ng-class="{'list-group-item-info': (active_timeline_id == f.id && type == 'timeline' && active_timeline_type == f.type)}">
