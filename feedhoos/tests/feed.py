@@ -1,5 +1,6 @@
 from django.test import TestCase
 from feedhoos.finder.models.feed import FeedModel
+from feedhoos.worker.models.entry import EntryModel
 
 
 class FeedModelTestCase(TestCase):
@@ -53,3 +54,12 @@ class FeedModelTestCase(TestCase):
         feed_model = FeedModel.objects.get(pk=3)
         feed_model.feed
         self.assertEqual(len(feed_model.entries), 3)
+
+    def test_add_entries(self):
+        feed_id = 3
+        feed_model = FeedModel.objects.get(pk=feed_id)
+        old_count = EntryModel.count(feed_id)
+        result = old_count + len(feed_model.new_entries)
+        feed_model.add_entries()
+        new_count = EntryModel.count(feed_id)
+        self.assertEqual(new_count, result)

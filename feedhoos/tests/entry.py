@@ -1,8 +1,7 @@
 # coding: utf-8
 from django.test import TestCase
 from feedhoos.worker.models.entry import EntryModel
-from feedhoos.worker.models.entry import MAX_CONTENT_LENGTH 
-from collections import namedtuple
+from feedhoos.worker.models.entry import MAX_CONTENT_LENGTH
 import datetime
 from feedparser import FeedParserDict
 
@@ -50,9 +49,11 @@ class EntryModelTestCase(TestCase):
         self.assertEqual('2014-02-21 00:03', entry_model.updated_stftime)
 
     def test_count(self):
-        c = EntryModel.count(1)
+        feed_id = 1
+        c = EntryModel.count(feed_id)
         self.assertEqual(2, c)
-        c = EntryModel.count(1, 1392942999)
+        min_updated = 1392942999
+        c = EntryModel.count(feed_id, min_updated)
         self.assertEqual(1, c)
 
     def test_get_entries(self):
