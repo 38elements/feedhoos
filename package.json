@@ -1,0 +1,21 @@
+{
+  "name": "feedhoos",
+  "version": "0.0.1",
+  "description": "",
+  "main": "feedhoos.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/38elements/feedhoos.git"
+  },
+  "author": "38elements",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/38elements/feedhoos/issues"
+  },
+  "homepage": "https://github.com/38elements/feedhoos",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "karma": "^0.12.6"
+  }
+}

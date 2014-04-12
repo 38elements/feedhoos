@@ -38,5 +38,5 @@ nosetests.xml
 *.py~
 .~
 
-
+node_modules
 *.sqlite3
