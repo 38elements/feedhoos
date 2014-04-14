@@ -6,6 +6,8 @@
         this.data = null;
         this.message = "feeds";
         this.url = "/reader/feed/list/all/";
+        //指定したfolder_idに関連したfeedのデータを返す。
+        //bookmarkでfolderとfeedを結びつける。
         this.get_data_by_folder_id = function(folder_id) {
             var feed_ids = this.bookmarkManager.get_feed_ids_by_folder_id(folder_id);
             var data = this.data.filter(function(d) {

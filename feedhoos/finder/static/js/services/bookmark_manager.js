@@ -55,6 +55,7 @@
         this.get_folder_id = function(feed_id) {
             return this.data[feed_id + ""].folder_id;
         }
+        //指定したfolder_idに関連しているfeed_idを返す
         this.get_feed_ids_by_folder_id = function(folder_id) {
             folder_id = folder_id - 0;
             var feed_ids = Object.keys(this.data).map(function(id) {return id - 0})
