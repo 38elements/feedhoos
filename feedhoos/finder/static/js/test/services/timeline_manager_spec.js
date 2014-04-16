@@ -36,4 +36,26 @@ describe("timelineManager", function() {
         expect(data[0].id).toEqual(1);
         expect(data[1].id).toEqual(3);
     }));
+
+    it('should attachRating is add rating property timeline feed data',inject(function($rootScope, timelineManager, bookmarkManager) {
+        $httpBackend.expect("GET", "/bookmark/list/")
+            .respond('{' +
+                '"0": {"rating": 6, "folder_id": 0},' +
+                '"1": {"rating": 3, "folder_id": 2},' +
+                '"2": {"rating": 0, "folder_id": 0},' +
+                '"3": {"rating": 1, "folder_id": 2}' +
+            '}');
+        timelineManager.set(scope, function() {});
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        timelineManager.attachRating();
+        var data =  timelineManager.data;
+        var expecting_data = [
+                {"rating": 6, "url": "", "type": "feed", "link": "", "id": 0, "title": "すべてのFeed"},
+                {"rating": 3, "url": "http://example.com/hotentry/it.rss", "type": "feed", "link": "http://b.example.com/hotentry/it", "id": 1, "title": "title1"},
+                {"rating": 0, "url": "http://www.example.com/blog/feed", "type": "feed", "link": "http://www.example.com/blog", "id": 2, "title": "title2"},
+                {"rating": 1, "url": "https://www.example.com/projects.xml", "type": "feed", "link": "https://www.example.com/projects", "id": 3, "title": "title3"}
+            ]
+        expect(expecting_data).toEqual(data);
+    }));
 });
