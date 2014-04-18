@@ -14,13 +14,13 @@ describe("timelineManager", function() {
             ']');
     }));
 
-    it('should set',inject(function($rootScope, timelineManager) {
+    it('should set',inject(function(timelineManager) {
         timelineManager.set(scope, function() {});
         $httpBackend.flush();
         expect(timelineManager.data.length).toEqual(4);
     }));
 
-    it('should get_feed_ids_by_folder_id',inject(function($rootScope, timelineManager, bookmarkManager) {
+    it('should get_feed_ids_by_folder_id',inject(function(timelineManager, bookmarkManager) {
         $httpBackend.expect("GET", "/bookmark/list/")
             .respond('{' +
                 '"0": {"rating": 6, "folder_id": 0},' +
@@ -37,7 +37,7 @@ describe("timelineManager", function() {
         expect(data[1].id).toEqual(3);
     }));
 
-    it('should attachRating is add rating property timeline feed data',inject(function($rootScope, timelineManager, bookmarkManager) {
+    it('should attachRating is add rating property timeline feed data',inject(function(timelineManager, bookmarkManager) {
         $httpBackend.expect("GET", "/bookmark/list/")
             .respond('{' +
                 '"0": {"rating": 6, "folder_id": 0},' +
@@ -59,7 +59,7 @@ describe("timelineManager", function() {
         expect(expecting_data).toEqual(data);
     }));
 
-    it('should sortByRating sort data by rating of bookmarkManager by join id ',inject(function($rootScope, timelineManager, bookmarkManager) {
+    it('should sortByRating sort data by rating of bookmarkManager by join id ',inject(function(timelineManager, bookmarkManager) {
         $httpBackend.expect("GET", "/bookmark/list/")
             .respond('{' +
                 '"0": {"rating": 6, "folder_id": 0},' +
@@ -78,5 +78,19 @@ describe("timelineManager", function() {
                 {"url": "http://www.example.com/blog/feed", "type": "feed", "link": "http://www.example.com/blog", "id": 2, "title": "title2"},
             ];
         expect(expecting_data).toEqual(data);
+    }));
+
+    it('should add one data ',inject(function(timelineManager) {
+        timelineManager.set(scope, function() {});
+        $httpBackend.flush();
+        timelineManager.add({"url": "http://www.example.com/blog9/feed", "type": "feed", "link": "http://www.example.com/blog9", "id": 9, "title": "title9"});
+        var expecting_data = [
+                {"url": "", "type": "feed", "link": "", "id": 0, "title": "すべてのFeed"},
+                {"url": "http://example.com/hotentry/it.rss", "type": "feed", "link": "http://b.example.com/hotentry/it", "id": 1, "title": "title1"},
+                {"url": "http://www.example.com/blog/feed", "type": "feed", "link": "http://www.example.com/blog", "id": 2, "title": "title2"},
+                {"url": "https://www.example.com/projects.xml", "type": "feed", "link": "https://www.example.com/projects", "id": 3, "title": "title3"},
+                {"url": "http://www.example.com/blog9/feed", "type": "feed", "link": "http://www.example.com/blog9", "id": 9, "title": "title9"}
+            ];
+        expect(expecting_data).toEqual(timelineManager.data);
     }));
 });
