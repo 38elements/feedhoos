@@ -93,4 +93,16 @@ describe("timelineManager", function() {
             ];
         expect(expecting_data).toEqual(timelineManager.data);
     }));
+
+    it('should remove one data ',inject(function(timelineManager) {
+        timelineManager.set(scope, function() {});
+        $httpBackend.flush();
+        timelineManager.remove(2);
+        var expecting_data = [
+                {"url": "", "type": "feed", "link": "", "id": 0, "title": "すべてのFeed"},
+                {"url": "http://example.com/hotentry/it.rss", "type": "feed", "link": "http://b.example.com/hotentry/it", "id": 1, "title": "title1"},
+                {"url": "https://www.example.com/projects.xml", "type": "feed", "link": "https://www.example.com/projects", "id": 3, "title": "title3"},
+            ];
+        expect(expecting_data).toEqual(timelineManager.data);
+    }));
 });
