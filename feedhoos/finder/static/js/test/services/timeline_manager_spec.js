@@ -14,7 +14,7 @@ describe("timelineManager", function() {
             ']');
     }));
 
-    it('should set',inject(function(timelineManager) {
+    it('should set', inject(function(timelineManager) {
         timelineManager.set(scope, function() {});
         $httpBackend.flush();
         expect(timelineManager.data.length).toEqual(4);

@@ -31,7 +31,8 @@ module.exports = function(config){
             "finder/static/js/controllers/list.js",
             "finder/static/js/controllers/finder.js",
             "finder/static/js/controllers/folder.js",
-            "finder/static/js/test/services/timeline_manager_spec.js"
+            "finder/static/js/test/services/timeline_manager_spec.js",
+            "finder/static/js/test/services/reading_manager_spec.js"
         ],
        autoWatch : true,
        port: 46000,
