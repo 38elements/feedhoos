@@ -160,4 +160,55 @@ describe("readingManager", function() {
         ];
         expect(expecting_data).toEqual(data);
     }));
+
+    it('should add one data ',inject(function(readingManager) {
+        readingManager.set(scope, function() {});
+        $httpBackend.flush();
+        readingManager.add(
+            { 
+                "id": 8, 
+                "link": "http://example.com/entry001/", 
+                "title": "テクノ", 
+                "type": "feed", 
+                "unread_count": 106, 
+                "url": "http://example.com/entry001.rss"
+            } 
+        );
+
+        var expecting_data = [ 
+            { 
+                "id": 1, 
+                "link": "http://example.com/hotentry/it", 
+                "title": "人気エントリー - テクノロジー", 
+                "type": "feed", 
+                "unread_count": 41, 
+                "url": "http://example.com/hotentry/it.rss"
+            }, 
+            { 
+                "id": 3, 
+                "link": "http://example.com/entry/", 
+                "title": "テクノロジー", 
+                "type": "feed", 
+                "unread_count": 5, 
+                "url": "http://example.com/entry.rss"
+            }, 
+            { 
+                "id": 6, 
+                "link": "http://example.com/entry/", 
+                "title": "テクノ", 
+                "type": "feed", 
+                "unread_count": 106, 
+                "url": "http://example.com/entry.rss"
+            }, 
+            { 
+                "id": 8, 
+                "link": "http://example.com/entry001/", 
+                "title": "テクノ", 
+                "type": "feed", 
+                "unread_count": 106, 
+                "url": "http://example.com/entry001.rss"
+            } 
+        ];
+        expect(expecting_data).toEqual(readingManager.data);
+    }));
 });
