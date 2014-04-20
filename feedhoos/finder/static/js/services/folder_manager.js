@@ -26,7 +26,6 @@
         }
         this.create = function(title, scope, callback) {
             if (!title) {
-                callback(scope, that);
                 return
             }
             var that = this;

@@ -53,4 +53,17 @@ describe("folderManager", function() {
         expect(folderManager.get_title_by_feed_id(2)).toEqual('---');
         expect(folderManager.get_title_by_feed_id(1)).toEqual('title1');
     }));
+
+    it('should title', inject(function(folderManager) {
+        folderManager.set(scope, function() {});
+        $httpBackend.flush();
+        expect(folderManager.get_title(2)).toEqual('title2');
+    }));
+
+    it('should create if title is empty', inject(function(folderManager) {
+        folderManager.set(scope, function() {});
+        $httpBackend.flush();
+        folderManager.create("", scope, function() {})
+        expect(folderManager.data).toEqual(response_data);
+    }));
 });
