@@ -211,4 +211,29 @@ describe("readingManager", function() {
         ];
         expect(expecting_data).toEqual(readingManager.data);
     }));
+
+    it('should remove one data ',inject(function(readingManager) {
+        readingManager.set(scope, function() {});
+        $httpBackend.flush();
+        readingManager.remove(3);
+        var expecting_data = [ 
+            { 
+                "id": 1, 
+                "link": "http://example.com/hotentry/it", 
+                "title": "人気エントリー - テクノロジー", 
+                "type": "feed", 
+                "unread_count": 41, 
+                "url": "http://example.com/hotentry/it.rss"
+            }, 
+            { 
+                "id": 6, 
+                "link": "http://example.com/entry/", 
+                "title": "テクノ", 
+                "type": "feed", 
+                "unread_count": 106, 
+                "url": "http://example.com/entry.rss"
+            } 
+        ];
+        expect(expecting_data).toEqual(readingManager.data);
+    }));
 });
