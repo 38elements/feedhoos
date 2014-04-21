@@ -66,4 +66,15 @@ describe("folderManager", function() {
         folderManager.create("", scope, function() {})
         expect(folderManager.data).toEqual(response_data);
     }));
+
+    it('should create', inject(function(folderManager) {
+        folderManager.set(scope, function() {});
+        $httpBackend.flush();
+        $httpBackend.expect("POST", "/folder/create/")
+            .respond('{"rating": 0, "type": "folder", "id": 4, "title": "new one"}');
+        folderManager.create("new one", scope, function() {})
+        $httpBackend.flush();
+        response_data.push({"rating": 0, "type": "folder", "id": 4, "title": "new one"});
+        expect(folderManager.data).toEqual(response_data);
+    }));
 });
