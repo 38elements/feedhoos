@@ -77,4 +77,10 @@ describe("folderManager", function() {
         response_data.push({"rating": 0, "type": "folder", "id": 4, "title": "new one"});
         expect(folderManager.data).toEqual(response_data);
     }));
+
+    it('should get_rating_by_id', inject(function(folderManager) {
+        folderManager.set(scope, function() {});
+        $httpBackend.flush();
+        expect(folderManager.get_rating_by_id(response_data[0].id)).toEqual(response_data[0].rating);
+    }));
 });
