@@ -39,4 +39,18 @@ describe("bookmarkManager", function() {
         bookmarkManager.remove(1);
         expect(bookmarkManager.data).toEqual(expect_data);
     }));
+
+    it('should add', inject(function(bookmarkManager) {
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        var expect_data = {
+            "8": {"rating": 0, "folder_id": 0},
+            "2": {"rating": 3, "folder_id": 1},
+            "0": {"rating": 6, "folder_id": 0}, 
+            "3": {"rating": 0, "folder_id": 3},
+            "1": {"rating": 5, "folder_id": 3}  
+        };
+        bookmarkManager.add(8);
+        expect(bookmarkManager.data).toEqual(expect_data);
+    }));
 });
