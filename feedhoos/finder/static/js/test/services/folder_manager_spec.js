@@ -91,4 +91,16 @@ describe("folderManager", function() {
         folderManager.set_rating(1, rating);
         expect(folderManager.get_rating_by_id(1)).toEqual(rating);
     }));
+
+    it('should sortByRating', inject(function(folderManager) {
+        folderManager.set(scope, function() {});
+        $httpBackend.flush();
+        folderManager.sortByRating();
+        expect_data = [
+            {"rating": 5, "type": "folder", "id": 2, "title": "title2"},
+            {"rating": 1, "type": "folder", "id": 1, "title": "title1"},
+            {"rating": 0, "type": "folder", "id": 3, "title": "title3"}
+        ];
+        expect(folderManager.data).toEqual(expect_data);
+    }));
 });
