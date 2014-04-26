@@ -22,10 +22,21 @@ describe("bookmarkManager", function() {
         };
     }));
 
-
     it('should set', inject(function(bookmarkManager) {
         bookmarkManager.set(scope, function() {});
         $httpBackend.flush();
         expect(bookmarkManager.data).toEqual(response_data);
+    }));
+
+    it('should remove', inject(function(bookmarkManager) {
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        var expect_data = {
+            "2": {"rating": 3, "folder_id": 1},
+            "0": {"rating": 6, "folder_id": 0}, 
+            "3": {"rating": 0, "folder_id": 3},
+        };
+        bookmarkManager.remove(1);
+        expect(bookmarkManager.data).toEqual(expect_data);
     }));
 });
