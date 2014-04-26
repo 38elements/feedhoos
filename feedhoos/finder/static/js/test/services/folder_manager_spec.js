@@ -83,4 +83,12 @@ describe("folderManager", function() {
         $httpBackend.flush();
         expect(folderManager.get_rating_by_id(response_data[0].id)).toEqual(response_data[0].rating);
     }));
+
+    it('should set_rating', inject(function(folderManager) {
+        folderManager.set(scope, function() {});
+        $httpBackend.flush();
+        var rating = 5;
+        folderManager.set_rating(1, rating);
+        expect(folderManager.get_rating_by_id(1)).toEqual(rating);
+    }));
 });
