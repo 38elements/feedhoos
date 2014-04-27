@@ -53,4 +53,17 @@ describe("bookmarkManager", function() {
         bookmarkManager.add(8);
         expect(bookmarkManager.data).toEqual(expect_data);
     }));
+
+    it('should set_rating', inject(function(bookmarkManager) {
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        var expect_data = {
+            "2": {"rating": 5, "folder_id": 1},
+            "0": {"rating": 6, "folder_id": 0}, 
+            "3": {"rating": 0, "folder_id": 3},
+            "1": {"rating": 5, "folder_id": 3}  
+        };
+        bookmarkManager.set_rating(2, 5);
+        expect(bookmarkManager.data).toEqual(expect_data);
+    }));
 });
