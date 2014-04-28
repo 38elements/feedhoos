@@ -38,5 +38,6 @@ nosetests.xml
 *.py~
 .~
 
+test_out
 node_modules
 *.sqlite3
