@@ -72,4 +72,16 @@ describe("bookmarkManager", function() {
         $httpBackend.flush();
         expect(bookmarkManager.get_folder_id(1)).toEqual(3);
     }));
+
+    it('should set_folder_id', inject(function(bookmarkManager) {
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        var feed_id = 1;
+        var folder_id = 5;
+        $httpBackend.expect("POST", bookmarkManager.folder_url, "feed_id=" + encodeURIComponent(feed_id) + "&folder_id=" + encodeURIComponent(folder_id))
+            .respond();
+        bookmarkManager.set_folder_id(feed_id, folder_id);
+        $httpBackend.flush();
+        expect(bookmarkManager.get_folder_id(1)).toEqual(5);
+    }));
 });
