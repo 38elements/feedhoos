@@ -84,4 +84,10 @@ describe("bookmarkManager", function() {
         $httpBackend.flush();
         expect(bookmarkManager.get_folder_id(1)).toEqual(5);
     }));
+
+    it('should get_feed_ids_by_folder_id', inject(function(bookmarkManager) {
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        expect(bookmarkManager.get_feed_ids_by_folder_id(1)).toEqual([2]);
+    }));
 });
