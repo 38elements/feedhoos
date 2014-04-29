@@ -90,4 +90,17 @@ describe("bookmarkManager", function() {
         $httpBackend.flush();
         expect(bookmarkManager.get_feed_ids_by_folder_id(1)).toEqual([2]);
     }));
+
+    it('should remove_folder', inject(function(bookmarkManager) {
+        bookmarkManager.set(scope, function() {});
+        $httpBackend.flush();
+        bookmarkManager.remove_folder(3);
+        expect_data = {
+            "2": {"rating": 3, "folder_id": 1},
+            "0": {"rating": 6, "folder_id": 0}, 
+            "3": {"rating": 0, "folder_id": 0},
+            "1": {"rating": 5, "folder_id": 0}  
+        };
+        expect(bookmarkManager.data).toEqual(expect_data);
+    }));
 });
