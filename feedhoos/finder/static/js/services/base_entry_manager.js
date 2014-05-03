@@ -3,6 +3,9 @@
         angular.extend(this, baseManager);
         this._is_skip = function(scope, feed_id, feed_type) {
             if (scope._feed_id == feed_id && scope.type == this.type) {
+                // timelineにはfolderとfeedがあって、
+                // それらは同じidでも別の内容を持っていることがあるため
+                // typeで異なる内容かを判断する
                 if (scope.type == "timeline" && scope.active_timeline_type !== feed_type ) {
                 }
                 else {
