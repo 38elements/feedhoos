@@ -1,6 +1,7 @@
 (function () {
     function baseEntryManager(baseManager) {
         angular.extend(this, baseManager);
+        //現在表示されているfeedはスキップする
         this._is_skip = function(scope, feed_id, feed_type) {
             if (scope._feed_id == feed_id && scope.type == this.type) {
                 // timelineにはfolderとfeedがあって、
