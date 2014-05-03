@@ -21,4 +21,15 @@ describe("timelineEntryManager", function() {
         var expect_url = "/reader/feed/timeline/10/page/1/";
         expect(timelineEntryManager.url).toEqual(expect_url);
     }));
+
+    it('should _is_skip', inject(function(timelineEntryManager) {
+        scope._feed_id = 1;
+        scope.type = timelineEntryManager.type;
+        scope.active_timeline_type = "feed";
+        timelineEntryManager._is_skip(scope, 1, "feed");
+        expect(timelineEntryManager._is_skip(scope, 1, "feed")).toEqual(true);
+        expect(timelineEntryManager._is_skip(scope, 2, "feed")).toEqual(false);
+        expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
+        expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
+    }));
 });
