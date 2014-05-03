@@ -19,10 +19,13 @@
             this.set_url(feed_id);
             this.set(scope, function(scope, that) {
                     //２つのリクエストが進行しているときの対応
+                    //最後にリクエストしたfeedをscopeに格納する
                     if (scope._feed_id == feed_id && scope.type == that.type) {
                         scope.feed = that.data.feed;
                         scope.entries = that.data.entries;
                     }
+                    //リクエスト結果のidの値がリクエストしたidと同じ時は
+                    //格納する
                     if (feed_id == that.data.feed.id) {
                         that.store[feed_id] = that.data;
                     }

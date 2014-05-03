@@ -5,15 +5,6 @@ describe("timelineEntryManager", function() {
     beforeEach(angular.mock.inject(function($rootScope, _$httpBackend_) {
         scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
-        /*
-        $httpBackend.expect("GET", "/reader/feed/list/all/")
-            .respond('[' +
-                '{"url": "", "type": "feed", "link": "", "id": 0, "title": "すべてのFeed"},' +
-                '{"url": "http://example.com/hotentry/it.rss", "type": "feed", "link": "http://b.example.com/hotentry/it", "id": 1, "title": "title1"},' +
-                '{"url": "http://www.example.com/blog/feed", "type": "feed", "link": "http://www.example.com/blog", "id": 2, "title": "title2"},' +
-                '{"url": "https://www.example.com/projects.xml", "type": "feed", "link": "https://www.example.com/projects", "id": 3, "title": "title3"}' +
-            ']');
-        */
     }));
 
     it('should set_url', inject(function(timelineEntryManager) {
@@ -31,5 +22,22 @@ describe("timelineEntryManager", function() {
         expect(timelineEntryManager._is_skip(scope, 2, "feed")).toEqual(false);
         expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
         expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
+    }));
+
+    it('should set_entries', inject(function(timelineEntryManager) {
+        $httpBackend.expect("GET", "/reader/feed/timeline/2/page/1/")
+            .respond('{' +
+                '"feed": {"id": 2}' +
+            '}');
+        timelineEntryManager.set_entries(scope, 2);
+        $httpBackend.expect("GET", "/reader/feed/timeline/1/page/1/")
+            .respond('{' +
+                '"feed": {"id": 1}' +
+            '}');
+        timelineEntryManager.set_entries(scope, 1);
+        $httpBackend.flush();
+        expect(timelineEntryManager.store["2"]).toEqual({feed:{id:2}});
+        expect(timelineEntryManager.store["1"]).toEqual({feed:{id:1}});
+        
     }));
 });
