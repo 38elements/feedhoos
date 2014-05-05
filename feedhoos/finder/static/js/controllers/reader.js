@@ -26,7 +26,7 @@ feedhoosControllers.controller(
         timelineManager.set($scope, function(scope, that) {
             that.wait($timeout, 25, predict_func, function() {
                 var feeds = [];
-                var timelines = that.attachRating(that.data); 
+                var timelines = that.attachRating(); 
                 Array.prototype.push.apply(feeds, timelines);
                 Array.prototype.push.apply(feeds, scope.folders);
                 scope.feeds = feeds;
