@@ -21,6 +21,8 @@ describe("timelineEntryManager", function() {
         expect(timelineEntryManager._is_skip(scope, 2, "feed")).toEqual(false);
         expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
         expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
+        scope.type = "feed";
+        expect(timelineEntryManager._is_skip(scope, 1, "feed")).toEqual(false);
     }));
 
     it('should set_entries', inject(function(timelineEntryManager) {
