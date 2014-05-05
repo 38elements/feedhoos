@@ -1,5 +1,5 @@
-feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", "folderManager", 
-    function($scope, $http, bookmarkManager, folderManager) {
+feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", "folderManager", "timelineManager", "readingManager", 
+    function($scope, $http, bookmarkManager, folderManager, timelineManager, readingManager) {
         $scope.max = 5;
         $scope.isReadonly = false;
         $scope.bookmark = null;
@@ -26,10 +26,13 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", "folder
                 if ($scope.type == "feed") {
                     url = "/bookmark/rating/";
                     bookmarkManager.set_rating($scope.target_id, new_rating);
+                    timelineManager.attachRating();
+                    readingManager.attachRating();
                 }
                 else if ($scope.type == "folder") {
                     url = "/folder/rating/";
                     folderManager.set_rating($scope.target_id, new_rating);
+                    folderManager.sortByRating();
                 }
                 $http({
                      "url": url,

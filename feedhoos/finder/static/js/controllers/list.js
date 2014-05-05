@@ -9,8 +9,8 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$timeout",  "bookmarkMana
         $scope.select_folder = function(folder_id) {
            folder_id = folder_id - 0;
            $scope.active_folder_id = folder_id;
-           var feeds = timelineManager.get_data_by_folder_id(folder_id);
-           $scope.feeds = timelineManager.sortByRating(feeds);
+           timelineManager.attachRating();
+           $scope.feeds = timelineManager.get_data_by_folder_id(folder_id);
         };
         folderManager.set($scope, function(scope, that) {
             scope.folders = that.data;
@@ -22,10 +22,9 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$timeout",  "bookmarkMana
             var predict_func = function() {
                 return scope.bookmark === undefined;
             }
-            //「登録されているすべてのfeedを除外
-            var feeds = that.data.filter(function(f) {return f.id != 0});
             that.wait($timeout, 25, predict_func,  function() {
-                scope.feeds = that.sortByRating(feeds);
+                //「登録されているすべてのfeedを除外
+                scope.feeds = that.attachRating().filter(function(f) {return f.id != 0});
             });
         });
     }]

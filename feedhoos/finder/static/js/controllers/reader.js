@@ -34,7 +34,7 @@ feedhoosControllers.controller(
         });
         readingManager.set($scope, function(scope, that) {
             that.wait($timeout, 25, predict_func,  function() {
-                scope.readings = that.sortByRating(that.data);
+                scope.readings = that.attachRating();
             });
         });
         $scope.read_timeline = function(feed_id, type) {

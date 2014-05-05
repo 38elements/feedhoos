@@ -59,27 +59,6 @@ describe("timelineManager", function() {
         expect(expecting_data).toEqual(data);
     }));
 
-    it('should sortByRating sort data by rating of bookmarkManager by join id ',inject(function(timelineManager, bookmarkManager) {
-        $httpBackend.expect("GET", "/bookmark/list/")
-            .respond('{' +
-                '"0": {"rating": 6, "folder_id": 0},' +
-                '"1": {"rating": 3, "folder_id": 2},' +
-                '"2": {"rating": 0, "folder_id": 0},' +
-                '"3": {"rating": 1, "folder_id": 2}' +
-            '}');
-        timelineManager.set(scope, function() {});
-        bookmarkManager.set(scope, function() {});
-        $httpBackend.flush();
-        var data = timelineManager.sortByRating(timelineManager.data);
-        var expecting_data = [
-                {"url": "", "type": "feed", "link": "", "id": 0, "title": "すべてのFeed"},
-                {"url": "http://example.com/hotentry/it.rss", "type": "feed", "link": "http://b.example.com/hotentry/it", "id": 1, "title": "title1"},
-                {"url": "https://www.example.com/projects.xml", "type": "feed", "link": "https://www.example.com/projects", "id": 3, "title": "title3"},
-                {"url": "http://www.example.com/blog/feed", "type": "feed", "link": "http://www.example.com/blog", "id": 2, "title": "title2"},
-            ];
-        expect(expecting_data).toEqual(data);
-    }));
-
     it('should add one data ',inject(function(timelineManager) {
         timelineManager.set(scope, function() {});
         $httpBackend.flush();
