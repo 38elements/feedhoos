@@ -49,7 +49,7 @@
                 var data = this.store[feed_id];
                 scope.feed = data.feed;
                 scope.entries = data.entries;
-                return
+                return;
             }
             else {
                 this.set_entries(scope, feed_id);
