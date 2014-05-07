@@ -36,6 +36,7 @@ module.exports = function(config){
             "finder/static/js/test/services/timeline_entry_manager_spec.js",
             "finder/static/js/test/services/reading_manager_spec.js",
             "finder/static/js/test/services/reading_entry_manager_spec.js",
+            "finder/static/js/test/services/folder_entry_manager_spec.js",
             "finder/static/js/test/services/folder_manager_spec.js"
         ],
        autoWatch : true,
