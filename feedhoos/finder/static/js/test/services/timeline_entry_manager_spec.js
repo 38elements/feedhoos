@@ -20,7 +20,7 @@ describe("timelineEntryManager", function() {
         expect(timelineEntryManager._is_skip(scope, 1, "feed")).toEqual(true);
         expect(timelineEntryManager._is_skip(scope, 2, "feed")).toEqual(false);
         expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
-        expect(timelineEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
+        expect(timelineEntryManager._is_skip(scope, 2, "folder")).toEqual(false);
         scope.type = "feed";
         expect(timelineEntryManager._is_skip(scope, 1, "feed")).toEqual(false);
     }));
