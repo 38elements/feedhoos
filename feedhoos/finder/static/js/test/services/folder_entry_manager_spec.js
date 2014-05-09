@@ -24,4 +24,20 @@ describe("folderEntryManager", function() {
         scope.type = "feed";
         expect(folderEntryManager._is_skip(scope, 1, "folder")).toEqual(false);
     }));
+
+    it('should set_entries', inject(function(folderEntryManager) {
+        $httpBackend.expect("GET", "/folder/read/2/page/1/")
+            .respond('{' +
+                '"feed": {"id": 2}' +
+            '}');
+        folderEntryManager.set_entries(scope, 2);
+        $httpBackend.expect("GET", "/folder/read/1/page/1/")
+            .respond('{' +
+                '"feed": {"id": 1}' +
+            '}');
+        folderEntryManager.set_entries(scope, 1);
+        $httpBackend.flush();
+        expect(folderEntryManager.store["2"]).toEqual({feed:{id:2}});
+        expect(folderEntryManager.store["1"]).toEqual({feed:{id:1}});
+    }));
 });
