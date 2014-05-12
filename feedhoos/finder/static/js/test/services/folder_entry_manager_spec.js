@@ -40,4 +40,11 @@ describe("folderEntryManager", function() {
         expect(folderEntryManager.store["2"]).toEqual({feed:{id:2}});
         expect(folderEntryManager.store["1"]).toEqual({feed:{id:1}});
     }));
+
+    it('should read_feed _is_skip', inject(function(folderEntryManager) {
+        scope._feed_id = 1;
+        scope.type = folderEntryManager.type;
+        scope.active_folder_type = "folder";
+        expect(folderEntryManager.read_feed(scope, 1, "foler")).toEqual(undefined);
+    }));
 });
