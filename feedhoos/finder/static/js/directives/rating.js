@@ -17,6 +17,7 @@ feedhoos.controller("RatingCtrl", ["$scope", "$http", "bookmarkManager", "folder
                 $scope.rating = folderManager.get_rating_by_id(target_id);
             }
         };
+        //ratingの値を監視している
         $scope.watch_rating = function() {
             this.unwatch_rating = $scope.$watch("rating", function(new_rating, old_rating) {
                 var url = "";
@@ -62,6 +63,7 @@ feedhoos.directive("fhRating", function() {
             scope.set_rating(attrs.targetId);
             scope.watch_rating();
             //readerでのratingの変更に対応するため
+            //ratingが対象としているtarget-idの変更を監視している
             scope.$watch(function() { 
                     return element.attr("target-id");
                 },
