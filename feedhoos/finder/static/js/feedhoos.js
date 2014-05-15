@@ -4,32 +4,24 @@ feedhoos.config(["$routeProvider",
     function($routeProvider) {
         $routeProvider.
         when("/reader", {
-            templateUrl: "/static/partials/reader.html",
+            templateUrl: "feedhoos/finder/static/partials/reader.html",
             controller: "ReaderCtrl"
         }).
         when("/reader/list", {
-            templateUrl: "/static/partials/list.html",
+            templateUrl: "feedhoos/finder/static/partials/list.html",
             controller: "ListCtrl"
         }).
         when("/finder", {
-            templateUrl: "/static/partials/finder.html",
+            templateUrl: "feedhoos/finder/static/partials/finder.html",
             controller: "FinderCtrl"
         }).
         when("/folder", {
-            templateUrl: "/static/partials/folder.html",
+            templateUrl: "feedhoos/finder/static/partials/folder.html",
             controller: "FolderCtrl"
         }).
         otherwise({
             redirectTo: "/reader"
         });
-    }
-]);
-
-feedhoos.run(["$rootScope", "$window", "$document", "fhSetter",
-    function($rootScope, $window, $document,  fhSetter) {
-        $rootScope.feedhoos = {}
-        $window.addEventListener("resize", fhSetter.resize, false);
-        $document.bind("keyup", fhSetter.shortcut);
     }
 ]);
 
