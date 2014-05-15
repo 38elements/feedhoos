@@ -2,7 +2,7 @@ feedhoos.factory("fhSetter", ["$route", "$window", function($route, $window){
     var fhSetter = {
         shortcut: function(event) {
             // j :74, k: 75
-            if ($route.current.templateUrl !== "/static/partials/reader.html") {
+            if ($route.current.templateUrl !== "feedhoos/finder/static/partials/reader.html") {
                 return
             }
             if (event.keyCode == 74 || event.keyCode == 75) {
