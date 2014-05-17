@@ -149,7 +149,7 @@ $document.bind("keyup", fhSetter.shortcut);  'use strict';
     "        <div class=\"panel panel-default entry\" data-ng-repeat=\"e in entries\" ng-if=\"entries\" >\n" +
     "            <div class=\"panel-heading entry_heading\">\n" +
     "                <h5 class=\"entry_title\">{{ e.title }} <small>{{ e.updated}}</small></h5>\n" +
-    "                <a href=\"{{ e.url }}\" target=\"_blank\">URL</a>\n" +
+    "                <a ng-href=\"{{ e.url }}\" target=\"_blank\">URL</a>\n" +
     "            </div>\n" +
     "            <div class=\"panel-body\" ng-bind-html=\"e.content\" ng-show=\"e.content\">\n" +
     "            </div>\n" +
