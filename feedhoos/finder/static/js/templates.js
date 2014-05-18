@@ -21,7 +21,10 @@ $document.bind("keyup", fhSetter.shortcut);  'use strict';
     "        <div ng-show=\"feed_urls == null\">\n" +
     "            通信中\n" +
     "        </div>\n" +
-    "        <table class=\"table table-hover col-lg-6\" ng-if=\"feed_urls != null\">\n" +
+    "        <div ng-if=\"feed_urls != null && feed_urls.length == 0\">\n" +
+    "            feedを見つけることができませんでした。\n" +
+    "        </div>\n" +
+    "        <table class=\"table table-hover col-lg-6\" ng-if=\"feed_urls != null && feed_urls.length > 1\">\n" +
     "                <tr data-ng-repeat=\"fu in feed_urls\">\n" +
     "                    <td>{{ fu }}</td> \n" +
     "                    <td class=\"col-lg-1 text-right\"><span class=\"glyphicon glyphicon-plus\" ng-click=\"add(fu)\"></span></td>\n" +
