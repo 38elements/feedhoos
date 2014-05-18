@@ -17,7 +17,7 @@
         <div ng-if="feed_urls != null && feed_urls.length == 0">
             feedを見つけることができませんでした。
         </div>
-        <table class="table table-hover col-lg-6" ng-if="feed_urls != null && feed_urls.length > 1">
+        <table class="table table-hover col-lg-6" ng-if="feed_urls != null && feed_urls.length > 0">
                 <tr data-ng-repeat="fu in feed_urls">
                     <td>{{ fu }}</td> 
                     <td class="col-lg-1 text-right"><span class="glyphicon glyphicon-plus" ng-click="add(fu)"></span></td>
