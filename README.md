@@ -11,7 +11,7 @@ change the path that is described in scripts/feedhoos
 /usr/bin/python /path/to/feedhoos/scripts/worker.py > /dev/null 2>&1  
   
 change the path that is described in scripts/worker.py   
-os.environ['DJANGO_SETTINGS_MODULE'] = "feedhoos.settings"  
+sys.path.append("/path/to/feedhoos")   
 with open('/path/to/feedhoos/worker.txt', "a") as f:  
 with open('/path/to/feedhoos/worker.txt', "a") as f:  
    
