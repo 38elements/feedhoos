@@ -1,25 +1,24 @@
 (function () {
     function baseManager($rootScope) {
+        this._get_delete_on_func_name = function(message) {
+            return this._prefix_delete_on_func + message;
+        }
+        this._prefix_delete_on_func = "_delete_on_func_";
         this.set = function(scope, callback, message, is_reset) {
             var that = this,
-                current_scope,
-                message = message || this.message; 
+                current_scope;
+            message = message || this.message; 
             if (is_reset) {
                 this.data = null;
-                scope.$$listeners[message] = [];
-                current_scope = scope;
-                do {
-                    if (message in current_scope.$$listenerCount && current_scope.$$listenerCount[message] >= 1) {
-                        current_scope.$$listenerCount[message] -= 1;
-                        if (current_scope.$$listenerCount[message] === 0) {
-                            delete current_scope.$$listenerCount[message];
-                        }
-                    }
-                } while ((current_scope = current_scope.$parent));
+                var delete_on_func_name = this._get_delete_on_func_name(message);
+                if (scope[delete_on_func_name]) {
+                    scope[delete_on_func_name]();
+                }
             }
             //1つのメッセージあたり1つのハンドラしか登録できないようにする。
             if (!Array.isArray(scope.$$listeners[message]) || scope.$$listeners[message].length < 1) {
-                scope.$on(message, function() {
+                var delete_on_func_name = this._get_delete_on_func_name(message);
+                scope[delete_on_func_name] = scope.$on(message, function() {
                     callback(scope, that);
                 });
             }
