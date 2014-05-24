@@ -1,13 +1,16 @@
 <div class="row feedhoos-finder">
     <div ng-show="state == 1">
         <div class="col-lg-6">
-            <div class="input-group">
-                <input type="text" class="form-control" ng-model="url">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"
-                        ng-click="search()">Go!</button>
-                </span>
-            </div>
+            <form name="urlForm">
+                <div class="input-group" ng-class="{'has-error': urlForm.url.$error.url}">
+                    <input type="url" class="form-control" ng-model="url" name="url" required>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"
+                            ng-click="search()" ng-disabled="!urlForm.url.$valid">Go!</button>
+                    </span>
+                </div>
+                <p class="text-danger" ng-if="urlForm.url.$error.url"><small>URLが不正です。</small></p>
+            </form>
         </div>
     </div>
     <div ng-show="state == 2">

@@ -8,13 +8,16 @@ $document.bind("keyup", fhSetter.shortcut);  'use strict';
     "<div class=\"row feedhoos-finder\">\n" +
     "    <div ng-show=\"state == 1\">\n" +
     "        <div class=\"col-lg-6\">\n" +
-    "            <div class=\"input-group\">\n" +
-    "                <input type=\"text\" class=\"form-control\" ng-model=\"url\">\n" +
-    "                <span class=\"input-group-btn\">\n" +
-    "                    <button class=\"btn btn-default\" type=\"button\"\n" +
-    "                        ng-click=\"search()\">Go!</button>\n" +
-    "                </span>\n" +
-    "            </div>\n" +
+    "            <form name=\"urlForm\">\n" +
+    "                <div class=\"input-group\" ng-class=\"{'has-error': urlForm.url.$error.url}\">\n" +
+    "                    <input type=\"url\" class=\"form-control\" ng-model=\"url\" name=\"url\" required>\n" +
+    "                    <span class=\"input-group-btn\">\n" +
+    "                        <button class=\"btn btn-default\" type=\"button\"\n" +
+    "                            ng-click=\"search()\" ng-disabled=\"!urlForm.url.$valid\">Go!</button>\n" +
+    "                    </span>\n" +
+    "                </div>\n" +
+    "                <p class=\"text-danger\" ng-if=\"urlForm.url.$error.url\"><small>URLが不正です。</small></p>\n" +
+    "            </form>\n" +
     "        </div>\n" +
     "    </div>\n" +
     "    <div ng-show=\"state == 2\">\n" +
