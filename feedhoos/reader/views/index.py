@@ -5,6 +5,7 @@ from feedhoos.worker.models.entry import EntryModel
 
 
 def execute(request):
+    request.META["CSRF_COOKIE_USED"] = True
     all_feeds = FeedModel.objects.all()
     feeds = filter(lambda f: f.unread_count > 0, all_feeds)
     entries = EntryModel.get_timeline(1, 1)
