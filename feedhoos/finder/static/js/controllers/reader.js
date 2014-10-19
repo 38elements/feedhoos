@@ -25,11 +25,8 @@ feedhoosControllers.controller(
         }); 
         timelineManager.set($scope, function(scope, that) {
             that.wait($timeout, 25, predict_func, function() {
-                var feeds = [];
                 var timelines = that.attachRating(); 
-                Array.prototype.push.apply(feeds, timelines);
-                Array.prototype.push.apply(feeds, scope.folders);
-                scope.feeds = feeds;
+                scope.feeds = timelines.concat(scope.folders);
             });
         });
         readingManager.set($scope, function(scope, that) {
@@ -50,5 +47,12 @@ feedhoosControllers.controller(
             $scope.active_reading_id = feed_id;
             readingEntryManager.read_feed($scope, feed_id, type);
         }
+        // fhRemoveFeedでfeedの登録が削除された際の処理
+        $scope.$on("remove_feed_by_fhRemoveFeed", function(event, args){
+            $scope.feed = null;
+            $scope.entries = null;
+            $scope.active_reading_id = -1;
+            $scope.active_timeline_id = -1;
+        });
     }]
 );

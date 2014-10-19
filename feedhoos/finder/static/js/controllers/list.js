@@ -23,7 +23,7 @@ feedhoosControllers.controller("ListCtrl", ["$scope", "$timeout",  "bookmarkMana
                 return scope.bookmark === undefined;
             }
             that.wait($timeout, 25, predict_func,  function() {
-                //「登録されているすべてのfeedを除外
+                //「登録されているすべてのfeed」を除外
                 scope.feeds = that.attachRating().filter(function(f) {return f.id != 0});
             });
         });

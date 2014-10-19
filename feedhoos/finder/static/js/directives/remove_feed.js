@@ -1,9 +1,15 @@
-feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "bookmarkManager",
+feedhoos.controller("RemoveFeedCtrl", ["$scope", "$http", "$rootScope", "bookmarkManager",
     "timelineManager", "readingManager", "folderManager",
-    function($scope, $http, bookmarkManager, timelineManager, readingManager, folderManager) {
+    function($scope, $http, $rootScope, bookmarkManager, timelineManager, readingManager, folderManager) {
         $scope.remove = function() {
             var url = "";
+            var args = {
+                id: $scope.target_id,
+                type: $scope.type
+            };
+            $rootScope.$broadcast("remove_feed_by_fhRemoveFeed", args);
             if ($scope.type === "feed") {
+                // 各remove()ではthis.$broadcast(this.message)を実行します
                 bookmarkManager.remove($scope.target_id);
                 timelineManager.remove($scope.target_id);
                 readingManager.remove($scope.target_id);
