@@ -13,10 +13,10 @@ def execute(request, folder_id, page):
     bookmark_models = BookmarkModel.objects.filter(folder_id__exact=folder_id)
     try:
         feed_ids = map(lambda b: b.feed_id, bookmark_models)
+        entry_models = EntryModel.get_folder(feed_ids, page)
     except EntryModel.DoesNotExist:
         entry_dicts = []
     else:
-        entry_models = EntryModel.get_folder(feed_ids, page)
         entry_dicts = map(lambda e: e.dict, entry_models)
     folder_json = json.dumps(
         {"entries": entry_dicts, "feed": folder_dict},

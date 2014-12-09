@@ -5,7 +5,10 @@ DEFAULT_FOLDER_ID = 0
 
 
 class BookmarkModel(models.Model):
+    """ しおり """
     feed_id = models.IntegerField(unique=True)
+    # このフィードを表示したときのFeedModelのlast_updated
+    # last_updatedまで読んだを記録する
     last_updated = models.IntegerField(default=0)
     rating = models.PositiveSmallIntegerField(default=0)
     folder_id = models.IntegerField(default=DEFAULT_FOLDER_ID, db_index=True)
