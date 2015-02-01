@@ -19,5 +19,7 @@ put scripts/feedhoos to /etc/cron.hourly
    
 chmod+x /etc/cron.hourly/feedhoos   
    
-./run.sh 0.0.0.0:8080
+./run.sh   
+  
+http://127.0.0.1:8000
 
