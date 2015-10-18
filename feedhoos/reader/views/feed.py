@@ -22,4 +22,4 @@ def execute(request, feed_id, page="1"):
         {"entries": entry_dicts, "feed": feed_dict},
         ensure_ascii=False, skipkeys=True
     )
-    return HttpResponse(feed_json, mimetype='application/json')
+    return HttpResponse(feed_json, content_type='application/json')

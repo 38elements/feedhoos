@@ -7,4 +7,4 @@ def execute(request):
     "folderデータの一覧を返す"
     folder_models = FolderModel.objects.all()
     folder_json = FolderModel.get_json(folder_models)
-    return HttpResponse(folder_json, mimetype='application/json')
+    return HttpResponse(folder_json, content_type='application/json')

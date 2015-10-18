@@ -18,4 +18,4 @@ def execute(request, feed_id="0", page="1"):
         {"entries": entry_dicts, "feed": feed_dict},
         ensure_ascii=False, skipkeys=True
     )
-    return HttpResponse(timeline_json, mimetype='application/json')
+    return HttpResponse(timeline_json, content_type='application/json')

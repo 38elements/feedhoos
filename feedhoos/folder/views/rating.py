@@ -12,4 +12,4 @@ def execute(request):
     folder_model.rating = int(rating)
     folder_model.save()
     response_json = json.dumps({"msg": "OK"}, ensure_ascii=False, skipkeys=True)
-    return HttpResponse(response_json, mimetype='application/json')
+    return HttpResponse(response_json, content_type='application/json')

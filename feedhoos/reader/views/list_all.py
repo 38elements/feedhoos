@@ -10,4 +10,4 @@ def execute(request):
     feeds = map(lambda f: f.dict, feeds_queryset)
     feeds.insert(0, feed_dict)
     feeds_json = json.dumps(feeds, ensure_ascii=False, skipkeys=True)
-    return HttpResponse(feeds_json, mimetype='application/json')
+    return HttpResponse(feeds_json, content_type='application/json')

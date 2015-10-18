@@ -45,4 +45,4 @@ def execute(request):
     else:
         result["msg"] = "validation_error"
     result_json = json.dumps(result, ensure_ascii=False, skipkeys=True)
-    return HttpResponse(result_json, mimetype='application/json')
+    return HttpResponse(result_json, content_type='application/json')

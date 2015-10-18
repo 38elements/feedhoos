@@ -12,4 +12,4 @@ def execute(request):
     else:
         feed_urls = []
     feed_urls_json = json.dumps(feed_urls, ensure_ascii=False, skipkeys=True)
-    return HttpResponse(feed_urls_json, mimetype='application/json')
+    return HttpResponse(feed_urls_json, content_type='application/json')

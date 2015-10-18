@@ -22,4 +22,4 @@ def execute(request, folder_id, page):
         {"entries": entry_dicts, "feed": folder_dict},
         ensure_ascii=False, skipkeys=True
     )
-    return HttpResponse(folder_json, mimetype='application/json')
+    return HttpResponse(folder_json, content_type='application/json')

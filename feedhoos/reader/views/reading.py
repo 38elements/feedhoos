@@ -13,4 +13,4 @@ def execute(request):
         fd = f.reading_dict
         feed_dicts.append(fd)
     feeds_json = json.dumps(feed_dicts, ensure_ascii=False, skipkeys=True)
-    return HttpResponse(feeds_json, mimetype='application/json')
+    return HttpResponse(feeds_json, content_type='application/json')

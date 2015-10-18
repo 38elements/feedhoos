@@ -17,4 +17,4 @@ def execute(request):
         feed_id__exact=feed_id
     ).delete()
     response_json = json.dumps({"msg": "OK"}, ensure_ascii=False, skipkeys=True)
-    return HttpResponse(response_json, mimetype='application/json')
+    return HttpResponse(response_json, content_type='application/json')
